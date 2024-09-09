@@ -2,18 +2,38 @@
 $paper: #ffffff;
 
 // primary
+// -- blue base
+// $primaryLight: #eef2f6;
+// $primaryMain: #2196f3;
+// $primaryDark: #1e88e5;
+// $primary200: #90caf9;
+// $primary800: #1565c0;
+
 $primaryLight: #eef2f6;
-$primaryMain: #2196f3;
+$primaryMain: #f7984c;
 $primaryDark: #1e88e5;
 $primary200: #90caf9;
 $primary800: #1565c0;
 
+
+
+
+
 // secondary
-$secondaryLight: #ede7f6;
-$secondaryMain: #673ab7;
-$secondaryDark: #5e35b1;
-$secondary200: #b39ddb;
-$secondary800: #4527a0;
+// --purple base
+// $secondaryLight: #ede7f6;
+// $secondaryMain: #673ab7;
+// $secondaryDark: #5e35b1;
+// $secondary200: #b39ddb;
+// $secondary800: #4527a0;
+
+// --vgu orange
+$secondaryLight: #fcd6ad;  
+$secondaryMain: #f7984c;   
+$secondaryDark: #d3701e;   
+$secondary200: #fac893;    
+$secondary800: #f58427;    
+
 
 // success Colors
 $successLight: #b9f6ca;

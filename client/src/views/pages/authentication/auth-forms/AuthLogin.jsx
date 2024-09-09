@@ -56,7 +56,7 @@ const AuthLogin = ({ ...others }) => {
   return (
     <>
       <Grid container direction="column" justifyContent="center" spacing={2}>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <AnimateButton>
             <Button
               disableElevation
@@ -76,8 +76,8 @@ const AuthLogin = ({ ...others }) => {
               Sign in with Google
             </Button>
           </AnimateButton>
-        </Grid>
-        <Grid item xs={12}>
+        </Grid> */}
+        {/* <Grid item xs={12}>
           <Box
             sx={{
               alignItems: 'center',
@@ -106,10 +106,15 @@ const AuthLogin = ({ ...others }) => {
 
             <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
           </Box>
-        </Grid>
+        </Grid> */}
+        {/* <Divider sx={{ flexGrow: 1 }} orientation="horizontal" /> */}
         <Grid item xs={12} container alignItems="center" justifyContent="center">
+          
           <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle1">Sign in with Email address</Typography>
+            {/* <Typography variant="subtitle1">Sign in with Email address</Typography> */}
+              <Typography variant="caption" fontSize="16px" textAlign={{ xs: 'center', md: 'inherit' }}>
+                  Enter your credentials to continue
+              </Typography>
           </Box>
         </Grid>
       </Grid>
@@ -121,7 +126,7 @@ const AuthLogin = ({ ...others }) => {
           submit: null
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+          // email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
           password: Yup.string().max(255).required('Password is required')
         })}
       >

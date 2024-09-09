@@ -1,7 +1,7 @@
 import { hashPassword, verifyPassword } from './utils/password_hash.js';
 
-const userInputPassword = 's0/\/\P4$$w0rD';
-const encryptedPassword = '$2b$10$7mgbuI0wy8ymPGvvcq6PWOLKscGcvEKVVNHAJf1GSKooqQN6AIUeq';
+const userInputPassword = '123';
+const encryptedPassword = '$2b$12$sSoc30jnIZ.KC.L2Jnq0X.ep9nhcFlPd10eByTcLPI.u/dLQFFZqy';
 
 (async () => {
     try {
