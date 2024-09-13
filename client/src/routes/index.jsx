@@ -7,7 +7,7 @@ import LandingRoutes from './LandingRoutes';
 
 
 // ==============================|| ROUTING RENDER ||============================== //
-const router = createBrowserRouter([MainRoutes, LoginRoutes, LandingRoutes], {
+const router = createBrowserRouter([LandingRoutes, LoginRoutes, MainRoutes, ], {
   basename: import.meta.env.VITE_APP_BASE_NAME
 });
 

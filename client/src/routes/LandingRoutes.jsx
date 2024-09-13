@@ -13,8 +13,8 @@ const Landing = Loadable(lazy(() => import('views/pages/LandingPage')));
 // ==============================|| AUTHENTICATION ROUTING ||============================== //
 
 const LandingRoutes = {
-  path: '/landing',
-  element: <Landing />
+  path: '/',
+  element: <Landing />,
 };
 
 export default LandingRoutes;
