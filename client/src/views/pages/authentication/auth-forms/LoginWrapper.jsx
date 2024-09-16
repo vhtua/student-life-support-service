@@ -1,3 +1,5 @@
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 // material-ui
@@ -18,6 +20,15 @@ import AuthFooter from 'ui-component/cards/AuthFooter';
 // ================================|| AUTH3 - LOGIN ||================================ //
 
 const Login = () => {
+  // Get authentication status from Redux or localStorage
+  const isAuthenticated = localStorage.getItem('accessToken');
+
+  // If user is already authenticated, redirect to dashboard
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+
   const downMD = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
   return (

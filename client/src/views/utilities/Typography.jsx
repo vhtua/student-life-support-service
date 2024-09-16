@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from 'react';
+
 // material-ui
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
@@ -9,11 +11,72 @@ import MainCard from 'ui-component/cards/MainCard';
 import SecondaryAction from 'ui-component/cards/CardSecondaryAction';
 import { gridSpacing } from 'store/constant';
 
+
+// Axios instance for API requests
+import axiosInstance from '../../api/axiosInstance';  // Adjust the import path as needed
+
 // ==============================|| TYPOGRAPHY ||============================== //
 
-const Typography = () => (
+const Typography = () => {
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+
+  // Fetch book data from the server
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const response = await axiosInstance.get('/books');
+        setBooks(response.data);  // Assuming the response contains an array of books
+        setLoading(false);  // Stop loading when data is fetched
+      } catch (err) {
+        setError('Failed to fetch book data');
+        setLoading(false);
+      }
+    };
+
+    fetchBooks();  // Call the function when the component is mounted
+  }, []);
+
+
+  return (
   <MainCard title="Basic Typography" secondary={<SecondaryAction link="https://next.material-ui.com/system/typography/" />}>
     <Grid container spacing={gridSpacing}>
+
+
+
+        {/* Book Data Section */}
+        <Grid item xs={12}>
+          <SubCard title="Books">
+            <Grid container direction="column" spacing={1}>
+              {loading ? (
+                <Grid item>
+                  <MuiTypography variant="body1" gutterBottom>
+                    Loading book data...
+                  </MuiTypography>
+                </Grid>
+              ) : error ? (
+                <Grid item>
+                  <MuiTypography variant="body1" color="error" gutterBottom>
+                    {error}
+                  </MuiTypography>
+                </Grid>
+              ) : (
+                books.map((book, index) => (
+                  <Grid item key={index}>
+                    <MuiTypography variant="body1" gutterBottom>
+                      {book.title} by {book.author}
+                    </MuiTypography>
+                  </Grid>
+                ))
+              )}
+            </Grid>
+          </SubCard>
+        </Grid>
+
+
+
       <Grid item xs={12} sm={6}>
         <SubCard title="Heading">
           <Grid container direction="column" spacing={1}>
@@ -121,6 +184,7 @@ const Typography = () => (
       </Grid>
     </Grid>
   </MainCard>
-);
+  );
+}
 
 export default Typography;
