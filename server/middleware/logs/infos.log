@@ -1,0 +1,22 @@
+[2024-09-16 03:11:36] [[32minfo[39m] Server running on port 3000
+[2024-09-16 03:11:38] [[32minfo[39m] Server running on port 3000
+[2024-09-16 03:11:50] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-16 03:12:19] [[32minfo[39m] Server running on port 3000
+[2024-09-16 03:12:35] [[32minfo[39m] Server running on port 3000
+[2024-09-16 03:12:36] [[32minfo[39m] Server running on port 3000
+[2024-09-16 03:12:40] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-16 03:12:40] [[31merror[39m] username: 17965 logged in failed due to wrong credentials information
+[2024-09-16 03:14:22] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-16 03:14:57] [[32minfo[39m] Server running on port 3000
+[2024-09-16 03:15:08] [[32minfo[39m] Server running on port 3000
+[2024-09-16 08:29:35] [[32minfo[39m] username: 123123 is trying to log in
+[2024-09-16 08:29:35] [[31merror[39m] Cannot read properties of undefined (reading 'password')
+[2024-09-16 08:29:52] [[32minfo[39m] username: 1212 is trying to log in
+[2024-09-16 08:29:52] [[31merror[39m] Cannot read properties of undefined (reading 'password')
+[2024-09-16 08:30:02] [[32minfo[39m] username: 71237 is trying to log in
+[2024-09-16 08:30:02] [[31merror[39m] Cannot read properties of undefined (reading 'password')
+[2024-09-16 08:30:28] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-16 08:30:41] [[32minfo[39m] username: weqw is trying to log in
+[2024-09-16 08:30:41] [[31merror[39m] Cannot read properties of undefined (reading 'password')
+[2024-09-16 09:16:17] [[32minfo[39m] username: vhtuananh020402tt1@gmail.com is trying to log in
+[2024-09-16 09:16:17] [[31merror[39m] Cannot read properties of undefined (reading 'password')
