@@ -5,7 +5,7 @@ import MainLayout from 'layout/roles/student/MainLayout';
 import Loadable from 'ui-component/Loadable';
 
 // dashboard routing
-const DashboardDefault = Loadable(lazy(() => import('views/roles/student/dashboard')));
+const DashboardDefault = Loadable(lazy(() => import('views/roles/student/homepage')));
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/roles/student/Typography')));
@@ -32,20 +32,20 @@ const StudentRoutes = {
   ),
   children: [
     {
-      path: 'dashboard',
+      path: 'homepage',
       element: (
           <DashboardDefault />
       )
     },
-    {
-      path: 'dashboard',
-      children: [
-        {
-          path: 'default',
-          element: <DashboardDefault />
-        }
-      ]
-    },
+    // {
+    //   path: 'dashboard',
+    //   children: [
+    //     {
+    //       path: 'default',
+    //       element: <DashboardDefault />
+    //     }
+    //   ]
+    // },
     {
       path: 'utils',
       children: [
