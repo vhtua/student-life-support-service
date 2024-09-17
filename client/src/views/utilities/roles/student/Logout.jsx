@@ -14,6 +14,7 @@ const Logout = () => {
 
         // Clear the access token from localStorage
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('roleName');
 
         // Redirect to the login page after successful logout
         navigate(context.appRoute.login, { replace: true });

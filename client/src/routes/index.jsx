@@ -8,7 +8,7 @@ import StudentRoutes from './StudentRoutes';
 
 
 // ==============================|| ROUTING RENDER ||============================== //
-const router = createBrowserRouter([LandingRoutes, LoginRoutes, StudentRoutes], {
+const router = createBrowserRouter([LandingRoutes, LoginRoutes, MainRoutes, StudentRoutes], {
   basename: import.meta.env.VITE_APP_BASE_NAME
 });
 

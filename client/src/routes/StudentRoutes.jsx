@@ -26,7 +26,7 @@ import { element } from 'prop-types';
 const StudentRoutes = {
   path: '/student/',
   element: (
-    <ProtectedRoutes>
+    <ProtectedRoutes role_name="Student">
       <MainLayout />
     </ProtectedRoutes>
   ),

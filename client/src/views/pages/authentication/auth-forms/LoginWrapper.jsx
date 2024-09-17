@@ -36,7 +36,7 @@ const Login = () => {
   const baseRootUrl = validateUserRole.navigateRouteByUserRole(roleName)
 
   if (isAuthenticated) {
-    console.log(roleName);
+    // console.log(roleName);
     return <Navigate to={baseRootUrl} replace />;
   }
 

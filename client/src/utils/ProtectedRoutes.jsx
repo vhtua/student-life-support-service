@@ -7,7 +7,7 @@ import context from "../context";
 import Loader from 'ui-component/Loader';
 
 
-const ProtectedRoutes = ({ children }) => {
+const ProtectedRoutes = ({ children, role_name }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem('accessToken');
@@ -22,12 +22,13 @@ const ProtectedRoutes = ({ children }) => {
 
                     // If the token is valid, allow access
                     
-                    if (response.status === 200 && response.data.valid) {
+                    if (response.status === 200 && response.data.valid && localStorage.getItem("roleName") === response.data.role_name && role_name === response.data.role_name) {
                         setIsAuthenticated(true);
                     } else {
                         // If token is invalid, clear it from localStorage and set authentication to false
                         console.log("response not good")
                         localStorage.removeItem('accessToken');
+                        localStorage.removeItem('roleName');
                         setIsAuthenticated(false);
                         // setLoading(false);
                     }
@@ -35,6 +36,7 @@ const ProtectedRoutes = ({ children }) => {
                     console.error('Error verifying token:', error);
                     // Clear the token in case of error (e.g., expired or invalid)
                     localStorage.removeItem('accessToken');
+                    localStorage.removeItem('roleName');
                     setIsAuthenticated(false);
 
                     // setLoading(false);

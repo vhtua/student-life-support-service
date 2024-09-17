@@ -24,9 +24,9 @@ import { element } from 'prop-types';
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
-  path: '/',
+  path: '/admin/',
   element: (
-    <ProtectedRoutes>
+    <ProtectedRoutes role_name="Admin">
       <MainLayout />
     </ProtectedRoutes>
   ),
