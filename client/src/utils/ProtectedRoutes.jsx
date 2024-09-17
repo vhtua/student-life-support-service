@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 
-import axiosInstance from '../api/axiosInstance';  // Import your Axios instance
-import context from "../context";
 
+// import project components
 import Loader from 'ui-component/Loader';
+
+import axiosInstance from '../api/axiosInstance';  // Import the Axios instance
+import context from "../context";
+import clearLocalStorage from './clear-storage';
+
 
 
 const ProtectedRoutes = ({ children, role_name }) => {
@@ -27,16 +31,14 @@ const ProtectedRoutes = ({ children, role_name }) => {
                     } else {
                         // If token is invalid, clear it from localStorage and set authentication to false
                         console.log("response not good")
-                        localStorage.removeItem('accessToken');
-                        localStorage.removeItem('roleName');
+                        clearLocalStorage();
                         setIsAuthenticated(false);
                         // setLoading(false);
                     }
                 } catch (error) {
                     console.error('Error verifying token:', error);
                     // Clear the token in case of error (e.g., expired or invalid)
-                    localStorage.removeItem('accessToken');
-                    localStorage.removeItem('roleName');
+                    clearLocalStorage();
                     setIsAuthenticated(false);
 
                     // setLoading(false);

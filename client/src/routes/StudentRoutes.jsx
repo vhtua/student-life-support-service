@@ -9,8 +9,8 @@ const DashboardDefault = Loadable(lazy(() => import('views/roles/student/homepag
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/roles/student/Typography')));
-const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
-const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
+const UtilsColor = Loadable(lazy(() => import('views/utilities/roles/student/Color')));
+const UtilsShadow = Loadable(lazy(() => import('views/utilities/roles/student/Shadow')));
 const Logout = Loadable(lazy(() => import('views/utilities/Logout')));
 // const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
 // const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));

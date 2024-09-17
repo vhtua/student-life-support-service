@@ -9,19 +9,19 @@ const appRoute = {
     logout: "/logout",
     
     studentRole: {
-        dashboardRoute: "/student/dashboard",
+        homepageRoute: "/student/homepage",
         profileRoute: "/student/profile",
         changePassword: "/student/password",
         ticketListRoute: "/student/ticket"
     },
 
     adminRole: {
-        dashboardRoute: "/admin/dashboard",
+        homepageRoute: "/admin/homepage",
         profileRoute: "/admin/profile"
     },
 
     staffRole: {
-        dashboardRoute: "/staff/dashboard",
+        homepageRoute: "/staff/homepage",
         profileRoute: "/staff/profile",
     }
 } 

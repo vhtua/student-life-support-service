@@ -86,6 +86,21 @@ const NotificationSection = () => {
     if (event?.target.value) setValue(event?.target.value);
   };
 
+
+    // Add/remove body scroll lock when notification section is open/closed
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden'; // Lock scroll
+    } else {
+      document.body.style.overflow = ''; // Unlock scroll
+    }
+
+    // Cleanup function to ensure scroll is restored on unmount
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
+
   return (
     <>
       <Box

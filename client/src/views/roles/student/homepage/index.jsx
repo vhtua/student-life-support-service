@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid';
 
 // project imports
 import EarningCard from './EarningCard';
+import WelcomeCard from './WelcomeCard';
 import PopularCard from './PopularCard';
 import TotalOrderLineChartCard from './TotalOrderLineChartCard';
 import TotalIncomeDarkCard from './TotalIncomeDarkCard';
@@ -30,7 +31,7 @@ const Dashboard = () => {
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
         <Grid item lg={12} md={12} sm={12} xs={12}>
-            <EarningCard isLoading={isLoading} />
+            <WelcomeCard isLoading={isLoading} />
           </Grid>
 
 
