@@ -4,6 +4,9 @@ import { Navigate } from 'react-router-dom';
 import axiosInstance from '../api/axiosInstance';  // Import your Axios instance
 import context from "../context";
 
+import Loader from 'ui-component/Loader';
+
+
 const ProtectedRoutes = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -14,7 +17,8 @@ const ProtectedRoutes = ({ children }) => {
             if (token) {
                 try {
                     // Send a request to verify the access token
-                    const response = await axiosInstance.post(context.apiEndpoint.verifyTokenRoute, { token });
+                    const response = await axiosInstance.post(context.apiEndpoint.verifyRefreshTokenRoute, {}, { withCredentials: true });
+                    // const response = await axiosInstance.post("/ping");
 
                     // If the token is valid, allow access
                     
@@ -49,7 +53,7 @@ const ProtectedRoutes = ({ children }) => {
 
     // While verifying the token, show a loading state
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loader></Loader>;
     }
 
     // If authenticated, show the protected content, otherwise redirect to login

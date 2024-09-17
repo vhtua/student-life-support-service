@@ -1,14 +1,14 @@
 import { lazy } from 'react';
 
 // project imports
-import MainLayout from 'layout/MainLayout';
+import MainLayout from 'layout/roles/student/MainLayout';
 import Loadable from 'ui-component/Loadable';
 
 // dashboard routing
-const DashboardDefault = Loadable(lazy(() => import('views/dashboard')));
+const DashboardDefault = Loadable(lazy(() => import('views/roles/student/dashboard')));
 
 // utilities routing
-const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
+const UtilsTypography = Loadable(lazy(() => import('views/utilities/roles/student/Typography')));
 const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
 const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
 const Logout = Loadable(lazy(() => import('views/utilities/Logout')));
@@ -23,8 +23,8 @@ import { element } from 'prop-types';
 
 // ==============================|| MAIN ROUTING ||============================== //
 
-const MainRoutes = {
-  path: '/',
+const StudentRoutes = {
+  path: '/student/',
   element: (
     <ProtectedRoutes>
       <MainLayout />
@@ -102,4 +102,4 @@ const MainRoutes = {
   ]
 };
 
-export default MainRoutes;
+export default StudentRoutes;

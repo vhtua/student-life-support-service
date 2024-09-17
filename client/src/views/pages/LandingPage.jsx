@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 // import $ from 'jquery';  // Import jQuery
 // import { Link } from 'react-router-dom';
 
@@ -16,11 +16,32 @@ import slider_dec from "../../../src/public/landing/assets/images/slider-dec.png
 // Custom Hooks
 import useLandingCustom from "hooks/landing/useLandingCustom";
 
+import Loader from "ui-component/Loader";
+
 
 
 function LandingPage() {
+  
+
+  const [loading, setLoading] = useState(true);
   useLandingCustom();
 
+  // useEffect(() => {
+  //   // Simulate an asynchronous task or the time needed to render
+  //   const timer = setTimeout(() => {
+  //     setLoading(false);
+  //   }, 1000); // Adjust this duration as needed
+
+  //   // Cleanup the timer if the component is unmounted before the timer completes
+  //   return () => clearTimeout(timer);
+  // }, []);
+  
+
+  // if (loading) {
+  //   return <Loader />;
+  // }
+
+  
 
   function redirectById(event, tagIdName) {
     event.preventDefault(); 
@@ -28,7 +49,7 @@ function LandingPage() {
   }
 
 
-    return(
+  return(
 
   <div className="local-bootstrap">
 

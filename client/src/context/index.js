@@ -1,16 +1,39 @@
+// Client
+const adminRoleName = ["Admin"];
+const studentRoleName = ["Student"];
+const staffRoleName = ["Dorm Staff", "Student Affairs"];
+
 const appRoute = {
     landingPage: "/",
     login: "/login",
-    logout: "/logout"
+    logout: "/logout",
+    
+    studentRole: {
+        dashboardRoute: "/student/dashboard",
+        profileRoute: "/student/profile",
+        changePassword: "/student/password",
+        ticketListRoute: "/student/ticket"
+    },
+
+    adminRole: {
+        dashboardRoute: "/admin/dashboard",
+        profileRoute: "/admin/profile"
+    },
+
+    staffRole: {
+        dashboardRoute: "/staff/dashboard",
+        profileRoute: "/staff/profile",
+    }
 } 
 
-
+// Server
 const serverBaseUrl = "http://localhost:3000";
 const apiEndpoint = {
     authenticateUserRoute: "/auth/login",
     logoutUserRoute: "/auth/logout",
     refreshTokenRoute: "/auth/refresh-token",
-    verifyTokenRoute: "/auth/verify-token"
+    verifyTokenRoute: "/auth/verify-token",
+    verifyRefreshTokenRoute: "/auth/verify-refreshToken"
 }
 
 
@@ -25,6 +48,9 @@ const internalServerHttpErrorCode = 500;
 
 
 export default  {   
+                    adminRoleName,
+                    studentRoleName,
+                    staffRoleName,
                     appRoute,
                     serverBaseUrl,
                     apiEndpoint,

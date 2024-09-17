@@ -1,0 +1,15 @@
+services:
+
+  sample:
+    container_name: vgusls_frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - 3210:3210
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      

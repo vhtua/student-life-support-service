@@ -17,15 +17,27 @@ import Logo from 'ui-component/Logo';
 import LoginLogo from 'ui-component/LoginLogo';
 import AuthFooter from 'ui-component/cards/AuthFooter';
 
+import validateUserRole from 'views/utilities/validateUserRole';
+
 // ================================|| AUTH3 - LOGIN ||================================ //
 
 const Login = () => {
   // Get authentication status from Redux or localStorage
-  const isAuthenticated = localStorage.getItem('accessToken');
+  // const isAuthenticated = localStorage.getItem('accessToken');
 
-  // If user is already authenticated, redirect to dashboard
+  // // If user is already authenticated, redirect to dashboard
+  // if (isAuthenticated) {
+  //   return <Navigate to="/dashboard" replace />;
+  // }
+
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated) || localStorage.getItem('accessToken');
+  const roleName = isAuthenticated ? localStorage.getItem('roleName') : null;
+
+  const baseRootUrl = validateUserRole.navigateRouteByUserRole(roleName)
+
   if (isAuthenticated) {
-    return <Navigate to="/dashboard" replace />;
+    console.log(roleName);
+    return <Navigate to={baseRootUrl} replace />;
   }
 
 

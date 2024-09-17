@@ -39,6 +39,7 @@ import { setUser, setError } from '../../../../store/authSlice';  // Import the 
 
 import axiosInstance from '../../../../api/axiosInstance';  // Import Axios instance for API requests
 import context from 'context';
+import validateUserRole from '../../../utilities/validateUserRole'
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -121,22 +122,26 @@ const AuthLogin = ({ ...others }) => {
             // });
             const loginApiEndpoint = `${context.serverBaseUrl}${context.apiEndpoint.authenticateUserRoute}`;
 
-            const response = await axios.post(loginApiEndpoint, {
+            const response = await axiosInstance.post(loginApiEndpoint, {
               username: values.email,
-              password: values.password
-            })
+              password: values.password,
+            });
+            
 
             if (response.status === 200 && response.data.accessToken) {
               const accessToken = response.data.accessToken;
 
               // Store the access token in localStorage
               localStorage.setItem('accessToken', accessToken);
+              localStorage.setItem('roleName', response.data.role_name);
 
               // Optionally store user information in Redux
-              dispatch(setUser({ email: values.email }));
+              dispatch(setUser({ username: values.email, role_name: response.data.role_name }));
 
               // Navigate to the dashboard after successful login
-              navigate('/dashboard');
+              // navigate('/dashboard');
+
+              navigate(validateUserRole.navigateRouteByUserRole(response.data.role_name))
             } else {
               // Handle server response error
               setErrors({ submit: 'Invalid username or password' });
