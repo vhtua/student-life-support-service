@@ -8,6 +8,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import config from 'config';
 import Logo from 'ui-component/Logo';
 import { MENU_OPEN } from 'store/actions';
+import validateUserRole from 'views/utilities/validateUserRole';
 
 // ==============================|| MAIN LOGO ||============================== //
 
@@ -15,7 +16,7 @@ const LogoSection = () => {
   const defaultId = useSelector((state) => state.customization.defaultId);
   const dispatch = useDispatch();
   return (
-    <ButtonBase disableRipple onClick={() => dispatch({ type: MENU_OPEN, id: defaultId })} component={Link} to={config.defaultPath}>
+    <ButtonBase disableRipple onClick={() => dispatch({ type: MENU_OPEN, id: defaultId })} component={Link} to={validateUserRole.navigateRouteByUserRole(localStorage.getItem("roleName"))}>
       <Logo />
     </ButtonBase>
   );

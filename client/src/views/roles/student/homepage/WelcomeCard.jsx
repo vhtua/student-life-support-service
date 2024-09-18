@@ -171,7 +171,7 @@ const WelcomeCard = ({ isLoading }) => {
                     color: 'secondary.200'
                   }}
                 >
-                  to VGU Student Life Support Service
+                  to VGU Student Life Support Service (You logged in as: {localStorage.getItem("roleName")})
                 </Typography>
               </Grid>
             </Grid>

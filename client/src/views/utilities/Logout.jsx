@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import axiosInstance from '../../api/axiosInstance';  
+import axiosInstance from '../../api/axiosInstance'; 
 import context from 'context';
 import clearLocalStorage from 'utils/clear-storage';
-
 
 const Logout = () => {
   const navigate = useNavigate();
@@ -16,7 +15,6 @@ const Logout = () => {
         await axiosInstance.post(context.apiEndpoint.logoutUserRoute, {}, { withCredentials: true });
 
         // Clear the access token and other data from localStorage
-        // localStorage.removeItem('accessToken');
         clearLocalStorage();
 
         // Redirect to the login page after successful logout

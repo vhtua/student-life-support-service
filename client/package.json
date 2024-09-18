@@ -37,6 +37,7 @@
     "formik": "^2.4.5",
     "framer-motion": "^11.0.6",
     "jquery": "^3.7.1",
+    "material-react-table": "^2.13.2",
     "material-ui-popup-state": "^5.0.10",
     "owl.carousel": "^2.3.4",
     "prop-types": "^15.8.1",

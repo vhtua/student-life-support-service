@@ -87,7 +87,7 @@ const NotificationSection = () => {
   };
 
 
-    // Add/remove body scroll lock when notification section is open/closed
+  // Add/remove body scroll lock when notification section is open/closed
   useEffect(() => {
     if (open) {
       document.body.style.overflow = 'hidden'; // Lock scroll
