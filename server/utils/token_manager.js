@@ -1,4 +1,6 @@
 import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
+
 
 dotenv.config();
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
@@ -36,4 +38,22 @@ const getTokenSecretByRoleName = (roleName) => {
     return { USER_ACCESS_TOKEN_SECRET, USER_REFRESH_TOKEN_SECRET }
 }
 
-export default { getTokenSecretByRoleName }
+
+// Helper function to promisify jwt.verify
+const verifyTokenAsync = (token, secret) => {
+    
+    return new Promise((resolve, reject) => {
+
+        jwt.verify(token, secret, (err, user) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(user);
+        });
+        
+    });
+
+};
+
+
+export default { getTokenSecretByRoleName, verifyTokenAsync }

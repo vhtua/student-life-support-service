@@ -124,8 +124,8 @@ const authenticateUser = async (req, res) => {
                     // }
 
                     const { USER_ACCESS_TOKEN_SECRET, USER_REFRESH_TOKEN_SECRET } = TokenManager.getTokenSecretByRoleName(role_name);
-                    console.log(USER_ACCESS_TOKEN_SECRET);
-                    console.log(USER_REFRESH_TOKEN_SECRET);
+                    // console.log(USER_ACCESS_TOKEN_SECRET);
+                    // console.log(USER_REFRESH_TOKEN_SECRET);
 
                     // Issue Access Token (expires in 1 minute)
                     const accessToken = jwt.sign(user, USER_ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRED_IN });
@@ -257,6 +257,9 @@ const refreshToken = async (req, res) => {
           // Verify Refresh Token in Redis
           const userId = await Redis.verifyRefreshTokenInRedis(refreshToken);
           if (!userId) return res.status(403).send('Invalid Refresh Token');
+
+          // Fetch the role from the Refresh Token
+          
       
           // Verify the token itself
           jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, user) => {
@@ -312,7 +315,7 @@ const refreshToken = async (req, res) => {
 const verifyToken = async (req, res) => {
     const { token } = req.body;
 
-    // Verify the token using your secret key
+    // Verify the token using the proper secret key
     jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
         if (err) {
             return res.status(403).json({ valid: false, message: 'Invalid or expired token' });
@@ -325,17 +328,77 @@ const verifyToken = async (req, res) => {
 
 
 
-const verifyRefreshToken = async (req, res) => {
-    const refreshToken = req.cookies.refreshToken;  // Get the refresh token from the HTTP-only cookie
-    if (!refreshToken) return res.status(401).send('No refresh token provided');
-    const user = jwt.decode(refreshToken);
-    const userRole = user ? user.role_name : null;
+// const verifyRefreshToken = async (req, res) => {
+//     const refreshToken = req.cookies.refreshToken;  // Get the refresh token from the HTTP-only cookie
+//     if (!refreshToken) return res.status(401).send('No refresh token provided');
+//     const user = jwt.decode(refreshToken);
+//     const userRole = user ? user.role_name : null;
 
-    jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, user) => {
-        if (err) return res.status(403).json({ valid: false, message: 'Invalid or expired token' });
-        res.json({ valid: true, role_name: userRole });
-    });
-}
+//     let isStudentMatch = false;
+//     let isStaffMatch = false;
+//     let isAdminMatch = false;
+
+//     jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, user) => {
+//         if (!err) {
+//             isStudentMatch = true; 
+//             return res.json({ valid: true, role_name: userRole });
+               
+//         }   
+//     });
+
+//     jwt.verify(refreshToken, REFRESH_TOKEN_SECRET_STAFF, (err, user) => {
+//         if (!err) {
+//             isStaffMatch = true;
+//             return res.json({ valid: true, role_name: userRole });
+//         }   
+//     });
+
+//     jwt.verify(refreshToken, REFRESH_TOKEN_SECRET_ADMIN, (err, user) => {
+//         if (!err) {
+//             isAdminMatch = true;
+//             return res.json({ valid: true, role_name: userRole });
+//         }   
+//     });
+
+//     if (!isStudentMatch && !isStaffMatch && !isAdminMatch)
+//         return res.status(403).json({ valid: false, message: 'Invalid or expired token' });
+// }
+
+
+
+const verifyRefreshToken = async (req, res) => {
+    try {
+      const refreshToken = req.cookies.refreshToken; // Get the refresh token from the HTTP-only cookie
+      if (!refreshToken) return res.status(401).send('No refresh token provided');
+  
+      const user = jwt.decode(refreshToken); // Decode the token to extract the user information
+      const userRole = user ? user.role_name : null;
+  
+      // Verify the token against different secrets
+      const isStudentMatch = await TokenManager.verifyTokenAsync(refreshToken, REFRESH_TOKEN_SECRET)
+        .then(() => true)
+        .catch(() => false);
+  
+      const isStaffMatch = await TokenManager.verifyTokenAsync(refreshToken, REFRESH_TOKEN_SECRET_STAFF)
+        .then(() => true)
+        .catch(() => false);
+  
+      const isAdminMatch = await TokenManager.verifyTokenAsync(refreshToken, REFRESH_TOKEN_SECRET_ADMIN)
+        .then(() => true)
+        .catch(() => false);
+  
+      // Return the response based on matches
+      if (isStudentMatch || isStaffMatch || isAdminMatch) {
+        return res.json({ valid: true, role_name: userRole });
+      } else {
+        return res.status(403).json({ valid: false, message: 'Invalid or expired token' });
+      }
+  
+    } catch (error) {
+      return res.status(500).json({ valid: false, message: 'Internal Server Error' });
+    }
+};
+
 
 
 
