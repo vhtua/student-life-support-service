@@ -7,18 +7,20 @@ import cors from "cors";
 import authenticateToken from './middleware/authenticateToken.js';
 import Redis from './config/redis.js';
 import WebConfig from './config/etc_web.js';
-import books from './utils/books.js';
 import logger from './middleware/logger.js';
+import constants from './config/constants.js';
 
 // Import routes
 import authRoutes from './routes/auth_route.js'
+import userRoutes from './routes/user_route.js'
 
-
+// Import samples
+import books from './utils/books.js';
 
 
 // ==============================|| Read config, init app ||============================== //
 dotenv.config();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.SERVER_PORT || 3000;
 
 const app = express();
 app.use(express.json());
@@ -27,24 +29,26 @@ app.use(cors(WebConfig.corsOptions));
 
 
 // ==============================|| Routes ||============================== //
+// Support GET, POST, PUT (update all attr), PATCH (update some parts), DELETE
 app.use("/auth", authRoutes);
-
-
-app.get('/ping', authenticateToken, (req, res) => { res.json({message: "pong"}); });
-
-
-// app.post('/verify-refresh-token', (req, res) => {
-//     const refreshToken = req.cookies.refreshToken;  // Get the refresh token from the HTTP-only cookie
-//     if (!refreshToken) return res.status(401).send('No refresh token provided');
-
-//     jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, user) => {
-//         if (err) return res.status(403).json({ valid: false, message: 'Invalid or expired token' });
-//         res.json({ valid: true });
-//     });
-// });
+app.use("/api/v1/users", userRoutes);
 
 
 
+// API for testing successful authentication, authorization
+app.get('/ping', authenticateToken(constants.allRoleName), (req, res) => { res.json({message: "pong"}); });
+app.get('/books', authenticateToken([constants.studentRoleName , constants.staffRoleName]), (req, res) => { res.json(books); });
+app.get('/notStaff', authenticateToken([constants.studentRoleName , constants.adminRoleName]), (req, res) => { res.json(books); });
+app.head('/books', authenticateToken(constants.allRoleName), (req, res) => { 
+  res.set( {'Content-Type': 'application/json',
+            'Content-Length': JSON.stringify(books).length
+          });
+  res.status(200).end(); // end the response without sending the body
+});
+
+
+
+// ==============================|| Main app ||============================== //
 // Connect to Redis and start the server
 const startServer = async () => {
   await Redis.connectRedis();
@@ -52,5 +56,6 @@ const startServer = async () => {
     logger.info(`Server running on port ${PORT}`);
   });
 };
+
 
 startServer();

@@ -7,6 +7,7 @@ authRouter.post("/login", authController.authenticateUser)      // /auth/login
 authRouter.post("/logout", authController.logOutUser)           // /auth/logout
 authRouter.post("/refresh-token", authController.refreshToken)  // /auth/refresh-token
 authRouter.post("/verify-token", authController.verifyToken)   // /auth/refresh-token
+authRouter.post("/verify-refreshToken", authController.verifyRefreshToken)   // /auth/verify-refreshToken
 
 
 export default authRouter;

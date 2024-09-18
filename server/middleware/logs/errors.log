@@ -4,3 +4,11 @@
 [2024-09-16 08:30:02] [[31merror[39m] Cannot read properties of undefined (reading 'password')
 [2024-09-16 08:30:41] [[31merror[39m] Cannot read properties of undefined (reading 'password')
 [2024-09-16 09:16:17] [[31merror[39m] Cannot read properties of undefined (reading 'password')
+[2024-09-16 16:32:50] [[31merror[39m] Cannot read properties of undefined (reading 'password')
+[2024-09-16 16:32:51] [[31merror[39m] Cannot read properties of undefined (reading 'password')
+[2024-09-16 16:39:33] [[31merror[39m] Cannot read properties of undefined (reading 'password')
+[2024-09-18 22:45:02] [[31merror[39m] TokenManager is not a function
+[2024-09-18 22:46:04] [[31merror[39m] TokenManager is not a function
+[2024-09-18 22:46:31] [[31merror[39m] role_name is not defined
+[2024-09-18 23:31:35] [[31merror[39m] Please specify the user roles!
+[2024-09-18 23:38:58] [[31merror[39m] Please specify the user roles!

@@ -1,8 +1,9 @@
-
 // For authorization
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 import Redis from '../config/redis.js';
+import TokenManager from '../utils/token_manager.js'
 
 // For authentication
 import pool from "../config/db.js"
@@ -16,6 +17,10 @@ import logger from '../middleware/logger.js';
 dotenv.config();
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
+const ACCESS_TOKEN_SECRET_STAFF = process.env.ACCESS_TOKEN_SECRET_STAFF;
+const REFRESH_TOKEN_SECRET_STAFF = process.env.REFRESH_TOKEN_SECRET_STAFF;
+const ACCESS_TOKEN_SECRET_ADMIN = process.env.ACCESS_TOKEN_SECRET_ADMIN;
+const REFRESH_TOKEN_SECRET_ADMIN = process.env.REFRESH_TOKEN_SECRET_ADMIN;
 const ACCESS_TOKEN_EXPIRED_IN = String(process.env.EXPIRED_BEARER_ACCESS_TOKEN_TIME);
 const REFRESH_TOKEN_EXPIRED_IN = Number(process.env.EXPIRED_BEARER_REFRESH_TOKEN_TIME);
 
@@ -96,14 +101,37 @@ const authenticateUser = async (req, res) => {
                     const userId = String(results.rows[0].id); 
                     const username = String(results.rows[0].username); 
                     const email = String(results.rows[0].email);
+                    const fullname = String(results.rows[0].fullname);
+                    const role_name = String(results.rows[0].role_name);
 
-                    const user = { userId, username, email };
+                    const user = { userId, username, email, fullname, role_name };
+
+                    // let USER_ACCESS_TOKEN_SECRET;
+                    // let USER_REFRESH_TOKEN_SECRET;
+                    // switch (role_name) {
+                    //     case "Student":
+                    //         USER_ACCESS_TOKEN_SECRET = ACCESS_TOKEN_SECRET;
+                    //         USER_REFRESH_TOKEN_SECRET = REFRESH_TOKEN_SECRET;
+                    //     case "Staff":
+                    //         USER_ACCESS_TOKEN_SECRET = ACCESS_TOKEN_SECRET_STAFF;
+                    //         USER_REFRESH_TOKEN_SECRET = REFRESH_TOKEN_SECRET_STAFF;
+                    //     case "Admin":
+                    //         USER_ACCESS_TOKEN_SECRET = ACCESS_TOKEN_SECRET_ADMIN;
+                    //         USER_REFRESH_TOKEN_SECRET = REFRESH_TOKEN_SECRET_ADMIN;
+                    //     default:
+                    //         USER_ACCESS_TOKEN_SECRET = ACCESS_TOKEN_SECRET;
+                    //         USER_REFRESH_TOKEN_SECRET = REFRESH_TOKEN_SECRET;
+                    // }
+
+                    const { USER_ACCESS_TOKEN_SECRET, USER_REFRESH_TOKEN_SECRET } = TokenManager.getTokenSecretByRoleName(role_name);
+                    console.log(USER_ACCESS_TOKEN_SECRET);
+                    console.log(USER_REFRESH_TOKEN_SECRET);
 
                     // Issue Access Token (expires in 1 minute)
-                    const accessToken = jwt.sign(user, ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRED_IN });
+                    const accessToken = jwt.sign(user, USER_ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRED_IN });
                 
                     // Issue Refresh Token
-                    const refreshToken = jwt.sign(user, REFRESH_TOKEN_SECRET);
+                    const refreshToken = jwt.sign(user, USER_REFRESH_TOKEN_SECRET);
                 
                     // Store Refresh Token in Redis with expiration
                     await Redis.storeRefreshTokenInRedis(userId, refreshToken, REFRESH_TOKEN_EXPIRED_IN);
@@ -115,7 +143,9 @@ const authenticateUser = async (req, res) => {
                         sameSite: 'Strict',   // Protect against CSRF
                         maxAge: REFRESH_TOKEN_EXPIRED_IN * 1000, // in milliseconds
                     });
-                
+                    
+
+                    logger.info(`username: ${username} logged into the system`);
                     // Send access token in response
                     res.json({ ...user, accessToken });
                 }
@@ -292,4 +322,22 @@ const verifyToken = async (req, res) => {
 }
 
 
-export default { authenticateUser, logOutUser, refreshToken, verifyToken }
+
+
+
+const verifyRefreshToken = async (req, res) => {
+    const refreshToken = req.cookies.refreshToken;  // Get the refresh token from the HTTP-only cookie
+    if (!refreshToken) return res.status(401).send('No refresh token provided');
+    const user = jwt.decode(refreshToken);
+    const userRole = user ? user.role_name : null;
+
+    jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, user) => {
+        if (err) return res.status(403).json({ valid: false, message: 'Invalid or expired token' });
+        res.json({ valid: true, role_name: userRole });
+    });
+}
+
+
+
+
+export default { authenticateUser, logOutUser, refreshToken, verifyToken, verifyRefreshToken }
