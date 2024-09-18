@@ -106,29 +106,13 @@ const authenticateUser = async (req, res) => {
 
                     const user = { userId, username, email, fullname, role_name };
 
-                    // let USER_ACCESS_TOKEN_SECRET;
-                    // let USER_REFRESH_TOKEN_SECRET;
-                    // switch (role_name) {
-                    //     case "Student":
-                    //         USER_ACCESS_TOKEN_SECRET = ACCESS_TOKEN_SECRET;
-                    //         USER_REFRESH_TOKEN_SECRET = REFRESH_TOKEN_SECRET;
-                    //     case "Staff":
-                    //         USER_ACCESS_TOKEN_SECRET = ACCESS_TOKEN_SECRET_STAFF;
-                    //         USER_REFRESH_TOKEN_SECRET = REFRESH_TOKEN_SECRET_STAFF;
-                    //     case "Admin":
-                    //         USER_ACCESS_TOKEN_SECRET = ACCESS_TOKEN_SECRET_ADMIN;
-                    //         USER_REFRESH_TOKEN_SECRET = REFRESH_TOKEN_SECRET_ADMIN;
-                    //     default:
-                    //         USER_ACCESS_TOKEN_SECRET = ACCESS_TOKEN_SECRET;
-                    //         USER_REFRESH_TOKEN_SECRET = REFRESH_TOKEN_SECRET;
-                    // }
 
                     const { USER_ACCESS_TOKEN_SECRET, USER_REFRESH_TOKEN_SECRET } = TokenManager.getTokenSecretByRoleName(role_name);
                     // console.log(USER_ACCESS_TOKEN_SECRET);
                     // console.log(USER_REFRESH_TOKEN_SECRET);
 
-                    // Issue Access Token (expires in 1 minute)
-                    const accessToken = jwt.sign(user, USER_ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRED_IN });
+                    // Issue Access Token (expires in an amount of time)
+                    const accessToken = jwt.sign({userId}, USER_ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRED_IN });
                 
                     // Issue Refresh Token
                     const refreshToken = jwt.sign(user, USER_REFRESH_TOKEN_SECRET);
@@ -254,23 +238,62 @@ const refreshToken = async (req, res) => {
       res.status(403).send('Empty Refresh Token');
     } else {
         try {
-          // Verify Refresh Token in Redis
-          const userId = await Redis.verifyRefreshTokenInRedis(refreshToken);
-          if (!userId) return res.status(403).send('Invalid Refresh Token');
+            // Verify Refresh Token in Redis
+            const userId = await Redis.verifyRefreshTokenInRedis(refreshToken);
+            if (!userId) return res.status(403).send('Invalid Refresh Token');
 
-          // Fetch the role from the Refresh Token
+            // Fetch the role from the Refresh Token
+
+
+            // Verify the token against different secrets
+            const isStudentMatch = await TokenManager.verifyTokenAsync(refreshToken, REFRESH_TOKEN_SECRET)
+            .then(() => true)
+            .catch(() => false);
+
+            const isStaffMatch = await TokenManager.verifyTokenAsync(refreshToken, REFRESH_TOKEN_SECRET_STAFF)
+            .then(() => true)
+            .catch(() => false);
+
+            const isAdminMatch = await TokenManager.verifyTokenAsync(refreshToken, REFRESH_TOKEN_SECRET_ADMIN)
+            .then(() => true)
+            .catch(() => false);
+
+            console.log(isStudentMatch);
+            console.log(isStaffMatch);
+            console.log(isAdminMatch);
           
       
-          // Verify the token itself
-          jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, user) => {
-            if (err) return res.status(403).send('Invalid Refresh Token');
-      
-            // Issue a new Access Token
-            const newAccessToken = jwt.sign({ username: user.username, userId: user.userId }, ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRED_IN });
-            res.json({ accessToken: newAccessToken });
-          });
+            // Verify the token itself
+            // jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, user) => {
+            //     if (err) return res.status(403).send('Invalid Refresh Token');
+        
+            //     // Issue a new Access Token
+            //     const newAccessToken = jwt.sign({ username: user.username, userId: user.userId }, ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRED_IN });
+            //     res.json({ accessToken: newAccessToken });
+            // });
+
+
+            if (isStudentMatch) {
+                // Issue a new Access Token
+                const newAccessToken = jwt.sign({ userId }, ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRED_IN });
+                res.json({ accessToken: newAccessToken });
+
+            } else if (isStaffMatch) {
+                // Issue a new Access Token
+                const newAccessToken = jwt.sign({ userId }, ACCESS_TOKEN_SECRET_STAFF, { expiresIn: ACCESS_TOKEN_EXPIRED_IN });
+                res.json({ accessToken: newAccessToken });
+
+            } else if (isAdminMatch) {
+                // Issue a new Access Token
+                const newAccessToken = jwt.sign({ userId }, ACCESS_TOKEN_SECRET_ADMIN, { expiresIn: ACCESS_TOKEN_EXPIRED_IN });
+                res.json({ accessToken: newAccessToken });
+
+            } else {
+                return res.status(403).send('Invalid Refresh Token');
+            }
         } catch (err) {
-          res.status(500).send('Internal Server Error');
+            console.log(err);
+            res.status(500).send('Internal Server Error');
         }
     }
 }
@@ -313,15 +336,50 @@ const refreshToken = async (req, res) => {
  * @throws {Error} - If there is an issue verifying the token, the function returns a `403 Forbidden` response.
  */
 const verifyToken = async (req, res) => {
-    const { token } = req.body;
+    
 
-    // Verify the token using the proper secret key
-    jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
-        if (err) {
+    try {
+        const { token } = req.body;
+        if (!token) return res.status(401).send('No access token provided');
+
+
+        // Verify the token against different secrets
+        const isStudentMatch = await TokenManager.verifyTokenAsync(token, ACCESS_TOKEN_SECRET)
+        .then(() => true)
+        .catch(() => false);
+
+        const isStaffMatch = await TokenManager.verifyTokenAsync(token, ACCESS_TOKEN_SECRET_STAFF)
+        .then(() => true)
+        .catch(() => false);
+
+        const isAdminMatch = await TokenManager.verifyTokenAsync(token, ACCESS_TOKEN_SECRET_ADMIN)
+        .then(() => true)
+        .catch(() => false);
+
+        // Verify the token using the proper secret key
+        // jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
+        //     if (err) {
+        //         return res.status(403).json({ valid: false, message: 'Invalid or expired token' });
+        //     }
+        //     res.json({ valid: true });
+        // });
+        // Return the response based on matches
+        if (isStudentMatch || isStaffMatch || isAdminMatch) {
+            // let role_name;
+            // role_name = isStudentMatch ? "Student" : null;
+            // role_name = isStaffMatch ? "Staff" : null;
+            // role_name = isAdminMatch ? "Admin" : null;
+
+            return res.json({ valid: true });
+        } else {
             return res.status(403).json({ valid: false, message: 'Invalid or expired token' });
         }
-        res.json({ valid: true });
-    });
+
+    } catch (error) {
+        return res.status(500).json({ valid: false, message: 'Internal Server Error' });
+    }
+
+    
 }
 
 
