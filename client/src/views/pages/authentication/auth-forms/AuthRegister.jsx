@@ -26,7 +26,7 @@ import { Formik } from 'formik';
 
 // project imports
 import Google from 'assets/images/icons/social-google.svg';
-import AnimateButton from 'ui-component/extended/AnimateButton';
+import AnimateButton from 'views/roles/student/ui-component/extended/AnimateButton';
 import { strengthColor, strengthIndicator } from 'utils/password-strength';
 
 // assets

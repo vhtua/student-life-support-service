@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 
 // project imports
-import Loadable from 'ui-component/Loadable';
+import Loadable from 'views/roles/student/ui-component/Loadable';
 const Landing = Loadable(lazy(() => import('views/pages/LandingPage')));
 
 // ==============================|| AUTHENTICATION ROUTING ||============================== //

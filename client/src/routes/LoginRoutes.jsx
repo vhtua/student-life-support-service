@@ -1,8 +1,8 @@
 import { lazy } from 'react';
 
 // project imports
-import Loadable from 'ui-component/Loadable';
-import MinimalLayout from 'layout/roles/student/MinimalLayout';
+import Loadable from 'views/roles/student/ui-component/Loadable';
+import MinimalLayout from 'views/roles/student/layout/MinimalLayout';
 
 const AuthLoginWrapper = Loadable(lazy(() => import('views/pages/authentication/auth-forms/LoginWrapper')));
 

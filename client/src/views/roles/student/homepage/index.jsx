@@ -11,7 +11,10 @@ import TotalOrderLineChartCard from './TotalOrderLineChartCard';
 import TotalIncomeDarkCard from './TotalIncomeDarkCard';
 import TotalIncomeLightCard from './TotalIncomeLightCard';
 import TotalGrowthBarChart from './TotalGrowthBarChart';
+
 import HowToUse from './HowToUseCard';
+import TicketsTable from '../utilities/TicketsTable';
+import ProfileCard from '../utilities/ProfileCard';
 
 import { gridSpacing } from 'store/constant';
 
@@ -102,7 +105,14 @@ const Dashboard = () => {
                   }}
               />
           </Grid> */}
-
+          
+          <Grid item xs={12} md={12}>
+            <TicketsTable isLoading={isLoading} />
+          </Grid>
+          
+          <Grid item xs={12} md={12}>
+            <ProfileCard isLoading={isLoading} />
+          </Grid>
 
         </Grid>
       </Grid>

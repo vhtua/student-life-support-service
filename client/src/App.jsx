@@ -11,7 +11,7 @@ import router from 'routes';
 import themes from 'themes';
 
 // project imports
-import NavigationScroll from 'layout/NavigationScroll';
+import NavigationScroll from 'views/roles/student/layout/NavigationScroll';
 
 
 // ==============================|| APP ||============================== //

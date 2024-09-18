@@ -14,8 +14,8 @@ import Typography from '@mui/material/Typography';
 
 // project imports
 import BajajAreaChartCard from './BajajAreaChartCard';
-import MainCard from 'ui-component/cards/MainCard';
-import SkeletonPopularCard from 'ui-component/cards/Skeleton/PopularCard';
+import MainCard from 'views/roles/student/ui-component/cards/MainCard';
+import SkeletonPopularCard from 'views/roles/student/ui-component/cards/Skeleton/PopularCard';
 import { gridSpacing } from 'store/constant';
 
 // assets

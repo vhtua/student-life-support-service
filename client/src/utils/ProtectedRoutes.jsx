@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 
 // import project components
-import Loader from 'ui-component/Loader';
+import Loader from 'views/roles/student/ui-component/Loader';
 
 import axiosInstance from '../api/axiosInstance';  // Import the Axios instance
 import context from "../context";

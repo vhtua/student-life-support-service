@@ -16,7 +16,7 @@ import slider_dec from "../../../src/public/landing/assets/images/slider-dec.png
 // Custom Hooks
 import useLandingCustom from "hooks/landing/useLandingCustom";
 
-import Loader from "ui-component/Loader";
+import Loader from "views/roles/student/ui-component/Loader";
 
 
 

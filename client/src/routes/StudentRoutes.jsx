@@ -1,16 +1,16 @@
 import { lazy } from 'react';
 
 // project imports
-import MainLayout from 'layout/roles/student/MainLayout';
-import Loadable from 'ui-component/Loadable';
+import MainLayout from 'views/roles/student/layout/MainLayout';
+import Loadable from 'views/roles/student/ui-component/Loadable';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/roles/student/homepage')));
 
 // utilities routing
-const UtilsTypography = Loadable(lazy(() => import('views/utilities/roles/student/Typography')));
-const UtilsColor = Loadable(lazy(() => import('views/utilities/roles/student/Color')));
-const UtilsShadow = Loadable(lazy(() => import('views/utilities/roles/student/Shadow')));
+const UtilsTypography = Loadable(lazy(() => import('views/roles/student/utilities/Typography')));
+const UtilsColor = Loadable(lazy(() => import('views/roles/student/utilities/Color')));
+const UtilsShadow = Loadable(lazy(() => import('views/roles/student/utilities/Shadow')));
 const Logout = Loadable(lazy(() => import('views/utilities/Logout')));
 // const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
 // const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));

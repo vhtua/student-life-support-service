@@ -13,9 +13,9 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import AuthWrapper1 from '../../AuthWrapper1';
 import AuthCardWrapper from '../../AuthCardWrapper';
 import AuthLogin from './AuthLogin';
-import Logo from 'ui-component/Logo';
-import LoginLogo from 'ui-component/LoginLogo';
-import AuthFooter from 'ui-component/cards/AuthFooter';
+import Logo from 'views/roles/student/ui-component/Logo';
+import LoginLogo from 'views/roles/student/ui-component/LoginLogo';
+import AuthFooter from 'views/roles/student/ui-component/cards/AuthFooter';
 
 import validateUserRole from 'views/utilities/validateUserRole';
 
