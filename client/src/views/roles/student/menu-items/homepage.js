@@ -1,22 +1,30 @@
 // assets
-import { IconHome } from '@tabler/icons-react';
+import { IconHome, IconUserCircle } from '@tabler/icons-react';
 
 // constant
-const icons = { IconHome };
+const icons = { IconHome, IconUserCircle };
 
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
 
 const homepage = {
-  id: 'homepage',
-  title: 'Homepage',
+  id: 'home',
+  title: 'Home',
   type: 'group',
   children: [
     {
-      id: 'default',
+      id: 'homepage',
       title: 'Homepage',
       type: 'item',
       url: '/student/homepage',
       icon: icons.IconHome,
+      breadcrumbs: true
+    },
+    {
+      id: 'profile',
+      title: 'Profile',
+      type: 'item',
+      url: '/student/profile',
+      icon: icons.IconUserCircle,
       breadcrumbs: true
     }
   ]

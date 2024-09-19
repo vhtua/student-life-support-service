@@ -6,14 +6,16 @@ import Loadable from 'views/roles/student/ui-component/Loadable';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/roles/student/homepage')));
+const StudentProfile = Loadable(lazy(() => import('views/roles/student/StudentProfile')));
+const EditProfile = Loadable(lazy(() => import('views/roles/student/EditProfile')));
+const ChangePassword = Loadable(lazy(() => import('views/roles/student/ChangePassword')));
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/roles/student/utilities/Typography')));
 const UtilsColor = Loadable(lazy(() => import('views/roles/student/utilities/Color')));
 const UtilsShadow = Loadable(lazy(() => import('views/roles/student/utilities/Shadow')));
 const Logout = Loadable(lazy(() => import('views/utilities/Logout')));
-// const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
-// const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
+
 
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
@@ -37,15 +39,26 @@ const StudentRoutes = {
           <DashboardDefault />
       )
     },
-    // {
-    //   path: 'dashboard',
-    //   children: [
-    //     {
-    //       path: 'default',
-    //       element: <DashboardDefault />
-    //     }
-    //   ]
-    // },
+    {
+      path: 'profile',
+      element: <StudentProfile />
+    },
+
+    {
+      path: 'settings',
+      children: [
+        {
+          path: 'edit-profile',
+          element: <EditProfile/>
+        },
+        {
+          path: 'change-password',
+          element: <ChangePassword/>
+        }
+
+      ]
+    },
+
     {
       path: 'utils',
       children: [

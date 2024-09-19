@@ -90,10 +90,22 @@ const Dashboard = () => {
 
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
-          
-          <Grid item xs={12} md={12}>
+
+          <Grid item lg={4} md={12} sm={12} xs={12} >
+            <ProfileCard isLoading={isLoading} />
+          </Grid>
+
+
+          <Grid item lg={4} md={12} sm={12} xs={12} >
             <HowToUse isLoading={isLoading} />
           </Grid>
+
+
+          <Grid item lg={4} md={12} sm={12} xs={12} >
+            <HowToUse isLoading={isLoading} />
+          </Grid>
+
+
 
           {/* <Grid item xs={12} md={12}>
               <TotalIncomeLightCard
@@ -110,9 +122,7 @@ const Dashboard = () => {
             <TicketsTable isLoading={isLoading} />
           </Grid>
           
-          <Grid item xs={12} md={12}>
-            <ProfileCard isLoading={isLoading} />
-          </Grid>
+
 
         </Grid>
       </Grid>

@@ -28,7 +28,7 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error.config;
 
     // If we get a 401 response, it means the access token is expired
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response.status === 401 || error.response.status === 403 && !originalRequest._retry) {
       originalRequest._retry = true;  // Avoid infinite retries
 
       try {

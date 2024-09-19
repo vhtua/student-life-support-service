@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 
 // project imports
 import NavItem from '../NavItem';
+import navBarIdCanExpand from 'views/roles/student/utilities/navBarExpand';
 
 // assets
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
@@ -32,7 +33,9 @@ const NavCollapse = ({ menu, level }) => {
   const handleClick = () => {
     setOpen(!open);
     setSelected(!selected ? menu.id : null);
-    if (menu?.id !== 'authentication') {
+    
+    // if (menu?.id !== 'settings') {
+    if (!navBarIdCanExpand.includes(menu?.id)) {    // Decide which navbar can expand
       navigate(menu.children[0]?.url);
     }
   };

@@ -12,7 +12,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import { BrowserView, MobileView } from 'react-device-detect';
 
 // project imports
-import MenuCard from './MenuCard';
+// import MenuCard from './MenuCard';
 import MenuList from './MenuList';
 import LogoSection from '../LogoSection';
 import Chip from 'views/roles/student/ui-component/extended/Chip';
@@ -32,31 +32,37 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
           <LogoSection />
         </Box>
       </Box>
+
       <BrowserView>
         <PerfectScrollbar
           component="div"
           style={{
+            // height: !matchUpMd ? 'calc(100vh - 56px)' : 'calc(100vh - 88px)',
             height: !matchUpMd ? 'calc(100vh - 56px)' : 'calc(100vh - 88px)',
             paddingLeft: '16px',
             paddingRight: '16px'
           }}
         >
           <MenuList />
-          <MenuCard />
+          {/* <MenuCard /> */}
           <Stack direction="row" justifyContent="center" sx={{ mb: 2 }}>
-            <Chip label={import.meta.env.VITE_APP_VERSION} disabled chipcolor="secondary" size="small" sx={{ cursor: 'pointer' }} />
+            <Chip label="v1.0.0" disabled chipcolor="secondary" size="small" sx={{ cursor: 'pointer' }} />
           </Stack>
         </PerfectScrollbar>
       </BrowserView>
+
+
       <MobileView>
         <Box sx={{ px: 2 }}>
           <MenuList />
-          <MenuCard />
+          {/* <MenuCard /> */}
           <Stack direction="row" justifyContent="center" sx={{ mb: 2 }}>
-            <Chip label={import.meta.env.VITE_APP_VERSION} disabled chipcolor="secondary" size="small" sx={{ cursor: 'pointer' }} />
+            <Chip label="v1.0.0" disabled chipcolor="secondary" size="small" sx={{ cursor: 'pointer' }} />
           </Stack>
         </Box>
       </MobileView>
+
+
     </>
   );
 

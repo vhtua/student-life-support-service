@@ -7,13 +7,13 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 
 // Import Icons
-import FaceIcon from '@mui/icons-material/Face';
 import WorkIcon from '@mui/icons-material/Work';
-import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
-import CakeIcon from '@mui/icons-material/Cake';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
-import WcIcon from '@mui/icons-material/Wc';
+import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
+import SchoolIcon from '@mui/icons-material/School';
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 
 // Customize Card Import
 import MainCard from 'views/roles/student/ui-component/cards/MainCard';
@@ -23,17 +23,17 @@ import SubCard from '../ui-component/cards/SubCard';
 import api from 'api';
 import axiosInstance from 'api/axiosInstance';  // Make sure you have axios instance properly configured
 
-export default function ProfileCard() {
-  const [userDetails, setUserDetails] = useState(null);
+export default function SchoolDetails() {
+  const [schoolDetails, setSchoolDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   // Fetch user details data from the server
   useEffect(() => {
-    const fetchUserDetails = async () => {
+    const fetchschoolDetails = async () => {
       try {
         const response = await axiosInstance.get(api.getUserByUserName);
-        setUserDetails(response.data);  // Set user details
+        setSchoolDetails(response.data);  // Set user details
         setLoading(false);  // Stop loading when data is fetched
       } catch (err) {
         setError('Failed to fetch user data');
@@ -41,49 +41,58 @@ export default function ProfileCard() {
       }
     };
 
-    fetchUserDetails();  // Call the function when the component is mounted
+    fetchschoolDetails();  // Call the function when the component is mounted
   }, []);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
   return (
-    <SubCard title="General Details">
+    <SubCard title="School Profile Details">
       <List sx={{ width: '100%', maxWidth: 600, bgcolor: 'background.paper' }}>
         <ListItem>
           <ListItemAvatar>
             <Avatar>
-              <FaceIcon />
+              <WorkIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Full Name" secondary={userDetails?.fullname || 'N/A'} />
+          <ListItemText primary="Role" secondary={schoolDetails?.role_name || 'N/A'} />
         </ListItem>
 
         <ListItem>
           <ListItemAvatar>
             <Avatar>
-              <WcIcon />
+              <PermContactCalendarIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Gender" secondary={userDetails?.gender || 'N/A'} />
+          <ListItemText primary="Matriculation number" secondary={schoolDetails?.username || 'N/A'} />
         </ListItem>
 
         <ListItem>
           <ListItemAvatar>
             <Avatar>
-              <PhoneIcon />
+              <EmailIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Phone Number" secondary={userDetails?.phone_number || 'N/A'} />
+          <ListItemText primary="Email" secondary={schoolDetails?.email || 'N/A'} />
         </ListItem>
 
         <ListItem>
           <ListItemAvatar>
             <Avatar>
-              <CakeIcon />
+              <SchoolIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Date of Birth" secondary={new Date(userDetails?.date_of_birth).toLocaleDateString() || 'N/A'} />
+          <ListItemText primary="Program" secondary={schoolDetails?.program || 'N/A'} />
+        </ListItem>
+
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar>
+              <HistoryEduIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="Intake" secondary={schoolDetails?.intake || 'N/A'} />
         </ListItem>
 
         <ListItem>
@@ -92,7 +101,16 @@ export default function ProfileCard() {
               <LocationCityIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Place of Birth" secondary={userDetails?.place_of_birth || 'N/A'} />
+          <ListItemText primary="Dorm Area" secondary={schoolDetails?.area || 'N/A'} />
+        </ListItem>
+
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar>
+              <MeetingRoomIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="Dorm Room" secondary={schoolDetails?.room || 'N/A'} />
         </ListItem>
 
         

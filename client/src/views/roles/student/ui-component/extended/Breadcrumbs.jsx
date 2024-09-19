@@ -162,8 +162,8 @@ const Breadcrumbs = ({
                 separator={separatorIcon}
                 sx={{ '& .MuiBreadcrumbs-separator': { width: 16, ml: 1.25, mr: 1.25 } }}
               >
-                {/* <Typography component={Link} to={validateUserRole.navigateRouteByUserRole(localStorage.getItem("roleName"))} color="textSecondary" variant="subtitle1" sx={linkSX}> */}
-                <Typography color="textSecondary" variant="subtitle1" sx={linkSX}>
+                <Typography component={Link} to={validateUserRole.navigateRouteByUserRole(localStorage.getItem("roleName"))} color="textSecondary" variant="subtitle1" sx={linkSX}>
+                {/* <Typography color="textSecondary" variant="subtitle1" sx={linkSX}> */}
                   {icons && <HomeTwoToneIcon style={iconSX} />}
                   {icon && !icons && <HomeIcon style={{ ...iconSX, marginRight: 0 }} />}
                   {(!icon || icons) && 'Dashboard'}
@@ -198,8 +198,8 @@ const Breadcrumbs = ({
         separator={separatorIcon}
         sx={{ '& .MuiBreadcrumbs-separator': { width: 16, ml: 1.25, mr: 1.25 } }}
       >
-        {/* <Typography component={Link} to={validateUserRole.navigateRouteByUserRole(localStorage.getItem("roleName"))} color="textSecondary" variant="subtitle1" sx={linkSX}> */}
-        <Typography color="textSecondary" variant="subtitle1" sx={linkSX}>
+        <Typography component={Link} to={validateUserRole.navigateRouteByUserRole(localStorage.getItem("roleName"))} color="textSecondary" variant="subtitle1" sx={linkSX}>
+        {/* <Typography color="textSecondary" variant="subtitle1" sx={linkSX}> */}
           {icons && <HomeTwoToneIcon style={iconSX} />}
           {icon && !icons && <HomeIcon style={{ ...iconSX, marginRight: 0 }} />}
           {(!icon || icons) && 'Dashboard'}
