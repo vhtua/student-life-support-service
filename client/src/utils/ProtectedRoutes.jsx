@@ -30,7 +30,7 @@ const ProtectedRoutes = ({ children, role_name }) => {
                         setIsAuthenticated(true);
                     } else {
                         // If token is invalid, clear it from localStorage and set authentication to false
-                        console.log("response not good")
+                        console.log("You are accessing the protected page")
                         clearLocalStorage();
                         setIsAuthenticated(false);
                         // setLoading(false);

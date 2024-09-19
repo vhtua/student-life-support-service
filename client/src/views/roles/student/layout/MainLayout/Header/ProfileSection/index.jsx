@@ -38,7 +38,8 @@ import UserLogo from 'assets/images/users/user-avatar.png'
 // assets
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons-react';
 
-import Logout from 'views/utilities/Logout';
+import axiosInstance from 'api/axiosInstance';
+import clearLocalStorage from 'utils/clear-storage';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -57,8 +58,13 @@ const ProfileSection = () => {
    * */
   const anchorRef = useRef(null);
   const handleLogout = async () => {
+    // Call the /logout endpoint to clear the refresh token on the server
+    await axiosInstance.post(context.apiEndpoint.logoutUserRoute, {}, { withCredentials: true });
+    // Clear the access token and other data from localStorage
+    clearLocalStorage();
+    window.location.href = '/login';
+    
     console.log('Logout');
-    navigate("/logout");
   };
 
   const handleClose = (event) => {

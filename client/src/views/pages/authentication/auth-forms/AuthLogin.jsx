@@ -126,6 +126,7 @@ const AuthLogin = ({ ...others }) => {
               username: values.email,
               password: values.password,
             });
+
             
 
             if (response.status === 200 && response.data.accessToken) {
@@ -149,7 +150,7 @@ const AuthLogin = ({ ...others }) => {
               setErrors({ submit: 'Invalid username or password' });
             }
           } catch (error) {
-            if (error.response && error.response.status === 401) {
+            if (error.response && error.response.status === 403) {
               setErrors({ submit: 'Invalid username or password' });
             } else {
               // Handle any other unexpected errors

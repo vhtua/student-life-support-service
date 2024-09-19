@@ -28,15 +28,17 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error.config;
 
     // If we get a 401 response, it means the access token is expired
-    if (error.response.status === 401 || error.response.status === 403 && !originalRequest._retry) {
+    if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;  // Avoid infinite retries
 
       try {
         // Call the /refresh-token endpoint to get a new access token
         const { data } = await axiosInstance.post(context.apiEndpoint.refreshTokenRoute, {}, { withCredentials: true });
+        // console.log("I will refresh the access token");
 
         // Store the new access token in localStorage
         const newAccessToken = data.accessToken;
+        // console.log(newAccessToken);
         localStorage.setItem('accessToken', newAccessToken);
 
         // Retry the original request with the new access token

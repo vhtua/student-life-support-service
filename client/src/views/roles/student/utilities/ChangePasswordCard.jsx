@@ -29,6 +29,16 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
+// Password hashing
+import passwordTool from 'utils/password-tool';
+
+// Axios Instance
+import axiosInstance from 'api/axiosInstance';
+import context from 'context';
+
+import clearLocalStorage from 'utils/clear-storage';
+
+
 // Validation Schema using Yup
 const validationSchema = Yup.object({
   currentPassword: Yup.string().required('Current password is required'),
@@ -73,27 +83,60 @@ const ChangePasswordCard = () => {
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     console.log("Change password!")
     if (!captchaVerified) {
-      alert("Please verify the captcha!");
+      toast.error("Please verify the captcha!");
+      return;
+    }
+    if (values.currentPassword === values.newPassword) {
+      toast.warning("Your current password and new password cannot be the same");
       return;
     }
 
+    // // Hash the input password
+    // try {  
+    //   const hashedNewPassword = await passwordTool.hashPassword(values.newPassword);
+      
+    //   if (isMatch) {
+    //       console.log('Password matches!');
+    //   } else {
+    //       console.log('Incorrect password.');
+    //   }
+    // } catch (error) {
+    //     console.error(error.message);
+    // }
+
     // Make the POST request to the backend
     try {
-      const response = await axios.post('http://localhost:3000/student/change-password', {
+      const response = await axiosInstance.patch('http://localhost:3000/api/v1/users/change-password', {
         currentPassword: values.currentPassword,
         newPassword: values.newPassword,
       });
 
       if (response.status === 200) {
-        toast.success("Password changed successfully!");
+        toast.success("Password changed successfully!\nYou are about to sign out");
         // alert("Password changed successfully!");
         resetForm();
         recaptchaRef.current.reset();
         setCaptchaVerified(false); // Reset captcha verification after form submission
+        
+
+        setTimeout(async () => {
+          try {
+            // Call the /logout endpoint to clear the refresh token on the server
+            await axiosInstance.post(context.apiEndpoint.logoutUserRoute, {}, { withCredentials: true });
+            // Clear the access token and other data from localStorage
+            clearLocalStorage();
+            window.location.href = '/login';
+          } catch (err) {
+            console.error("Error logging out:", err);
+          }
+        }, 4000); // 5000 milliseconds = 5 seconds
+
+        // window.location.href = '/login';
       }
     } catch (error) {
-      toast.error("Error changing password. Please try again.");
-      // alert("Error changing password. Please try again.");
+      // toast.error("Error changing password. Please try again.");
+      toast.error(`${error.response.data.message}. Please try again.`);
+      // alert(`Error ${error.response.status}: ${error.response.data.message}. Please try again.`);
     } finally {
       setSubmitting(false);
     }
@@ -231,7 +274,7 @@ const ChangePasswordCard = () => {
                 </Formik>
                   <ToastContainer 
                   position="bottom-right" 
-                  autoClose={3000} 
+                  autoClose={5000} 
                   hideProgressBar={false} 
                   newestOnTop={false} 
                   closeOnClick 

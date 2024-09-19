@@ -33,7 +33,9 @@ const apiEndpoint = {
     logoutUserRoute: "/auth/logout",
     refreshTokenRoute: "/auth/refresh-token",
     verifyTokenRoute: "/auth/verify-token",
-    verifyRefreshTokenRoute: "/auth/verify-refreshToken"
+    verifyRefreshTokenRoute: "/auth/verify-refreshToken",
+
+    changePasswordRoute: "/change-password"
 }
 
 
