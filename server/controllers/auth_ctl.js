@@ -93,7 +93,7 @@ const authenticateUser = async (req, res) => {
                 const isAuthenticated = await passwordTool.verifyPassword(String(password), dbRetrievedPassword);
                 
                 if (!isAuthenticated) {
-                    res.status(401).json({ message: 'Invalid username or password' });
+                    res.status(403).json({ message: 'Invalid username or password' });
                     logger.error(`username: ${username} logged in failed due to wrong credentials information`);
                 } else {
                     // Authorization
@@ -112,7 +112,7 @@ const authenticateUser = async (req, res) => {
                     // console.log(USER_REFRESH_TOKEN_SECRET);
 
                     // Issue Access Token (expires in an amount of time)
-                    const accessToken = jwt.sign({userId}, USER_ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRED_IN });
+                    const accessToken = jwt.sign(user, USER_ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRED_IN });
                 
                     // Issue Refresh Token
                     const refreshToken = jwt.sign(user, USER_REFRESH_TOKEN_SECRET);
@@ -135,7 +135,7 @@ const authenticateUser = async (req, res) => {
                 }
                 
             } catch (error) {
-                res.status(401).json([]);
+                res.status(403).json([]);
                 logger.error(error.message);
             }    
         })();
@@ -243,7 +243,11 @@ const refreshToken = async (req, res) => {
             if (!userId) return res.status(403).send('Invalid Refresh Token');
 
             // Fetch the role from the Refresh Token
-
+            const user = jwt.decode(refreshToken); // Decode the token to extract the user information
+            // console.log(user);
+            const { iat, ...userData } = user;      // Remove the field iat of user data
+            // console.log(userData);
+            
 
             // Verify the token against different secrets
             const isStudentMatch = await TokenManager.verifyTokenAsync(refreshToken, REFRESH_TOKEN_SECRET)
@@ -258,9 +262,9 @@ const refreshToken = async (req, res) => {
             .then(() => true)
             .catch(() => false);
 
-            console.log(isStudentMatch);
-            console.log(isStaffMatch);
-            console.log(isAdminMatch);
+            // console.log(isStudentMatch);
+            // console.log(isStaffMatch);
+            // console.log(isAdminMatch);
           
       
             // Verify the token itself
@@ -275,17 +279,17 @@ const refreshToken = async (req, res) => {
 
             if (isStudentMatch) {
                 // Issue a new Access Token
-                const newAccessToken = jwt.sign({ userId }, ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRED_IN });
+                const newAccessToken = jwt.sign(userData, ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRED_IN });
                 res.json({ accessToken: newAccessToken });
 
             } else if (isStaffMatch) {
                 // Issue a new Access Token
-                const newAccessToken = jwt.sign({ userId }, ACCESS_TOKEN_SECRET_STAFF, { expiresIn: ACCESS_TOKEN_EXPIRED_IN });
+                const newAccessToken = jwt.sign(userData, ACCESS_TOKEN_SECRET_STAFF, { expiresIn: ACCESS_TOKEN_EXPIRED_IN });
                 res.json({ accessToken: newAccessToken });
 
             } else if (isAdminMatch) {
                 // Issue a new Access Token
-                const newAccessToken = jwt.sign({ userId }, ACCESS_TOKEN_SECRET_ADMIN, { expiresIn: ACCESS_TOKEN_EXPIRED_IN });
+                const newAccessToken = jwt.sign(userData, ACCESS_TOKEN_SECRET_ADMIN, { expiresIn: ACCESS_TOKEN_EXPIRED_IN });
                 res.json({ accessToken: newAccessToken });
 
             } else {

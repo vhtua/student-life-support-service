@@ -13,6 +13,7 @@ import constants from './config/constants.js';
 // Import routes
 import authRoutes from './routes/auth_route.js'
 import userRoutes from './routes/user_route.js'
+import studentRoutes from './routes/student_route.js';
 
 // Import samples
 import books from './utils/books.js';
@@ -32,13 +33,14 @@ app.use(cors(WebConfig.corsOptions));
 // Support GET, POST, PUT (update all attr), PATCH (update some parts), DELETE
 app.use("/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/student", studentRoutes);
 
 
 
 // API for testing successful authentication, authorization
 app.get('/ping', authenticateToken(constants.allRoleName), (req, res) => { res.json({message: "pong"}); });
 app.get('/books', authenticateToken([constants.studentRoleName , constants.staffRoleName]), (req, res) => { res.json(books); });
-app.get('/notStaff', authenticateToken([constants.studentRoleName , constants.adminRoleName]), (req, res) => { res.json(books); });
+app.get('/not-for-staff', authenticateToken([constants.studentRoleName , constants.adminRoleName]), (req, res) => { res.json(books); });
 app.head('/books', authenticateToken(constants.allRoleName), (req, res) => { 
   res.set( {'Content-Type': 'application/json',
             'Content-Length': JSON.stringify(books).length

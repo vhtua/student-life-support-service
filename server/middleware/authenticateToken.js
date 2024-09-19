@@ -115,7 +115,7 @@ const authenticateToken = (allowedRoles) => {
       }
 
       // If no valid token matched the roles
-      return res.status(403).send('Invalid or Expired Token');
+      return res.status(401).send('Invalid or Expired Token');
 
     } catch (error) {
       return res.status(500).json({ message: 'Internal Server Error' });
