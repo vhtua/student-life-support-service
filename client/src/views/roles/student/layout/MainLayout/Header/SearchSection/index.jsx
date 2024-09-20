@@ -1,28 +1,19 @@
+import React from 'react';
 import PropTypes from 'prop-types';
-import { useState, forwardRef } from 'react';
-
-// material-ui
+import { useState, forwardRef, useRef } from 'react';
+import { useNavigate } from 'react-router-dom'; // For navigation
 import { useTheme } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Grid from '@mui/material/Grid';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import Popper from '@mui/material/Popper';
+import IconButton from '@mui/material/IconButton'; // Import IconButton for clickable "x"
+import { IconSearch, IconX } from '@tabler/icons-react';
 
-// third-party
-import PopupState, { bindPopper, bindToggle } from 'material-ui-popup-state';
-
-// project imports
-import Transitions from 'views/roles/student/ui-component/extended/Transitions';
-
-// assets
-import { IconAdjustmentsHorizontal, IconSearch, IconX } from '@tabler/icons-react';
+import AutoComplete from './AutoComplete';
 
 const HeaderAvatar = forwardRef(({ children, ...others }, ref) => {
   const theme = useTheme();
-
   return (
     <Avatar
       ref={ref}
@@ -48,107 +39,32 @@ HeaderAvatar.propTypes = {
   children: PropTypes.node
 };
 
-// ==============================|| SEARCH INPUT - MOBILE||============================== //
-
-const MobileSearch = ({ value, setValue, popupState }) => {
-  const theme = useTheme();
-
-  return (
-    <OutlinedInput
-      id="input-search-header"
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-      placeholder="Search"
-      startAdornment={
-        <InputAdornment position="start">
-          <IconSearch stroke={1.5} size="16px" />
-        </InputAdornment>
-      }
-      endAdornment={
-        <InputAdornment position="end">
-          <HeaderAvatar>
-            <IconAdjustmentsHorizontal stroke={1.5} size="20px" />
-          </HeaderAvatar>
-          <Box sx={{ ml: 2 }}>
-            <Avatar
-              variant="rounded"
-              sx={{
-                ...theme.typography.commonAvatar,
-                ...theme.typography.mediumAvatar,
-                bgcolor: 'orange.light',
-                color: 'orange.dark',
-                '&:hover': {
-                  bgcolor: 'orange.dark',
-                  color: 'orange.light'
-                }
-              }}
-              {...bindToggle(popupState)}
-            >
-              <IconX stroke={1.5} size="20px" />
-            </Avatar>
-          </Box>
-        </InputAdornment>
-      }
-      aria-describedby="search-helper-text"
-      inputProps={{ 'aria-label': 'weight', sx: { bgcolor: 'transparent', pl: 0.5 } }}
-      sx={{ width: '100%', ml: 0.5, px: 2, bgcolor: 'background.paper' }}
-    />
-  );
-};
-
-MobileSearch.propTypes = {
-  value: PropTypes.string,
-  setValue: PropTypes.func,
-  popupState: PopupState
-};
-
-// ==============================|| SEARCH INPUT ||============================== //
-
 const SearchSection = () => {
   const [value, setValue] = useState('');
+  const navigate = useNavigate();
+  const inputRef = useRef(null); // Ref for the input element
+
+  // Handle feature selection and navigate to the selected feature URL
+  const handleSelect = (url) => {
+    navigate(url);
+    setValue(''); // Reset search input after selection
+  };
+
+  // Clear search input function
+  const clearSearch = () => {
+    setValue('');
+    inputRef.current.focus(); // Refocus the input after clearing
+  };
 
   return (
     <>
       <Box sx={{ display: { xs: 'block', md: 'none' } }}>
-        <PopupState variant="popper" popupId="demo-popup-popper">
-          {(popupState) => (
-            <>
-              <Box sx={{ ml: 2 }}>
-                <HeaderAvatar {...bindToggle(popupState)}>
-                  <IconSearch stroke={1.5} size="19.2px" />
-                </HeaderAvatar>
-              </Box>
-              <Popper
-                {...bindPopper(popupState)}
-                transition
-                sx={{ zIndex: 1100, width: '99%', top: '-55px !important', px: { xs: 1.25, sm: 1.5 } }}
-              >
-                {({ TransitionProps }) => (
-                  <>
-                    <Transitions type="zoom" {...TransitionProps} sx={{ transformOrigin: 'center left' }}>
-                      <Card sx={{ bgcolor: 'background.default', border: 0, boxShadow: 'none' }}>
-                        <Box sx={{ p: 2 }}>
-                          <Grid container alignItems="center" justifyContent="space-between">
-                            <Grid item xs>
-                              <MobileSearch value={value} setValue={setValue} popupState={popupState} />
-                            </Grid>
-                          </Grid>
-                        </Box>
-                      </Card>
-                    </Transitions>
-                  </>
-                )}
-              </Popper>
-            </>
-          )}
-        </PopupState>
-      </Box>
-      <Box sx={{ display: { xs: 'none', md: 'block' } }}>
         <OutlinedInput
+          ref={inputRef} // Attach the ref to the search box
           id="input-search-header"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder="Search"
+          placeholder="Search for feature..."
           startAdornment={
             <InputAdornment position="start">
               <IconSearch stroke={1.5} size="16px" />
@@ -156,15 +72,48 @@ const SearchSection = () => {
           }
           endAdornment={
             <InputAdornment position="end">
-              <HeaderAvatar>
-                <IconAdjustmentsHorizontal stroke={1.5} size="20px" />
-              </HeaderAvatar>
+              {value && (
+                <IconButton onClick={clearSearch}>
+                  <IconX stroke={1.5} size="16px" />
+                </IconButton>
+              )}
             </InputAdornment>
           }
           aria-describedby="search-helper-text"
-          inputProps={{ 'aria-label': 'weight', sx: { bgcolor: 'transparent', pl: 0.5 } }}
+          inputProps={{ 'aria-label': 'search', sx: { bgcolor: 'transparent', pl: 0.5 } }}
+          sx={{ width: '100%', ml: 0.5, px: 2, bgcolor: 'background.paper' }}
+        />
+        {/* Render the autocomplete suggestions */}
+        <AutoComplete value={value} handleSelect={handleSelect} inputRef={inputRef} />
+      </Box>
+
+      <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+        <OutlinedInput
+          ref={inputRef} // Attach the ref to the search box
+          id="input-search-header"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          placeholder="Search for feature..."
+          startAdornment={
+            <InputAdornment position="start">
+              <IconSearch stroke={1.5} size="16px" />
+            </InputAdornment>
+          }
+          endAdornment={
+            <InputAdornment position="end">
+              {value && (
+                <IconButton onClick={clearSearch}>
+                  <IconX stroke={1.5} size="16px" />
+                </IconButton>
+              )}
+            </InputAdornment>
+          }
+          aria-describedby="search-helper-text"
+          inputProps={{ 'aria-label': 'search', sx: { bgcolor: 'transparent', pl: 0.5 } }}
           sx={{ width: { md: 250, lg: 434 }, ml: 2, px: 2 }}
         />
+        {/* Render the autocomplete suggestions */}
+        <AutoComplete value={value} handleSelect={handleSelect} inputRef={inputRef} />
       </Box>
     </>
   );

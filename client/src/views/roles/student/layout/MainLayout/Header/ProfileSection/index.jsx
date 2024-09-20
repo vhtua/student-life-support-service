@@ -39,6 +39,7 @@ import UserLogo from 'assets/images/users/user-avatar.png'
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons-react';
 
 import axiosInstance from 'api/axiosInstance';
+import context from 'context';
 import clearLocalStorage from 'utils/clear-storage';
 
 // ==============================|| PROFILE MENU ||============================== //
@@ -165,14 +166,14 @@ const ProfileSection = () => {
                   <Box sx={{ p: 2, pb: 0 }}>
                     <Stack>
                       <Stack direction="row" spacing={0.5} alignItems="center">
-                        <Typography variant="h4">Hi, </Typography>
+                        {/* <Typography variant="h4"></Typography> */}
                         <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                        {localStorage.getItem("fullName")}
+                        Hi, {localStorage.getItem("fullName")}
                         </Typography>
                       </Stack>
                       <Typography variant="subtitle2">{localStorage.getItem("roleName")}</Typography>
                     </Stack>
-                    <OutlinedInput
+                    {/* <OutlinedInput
                       sx={{ width: '100%', pr: 1, pl: 2, my: 2 }}
                       id="input-search-profile"
                       value={value}
@@ -187,14 +188,20 @@ const ProfileSection = () => {
                       inputProps={{
                         'aria-label': 'weight'
                       }}
-                    />
+                    /> */}
+                    
+                    
                     <Divider />
+
+
                   </Box>
                   <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 250px)', overflowX: 'hidden' }}>
                     <Box sx={{ p: 2, pt: 0 }}>
                       <UpgradePlanCard />
+
                       <Divider />
-                      <Card
+                      
+                      {/* <Card
                         sx={{
                           bgcolor: theme.palette.primary.light,
                           my: 2
@@ -235,7 +242,7 @@ const ProfileSection = () => {
                             </Grid>
                           </Grid>
                         </CardContent>
-                      </Card>
+                      </Card> */}
                       <Divider />
                       <List
                         component="nav"

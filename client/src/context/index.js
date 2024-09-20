@@ -9,6 +9,7 @@ const appRoute = {
     logout: "/logout",
     
     studentRole: {
+        rootRoute: "/student",
         homepageRoute: "/student/homepage",
         profileRoute: "/student/profile",
         changePassword: "/student/password",
@@ -16,11 +17,13 @@ const appRoute = {
     },
 
     adminRole: {
+        rootRoute: "/admin",
         homepageRoute: "/admin/homepage",
         profileRoute: "/admin/profile"
     },
 
     staffRole: {
+        rootRoute: "/staff",
         homepageRoute: "/staff/homepage",
         profileRoute: "/staff/profile",
     }

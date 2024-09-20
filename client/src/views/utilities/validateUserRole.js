@@ -1,4 +1,5 @@
 import context from "context";
+import { func } from "prop-types";
 
 // Example: validateUserRole.navigateRouteByUserRole(localStorage.getItem("roleName")
 function navigateRouteByUserRole(userRoleName) {

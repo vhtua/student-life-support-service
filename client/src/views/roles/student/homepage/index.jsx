@@ -20,6 +20,7 @@ import { gridSpacing } from 'store/constant';
 
 // assets
 import StorefrontTwoToneIcon from '@mui/icons-material/StorefrontTwoTone';
+import UpgradePlanCard from '../layout/MainLayout/Header/ProfileSection/UpgradePlanCard';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
@@ -103,6 +104,10 @@ const Dashboard = () => {
 
           <Grid item lg={4} md={12} sm={12} xs={12} >
             <HowToUse isLoading={isLoading} />
+          </Grid>
+          
+          <Grid item lg={4} md={12} sm={12} xs={12} >
+            <UpgradePlanCard isLoading={isLoading} />
           </Grid>
 
 
