@@ -14,6 +14,7 @@ import constants from './config/constants.js';
 import authRoutes from './routes/auth_route.js'
 import userRoutes from './routes/user_route.js'
 import studentRoutes from './routes/student_route.js';
+import ticketRoutes from './routes/ticket_route.js';
 
 // Import samples
 import books from './utils/books.js';
@@ -34,13 +35,13 @@ app.use(cors(WebConfig.corsOptions));
 app.use("/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/student", studentRoutes);
+app.use("/api/v1/announcement", ticketRoutes);
 
 
 
 // API for testing successful authentication, authorization
 app.get('/ping', authenticateToken(constants.allRoleName), (req, res) => { res.json({message: "pong"}); });
 app.get('/books', authenticateToken([constants.studentRoleName , constants.staffRoleName]), (req, res) => { res.json(books); });
-app.get('/not-for-staff', authenticateToken([constants.studentRoleName , constants.adminRoleName]), (req, res) => { res.json(books); });
 app.head('/books', authenticateToken(constants.allRoleName), (req, res) => { 
   res.set( {'Content-Type': 'application/json',
             'Content-Length': JSON.stringify(books).length
