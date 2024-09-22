@@ -54,6 +54,10 @@ const apiEndpoint = {
         rootApi: `/api/v1/users`,
         changePasswordApi: "/api/v1/users/password",    // PATCH
         editProfileApi: "/api/v1/users/profile"         // PATCH
+    },
+
+    ticketApi: {
+        rootApi: '/api/v1/tickets',  
     }
 }
 

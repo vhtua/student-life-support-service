@@ -1,0 +1,313 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Card, CardContent, Typography, Box, IconButton, Link, Dialog, DialogContent, DialogTitle, Divider } from '@mui/material';
+import { IconEye, IconMessage, IconPlayerPlay, IconX, IconPaperclip, IconAnalyze, IconClockEdit, IconClockStop } from '@tabler/icons-react';
+import Chip from '@mui/material/Chip';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+import axiosInstance from 'api/axiosInstance';
+import context from 'context';
+
+
+const TicketCard = ( {ticketCardUpdate} ) => {
+    const [open, setOpen] = useState(false);
+    const [selectedAttachment, setSelectedAttachment] = useState(null);
+    const [ticketData, setTicketData] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const userName = localStorage.getItem('username');
+        const ticketIdSelected = localStorage.getItem('ticketIdSelected');
+
+        if (!ticketIdSelected) {
+            setLoading(false);
+            return;
+        }
+
+        const apiUrl = context.apiEndpoint.ticketApi.rootApi + "/" + userName + "/" + ticketIdSelected;
+
+        axiosInstance.get(apiUrl)
+            .then(response => {
+                // toast.success('Ticket data fetched successfully.')
+                setTicketData(response.data);
+                setLoading(false);
+                console.log('Ticket data:', response.data);
+                
+            })
+            .catch(error => {
+                console.error('Error fetching ticket data:', error);
+                setTicketData("error");
+                setLoading(false);
+            });
+    }, [ticketCardUpdate]);
+
+    const handleOpen = (attachment) => {
+        setSelectedAttachment(attachment);
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+        setSelectedAttachment(null);
+    };
+
+    if (loading) {
+        return <Typography>Loading...</Typography>;
+    }
+
+
+
+    if (ticketData === "error") {
+        return (
+            <Card sx={{ maxWidth: 600, height: 400, boxShadow: 3, borderRadius: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <CardContent>
+                <Typography variant="h2" align="center">
+                Something happened while fetching the ticket #{localStorage.getItem('ticketIdSelected')} data
+                </Typography>
+            </CardContent>
+            {/* Toastify */}
+            <ToastContainer
+                position="bottom-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
+            </Card>
+        );
+    }
+
+
+    if (!ticketData) {
+        return (
+            <Card sx={{ maxWidth: 600, height: 400, boxShadow: 3, borderRadius: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <CardContent>
+                <Typography variant="h2" align="center">
+                View a ticket in the ticket list to see the details
+                </Typography>
+            </CardContent>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
+            </Card>
+        );
+    }
+
+      // Sample URLs for attachments
+    const attachments = [
+        { type: 'image', url: 'https://picsum.photos/200/300' },
+        { type: 'image', url: 'https://picsum.photos/1080/900' },
+        { type: 'video', url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4' },
+    ];
+
+    const { ticket_id, created_date, ended_date, ticket_type_name, subject, details, audience_type, message_id, status } = ticketData;
+
+    return (
+        <Card sx={{ maxWidth: 600, boxShadow: 3, borderRadius: 2 }}>
+            <CardContent>
+                <Box sx={{ mb: 2, textAlign: 'left' }}>
+                    <Typography variant="h3" component="div" fontWeight="bold">
+                        Ticket #{ticket_id}
+                    </Typography>
+                    <Divider sx={{ my: 1 }} />
+
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, textAlign: 'left' }}>
+                        <IconButton color="primary" sx={{ padding: 0 }}>
+                            <IconClockEdit />
+                        </IconButton>
+                        <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
+                            Created Date: {created_date}
+                        </Typography>
+                    </Box>
+
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, textAlign: 'left' }}>
+                        <IconButton color="primary" sx={{ padding: 0 }}>
+                            <IconClockStop />
+                        </IconButton>
+                        <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
+                            Ended Date: {ended_date || 'N/A'}
+                        </Typography>
+                    </Box>
+                </Box>
+
+                <Box sx={{ mb: 2, textAlign: 'left' }}>
+                    <Typography variant="body2" fontWeight="bold">
+                        Ticket Type:
+                        <Chip label={ticket_type_name} color="primary" sx={{ marginLeft: '5px' }} />
+                    </Typography>
+
+                    <Typography variant="body1" fontWeight="bold" sx={{ mt: 1 }}>
+                        Subject: {subject}
+                    </Typography>
+
+                    <Divider sx={{ my: 1 }}>
+                        <Chip label="Details" size="small" />
+                    </Divider>
+
+                    <Typography variant="body2" color="text.primary" sx={{ mt: 1 }}>
+                        {details}
+                    </Typography>
+                    <Divider sx={{ mt: 4 }} />
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, textAlign: 'left' }}>
+                    <IconButton color="primary" sx={{ padding: 0 }}>
+                        <IconEye />
+                    </IconButton>
+                    <Typography variant="body1" sx={{ ml: 1 }}>
+                        <strong>Audience Type: </strong> {audience_type}
+                    </Typography>
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, textAlign: 'left' }}>
+                    <IconButton color="primary" sx={{ padding: 0 }}>
+                        <IconMessage />
+                    </IconButton>
+                    <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
+                        Message:
+                        <Link href={`/message/${message_id}`} sx={{ ml: 1, color: 'primary.main' }}>
+                            #{message_id}
+                        </Link>
+                    </Typography>
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, textAlign: 'left' }}>
+                    <IconButton color="primary" sx={{ padding: 0 }}>
+                        <IconAnalyze />
+                    </IconButton>
+                    <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
+                        Status: <span style={{ color: 'orange' }}>{status}</span>
+                    </Typography>
+                </Box>
+
+                <Box sx={{ textAlign: 'left' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, textAlign: 'left' }}>
+                        <IconButton color="primary" sx={{ padding: 0 }}>
+                            <IconPaperclip />
+                        </IconButton>
+                        <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
+                            Attachments:
+                        </Typography>
+                    </Box>
+
+                    <Box sx={{ display: 'flex', gap: 2, mt: 1 }}>
+                        {attachments && attachments.map((attachment, index) => (
+                            <Box
+                                key={index}
+                                sx={{
+                                    width: 100,
+                                    height: 100,
+                                    backgroundColor: '#f0f0f0',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    borderRadius: 2,
+                                    cursor: 'pointer',
+                                    overflow: 'hidden',
+                                    boxShadow: 2,
+                                    position: 'relative',
+                                }}
+                                onClick={() => handleOpen(attachment)}
+                            >
+                                {attachment.type === 'image' ? (
+                                    <img
+                                        src={attachment.url}
+                                        alt={`attachment-${index}`}
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    />
+                                ) : (
+                                    <>
+                                        <video
+                                            src={attachment.url}
+                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                            muted
+                                            playsInline
+                                        />
+                                        <IconPlayerPlay
+                                            style={{
+                                                position: 'absolute',
+                                                color: 'white',
+                                                fontSize: '40px',
+                                                top: '50%',
+                                                left: '50%',
+                                                transform: 'translate(-50%, -50%)',
+                                            }}
+                                        />
+                                    </>
+                                )}
+                            </Box>
+                        ))}
+                    </Box>
+                </Box>
+            </CardContent>
+
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                maxWidth={false}
+                PaperProps={{
+                    style: {
+                        maxWidth: 'none',
+                        margin: '20px',
+                    },
+                }}
+            >
+                <DialogTitle>
+                    <IconButton
+                        aria-label="close"
+                        onClick={handleClose}
+                        sx={{
+                            position: 'absolute',
+                            right: 8,
+                            top: 8,
+                            color: (theme) => theme.palette.grey[500],
+                        }}
+                    >
+                        <IconX />
+                    </IconButton>
+                </DialogTitle>
+                <DialogContent sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    {selectedAttachment && selectedAttachment.type === 'image' ? (
+                        <img
+                            src={selectedAttachment.url}
+                            alt="attachment"
+                            style={{ maxWidth: '100%', height: 'auto', borderRadius: 8 }}
+                        />
+                    ) : selectedAttachment && selectedAttachment.type === 'video' ? (
+                        <video controls style={{ width: '100%', height: 'auto', borderRadius: 8 }}>
+                            <source src={selectedAttachment.url} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    ) : null}
+                </DialogContent>
+            </Dialog>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
+        </Card>
+    );
+};
+
+export default TicketCard;

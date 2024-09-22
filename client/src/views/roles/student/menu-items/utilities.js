@@ -1,5 +1,5 @@
 // assets
-import { IconTypography, IconPalette, IconShadow, IconWindmill, IconTicket, IconBell, IconCalendarClock, IconCirclePlus, IconListSearch, IconNews } from '@tabler/icons-react';
+import { IconTypography, IconPalette, IconShadow, IconWindmill, IconTicket, IconBell, IconCalendarClock, IconCirclePlus, IconListSearch, IconNews, IconMessage } from '@tabler/icons-react';
 
 // constant
 const icons = {
@@ -12,7 +12,8 @@ const icons = {
   IconCalendarClock,
   IconCirclePlus,
   IconListSearch,
-  IconNews
+  IconNews,
+  IconMessage
 };
 
 // ==============================|| UTILITIES MENU ITEMS ||============================== //
@@ -69,7 +70,16 @@ const utilities = {
           icon: icons.IconCirclePlus,
           // target: true
         },
+        
       ]
+    },
+    {
+      id: 'message',
+      title: 'Message',
+      type: 'item',
+      url: '/student/message',
+      icon: icons.IconMessage,
+      // target: true
     },
     {
       id: 'newfeeds',

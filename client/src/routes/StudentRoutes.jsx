@@ -9,6 +9,7 @@ const DashboardDefault = Loadable(lazy(() => import('views/roles/student/homepag
 const StudentProfile = Loadable(lazy(() => import('views/roles/student/StudentProfile')));
 const EditProfile = Loadable(lazy(() => import('views/roles/student/EditProfile')));
 const ChangePassword = Loadable(lazy(() => import('views/roles/student/ChangePassword')));
+const MyTickets = Loadable(lazy(() => import('views/roles/student/MyTickets')));
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/roles/student/utilities/Typography')));
@@ -64,13 +65,22 @@ const StudentRoutes = {
       children: [
         {
           path: 'my-tickets',
-          element: <UtilsTypography />
+          element: <MyTickets />
         },
         {
           path: 'create-ticket',
           element: <UtilsTypography />
         },
         
+      ]
+    },
+    {
+      path: 'message',
+      children: [
+        {
+          path: 'message',
+          element: <UtilsColor />
+        }
       ]
     },
     {
