@@ -891,3 +891,59 @@
 [2024-09-22 15:09:04] [[32minfo[39m] Server running on port 3000
 [2024-09-22 15:09:14] [[32minfo[39m] Server running on port 3000
 [2024-09-22 15:11:58] [[32minfo[39m] Server running on port 3000
+[2024-09-22 15:12:48] [[32minfo[39m] username: 17965 changed the phone number
+[2024-09-22 15:13:02] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-22 15:13:02] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-22 15:36:29] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-22 15:36:29] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-22 15:43:37] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-22 15:43:37] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-22 15:46:09] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-22 15:46:09] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-22 15:53:25] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-22 15:53:26] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-22 23:32:18] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:32:59] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:34:00] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:35:49] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:37:00] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:37:23] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:37:55] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:38:35] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:39:14] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:40:53] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:41:50] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:42:14] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:42:48] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:43:22] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:43:26] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:43:31] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:43:46] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:50:34] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:51:57] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:52:01] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-22 23:52:01] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-22 23:52:40] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:52:48] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:52:53] [[32minfo[39m] Server running on port 3000
+[2024-09-22 23:52:56] [[32minfo[39m] Server running on port 3000
+[2024-09-23 03:16:57] [[32minfo[39m] Server running on port 3000
+[2024-09-23 03:25:22] [[32minfo[39m] Server running on port 3000
+[2024-09-23 03:25:48] [[32minfo[39m] Server running on port 3000
+[2024-09-23 03:30:59] [[32minfo[39m] Server running on port 3000
+[2024-09-23 03:32:13] [[32minfo[39m] Server running on port 3000
+[2024-09-23 03:32:30] [[32minfo[39m] Server running on port 3000
+[2024-09-23 03:32:58] [[32minfo[39m] Server running on port 3000
+[2024-09-23 03:33:13] [[32minfo[39m] Server running on port 3000
+[2024-09-23 03:33:22] [[32minfo[39m] Server running on port 3000
+[2024-09-23 03:34:20] [[32minfo[39m] Server running on port 3000
+[2024-09-23 03:34:24] [[32minfo[39m] Server running on port 3000
+[2024-09-23 03:35:06] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-23 03:35:07] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-23 03:35:18] [[31merror[39m] TypeError: Client was passed a null or undefined query
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getTicketDetails (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:77:26)
+[2024-09-23 03:35:42] [[32minfo[39m] Server running on port 3000
+[2024-09-23 03:38:42] [[32minfo[39m] Server running on port 3000
+[2024-09-23 03:39:38] [[32minfo[39m] Server running on port 3000

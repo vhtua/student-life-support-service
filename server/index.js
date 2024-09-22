@@ -34,8 +34,11 @@ app.use(cors(WebConfig.corsOptions));
 // Support GET, POST, PUT (update all attr), PATCH (update some parts), DELETE
 app.use("/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
-app.use("/api/v1/student", studentRoutes);
-app.use("/api/v1/announcement", ticketRoutes);
+app.use("/api/v1/tickets", ticketRoutes);
+// app.use("/api/v1/attachments", attachmentRoutes);
+
+// app.use("/api/v1/student", studentRoutes);
+// app.use("/api/v1/announcement", ticketRoutes);
 
 
 
