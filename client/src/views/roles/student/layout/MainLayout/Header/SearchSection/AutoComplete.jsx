@@ -2,17 +2,19 @@ import PropTypes from 'prop-types';
 import { Popper, Card, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
 
 import navigateToRoute from 'views/roles/student/utilities/navigateToRoute';
-
+import context from 'context';
 
 // AutoComplete Component
 const AutoComplete = ({ value, handleSelect, inputRef }) => {
   // Example features list (you can replace this with a dynamic list)
-  const features = [
-    { name: 'Homepage', url: '/homepage' },
-    { name: 'Profile', url: '/profile' },
-    { name: 'Settings/Edit Profile', url: '/settings/edit-profile' },
-    { name: 'Settings/Change Password', url: '/settings/change-password' },
-  ];
+//   const features = [
+//     { name: 'Homepage', url: '/homepage' },
+//     { name: 'Profile', url: '/profile' },
+//     { name: 'Settings/Edit Profile', url: '/settings/edit-profile' },
+//     { name: 'Settings/Change Password', url: '/settings/change-password' },
+//   ];
+
+    const features = context.appFeature;
 
   // Filter features based on user input
   const filteredFeatures = features.filter((feature) =>

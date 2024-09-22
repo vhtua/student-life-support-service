@@ -16,7 +16,7 @@ import { gridSpacing } from 'store/constant';
 import axiosInstance from '../../../api/axiosInstance';  // Adjust the import path as needed
 
 import ProfileCard from './utilities/ProfileCard';
-import SchoolDetails from './utilities/SchoolDetails';
+import SchoolDetailsCard from './utilities/SchoolDetailsCard';
 
 // ==============================|| TYPOGRAPHY ||============================== //
 
@@ -82,11 +82,11 @@ const Typography = () => {
 
 
       <Grid item xs={12} sm={6}>
-            <ProfileCard/>
+            <ProfileCard />
       </Grid>
 
       <Grid item xs={12} sm={6}>
-            <SchoolDetails/>
+            <SchoolDetailsCard/>
       </Grid>
 
 

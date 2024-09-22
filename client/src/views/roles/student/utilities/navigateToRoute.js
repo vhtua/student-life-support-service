@@ -15,7 +15,7 @@ function navigateToRoute(routeName) {
 }
 
 // Example usage
-const route = navigateToRoute("/settings");
-console.log("Inside" + route);
+// const route = navigateToRoute("/settings");
+// console.log("Inside" + route);
 
 export default navigateToRoute;

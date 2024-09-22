@@ -8,41 +8,41 @@ import Avatar from '@mui/material/Avatar';
 
 // Import Icons
 import FaceIcon from '@mui/icons-material/Face';
-import WorkIcon from '@mui/icons-material/Work';
 import PhoneIcon from '@mui/icons-material/Phone';
-import EmailIcon from '@mui/icons-material/Email';
 import CakeIcon from '@mui/icons-material/Cake';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
 import WcIcon from '@mui/icons-material/Wc';
 
 // Customize Card Import
-import MainCard from 'views/roles/student/ui-component/cards/MainCard';
 import SubCard from '../ui-component/cards/SubCard';
 
 // Import API
-import api from 'api';
-import axiosInstance from 'api/axiosInstance';  // Make sure you have axios instance properly configured
+import context from 'context';
+import axiosInstance from 'api/axiosInstance';  // Ensure you have axios instance properly configured
 
-export default function ProfileCard() {
+export default function ProfileCard({ profileUpdated }) {  // Accept profileUpdated as a prop
   const [userDetails, setUserDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   // Fetch user details data from the server
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      try {
-        const response = await axiosInstance.get(api.getUserByUserName);
-        setUserDetails(response.data);  // Set user details
-        setLoading(false);  // Stop loading when data is fetched
-      } catch (err) {
-        setError('Failed to fetch user data');
-        setLoading(false);
-      }
-    };
+  const fetchUserDetails = async () => {
+    try {
+      const username = localStorage.getItem('username');
 
-    fetchUserDetails();  // Call the function when the component is mounted
-  }, []);
+      const response = await axiosInstance.get(context.apiEndpoint.userApi.rootApi + "/" + username);
+      setUserDetails(response.data);  // Set user details
+      setLoading(false);  // Stop loading when data is fetched
+    } catch (err) {
+      setError('Failed to fetch user data');
+      setLoading(false);
+    }
+  };
+
+  // Re-fetch user data when the component is mounted or profileUpdated changes
+  useEffect(() => {
+    fetchUserDetails();  // Fetch details when the component mounts or profileUpdated changes
+  }, [profileUpdated]);  // Listen to profileUpdated prop changes
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -94,8 +94,6 @@ export default function ProfileCard() {
           </ListItemAvatar>
           <ListItemText primary="Place of Birth" secondary={userDetails?.place_of_birth || 'N/A'} />
         </ListItem>
-
-        
       </List>
     </SubCard>
   );

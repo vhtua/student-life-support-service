@@ -3,6 +3,15 @@ const adminRoleName = ["Admin"];
 const studentRoleName = ["Student"];
 const staffRoleName = ["Dorm Staff", "Student Affairs"];
 
+
+const appFeature = [
+    { name: 'Homepage', url: '/homepage' },
+    { name: 'Profile', url: '/profile' },
+    { name: 'Settings/Edit Profile', url: '/settings/edit-profile' },
+    { name: 'Settings/Change Password', url: '/settings/change-password' },
+]
+
+
 const appRoute = {
     landingPage: "/",
     login: "/login",
@@ -12,7 +21,8 @@ const appRoute = {
         rootRoute: "/student",
         homepageRoute: "/student/homepage",
         profileRoute: "/student/profile",
-        changePassword: "/student/password",
+        editProfileRoute: "/student/settings/edit-profile",
+        changePasswordRoute: "/student/settings/change-password",
         ticketListRoute: "/student/ticket"
     },
 
@@ -29,6 +39,8 @@ const appRoute = {
     }
 } 
 
+const googleCaptchaSiteKey = "6LdG0iMmAAAAAMc92UYnBUcVagNQQlaTIC3130BG";
+
 // Server
 const serverBaseUrl = "http://localhost:3000";
 const apiEndpoint = {
@@ -38,7 +50,11 @@ const apiEndpoint = {
     verifyTokenRoute: "/auth/verify-token",
     verifyRefreshTokenRoute: "/auth/verify-refreshToken",
 
-    changePasswordRoute: "/change-password"
+    userApi: {
+        rootApi: `/api/v1/users`,
+        changePasswordApi: "/api/v1/users/password",    // PATCH
+        editProfileApi: "/api/v1/users/profile"         // PATCH
+    }
 }
 
 
@@ -56,7 +72,9 @@ export default  {
                     adminRoleName,
                     studentRoleName,
                     staffRoleName,
+                    appFeature,
                     appRoute,
+                    googleCaptchaSiteKey,
                     serverBaseUrl,
                     apiEndpoint,
                     unauthorizedHttpErrorCode, 

@@ -1,3 +1,3 @@
-const navBarIdCanExpand = ["settings"]
+const navBarIdCanExpand = ["settings", "tickets"]
 
 export default navBarIdCanExpand;

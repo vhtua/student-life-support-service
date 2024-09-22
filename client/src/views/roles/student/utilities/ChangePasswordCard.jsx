@@ -105,8 +105,10 @@ const ChangePasswordCard = () => {
     // }
 
     // Make the POST request to the backend
+    const apiUrl = context.serverBaseUrl + context.apiEndpoint.userApi.changePasswordApi; //'http://localhost:3000/api/v1/users/change-password'
+
     try {
-      const response = await axiosInstance.patch('http://localhost:3000/api/v1/users/change-password', {
+      const response = await axiosInstance.patch(apiUrl, {
         currentPassword: values.currentPassword,
         newPassword: values.newPassword,
       });
@@ -129,7 +131,7 @@ const ChangePasswordCard = () => {
           } catch (err) {
             console.error("Error logging out:", err);
           }
-        }, 4000); // 5000 milliseconds = 5 seconds
+        }, 5000); // 5000 milliseconds = 5 seconds
 
         // window.location.href = '/login';
       }
@@ -245,11 +247,17 @@ const ChangePasswordCard = () => {
               />
             </Box>
 
+            <Box mb={2} display="flex" justifyContent="left">
+                <Typography variant="caption" fontSize="14px" textAlign={{ xs: 'center', md: 'center' }} gutterBottom align='center'>
+                    Verify that you are not a robot:
+                </Typography>
+            </Box>
+
             {/* reCAPTCHA */}
             <Box mb={3} display="flex" justifyContent="center">
               <ReCAPTCHA
                 ref={recaptchaRef}
-                sitekey="6LdG0iMmAAAAAMc92UYnBUcVagNQQlaTIC3130BG"
+                sitekey={context.googleCaptchaSiteKey}
                 onChange={onCaptchaChange}
               />
             </Box>

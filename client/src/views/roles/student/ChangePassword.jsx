@@ -21,7 +21,7 @@ import { gridSpacing } from 'store/constant';
 import axiosInstance from '../../../api/axiosInstance';  // Adjust the import path as needed
 
 import ProfileCard from './utilities/ProfileCard';
-import SchoolDetails from './utilities/SchoolDetails';
+import SchoolDetails from './utilities/SchoolDetailsCard';
 import ChangePasswordCard from './utilities/ChangePasswordCard';
 
 // ==============================|| TYPOGRAPHY ||============================== //

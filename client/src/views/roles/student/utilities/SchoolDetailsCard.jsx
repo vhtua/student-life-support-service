@@ -20,7 +20,7 @@ import MainCard from 'views/roles/student/ui-component/cards/MainCard';
 import SubCard from '../ui-component/cards/SubCard';
 
 // Import API
-import api from 'api';
+import context from 'context';
 import axiosInstance from 'api/axiosInstance';  // Make sure you have axios instance properly configured
 
 export default function SchoolDetails() {
@@ -32,7 +32,8 @@ export default function SchoolDetails() {
   useEffect(() => {
     const fetchschoolDetails = async () => {
       try {
-        const response = await axiosInstance.get(api.getUserByUserName);
+        const username = localStorage.getItem('username');
+        const response = await axiosInstance.get(context.apiEndpoint.userApi.rootApi + "/" + username);
         setSchoolDetails(response.data);  // Set user details
         setLoading(false);  // Stop loading when data is fetched
       } catch (err) {
