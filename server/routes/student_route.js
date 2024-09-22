@@ -7,7 +7,7 @@ import constants from "../config/constants.js";
 
 const studentRouter = Router();
 
-studentRouter.patch("/change-password", authenticateToken([constants.studentRoleName]), studentController.changePassword);
+studentRouter.get("/", authenticateToken([constants.adminRoleName]), studentController.getStudentList);
 
 
 

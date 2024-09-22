@@ -51,3 +51,4 @@
     at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
     at async editProfile (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/user_ctl.js:117:9)
+[2024-09-22 15:00:18] [[31merror[39m] username: 17965 logged in failed due to wrong credentials information

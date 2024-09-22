@@ -15,19 +15,18 @@ import { json } from 'express';
 
 
 
-const changePassword = async (req, res) => {
+const getStudentList = async (req, res) => {
     const authHeader = req.headers['authorization'];
     const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
-    const inputHashedPassword = req.body.password;
 
 
-    const user = jwt.decode(accessToken); // Decode the token to extract the user information
-    const userName = user ? user.username : null;
-    if (!userName) return res.status(401).send('Cannot identify the username');
+    // const user = jwt.decode(accessToken); // Decode the token to extract the user information
+    // const userName = user ? user.username : null;
+    // if (!userName) return res.status(401).send('Cannot identify the username');
 
     
 
-    pool.query(queries.changePasswordByUserName, [userName, inputHashedPassword], (error, results) => {
+    pool.query(queries.getStudentList, [userName, inputHashedPassword], (error, results) => {
         if (error) {
             res.status(500).json([]);
             logger.error();
@@ -41,4 +40,4 @@ const changePassword = async (req, res) => {
 }
 
 
-export default { changePassword };
+export default { getStudentList };
