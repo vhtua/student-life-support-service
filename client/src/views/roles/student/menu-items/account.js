@@ -1,9 +1,9 @@
 // assets
-import { IconUserCircle, IconSettings, IconKey, IconUserEdit } from '@tabler/icons-react';
+import { IconUserCircle, IconSettings, IconKey, IconUserEdit, IconLogout } from '@tabler/icons-react';
 // import { children } from 'public/landing/vendor/bootstrap-5.3.3/js/dist/dom/selector-engine';
 
 // constant
-const icons = { IconUserCircle, IconSettings, IconKey, IconUserEdit };
+const icons = { IconUserCircle, IconSettings, IconKey, IconUserEdit, IconLogout };
 
 // ==============================|| ACCOUNT MENU ITEMS ||============================== //
 
@@ -37,7 +37,15 @@ const account = {
           // target: true
         }
       ]
-    }
+    },
+    {
+      id: 'logout',
+      title: 'Logout',
+      type: 'item',
+      url: '/logout',
+      icon: icons.IconLogout,
+      breadcrumbs: true
+    },
   ]
 };
 

@@ -60,58 +60,47 @@ const StudentRoutes = {
     },
 
     {
-      path: 'utils',
+      path: 'tickets',
       children: [
         {
-          path: 'util-typography',
+          path: 'my-tickets',
           element: <UtilsTypography />
-        }
+        },
+        {
+          path: 'create-ticket',
+          element: <UtilsTypography />
+        },
+        
       ]
     },
     {
-      path: 'utils',
+      path: 'newsfeeds',
       children: [
         {
-          path: 'util-color',
+          path: 'newsfeeds',
           element: <UtilsColor />
         }
       ]
     },
     {
-      path: 'utils',
+      path: 'notification',
       children: [
         {
-          path: 'util-shadow',
+          path: 'notification',
           element: <UtilsShadow />
         }
       ]
     },
-    // {
-    //   path: 'icons',
-    //   children: [
-    //     {
-    //       path: 'tabler-icons',
-    //       element: <UtilsTablerIcons />
-    //     }
-    //   ]
-    // },
-    // {
-    //   path: 'icons',
-    //   children: [
-    //     {
-    //       path: 'material-icons',
-    //       element: <UtilsMaterialIcons />
-    //     }
-    //   ]
-    // },
     {
-      path: 'sample-page',
-      element: <SamplePage />
+      path: 'announcement',
+      children: [
+        {
+          path: 'announcement',
+          element: <UtilsShadow />
+        }
+      ]
     },
-    {
-      path: 'logout',
-      element: <Logout/>
-    }
+
   ]
 };
 
