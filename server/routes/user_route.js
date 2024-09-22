@@ -9,7 +9,8 @@ const userRouter = Router();
 
 userRouter.get("/", authenticateToken([constants.adminRoleName]), userController.getUsersList);
 userRouter.get("/:username", authenticateToken(constants.allRoleName), userController.getUserByUserName);
-userRouter.patch("/change-password", authenticateToken(constants.allRoleName), userController.changePassword);
+userRouter.patch("/password", authenticateToken(constants.allRoleName), userController.changePassword);
+userRouter.patch("/profile", authenticateToken(constants.allRoleName), userController.editProfile);
 
 
 

@@ -3,7 +3,8 @@ SELECT username, fullname, email, r.role_name as role_name, gender, created_date
 FROM  "User" AS u 
     INNER JOIN "Role" AS r ON u.role_id = r.id
     INNER JOIN "Dorm" AS d ON u.dorm_id = d.id
-WHERE role_name <> 'Admin';`;
+WHERE role_name <> 'Admin';
+`;
 
 
 const getUserByUserName = `
@@ -14,14 +15,22 @@ FROM  "User" AS u
     INNER JOIN "Dorm" AS d ON u.dorm_id = d.id
 WHERE
     username = $1 AND
-    role_name <> 'Admin';`;
+    role_name <> 'Admin';
+`;
 
 
 const changePasswordByUserName = `
 UPDATE "User"
 SET password = $2
-WHERE username = $1;`;
+WHERE username = $1;
+`;
 
 
+const changePhoneNumberByUserName = `
+UPDATE "User"
+SET phone_number = $2
+WHERE username = $1;
+`;
 
-export default { getUsersList, getUserByUserName, changePasswordByUserName }; 
+
+export default { getUsersList, getUserByUserName, changePasswordByUserName, changePhoneNumberByUserName }; 

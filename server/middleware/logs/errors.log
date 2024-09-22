@@ -41,3 +41,13 @@
 [2024-09-21 01:03:33] [[31merror[39m] username: 17965 logged in failed due to wrong credentials information
 [2024-09-21 01:03:34] [[31merror[39m] username: 17965 logged in failed due to wrong credentials information
 [2024-09-21 01:03:34] [[31merror[39m] username: 17965 logged in failed due to wrong credentials information
+[2024-09-21 16:13:04] [[31merror[39m] username: 17965 logged in failed due to wrong credentials information
+[2024-09-21 17:05:10] [[31merror[39m] username: 17965 logged in failed due to wrong credentials information
+[2024-09-22 00:00:28] [[31merror[39m] error: null value in column "phone_number" of relation "User" violates not-null constraint
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async editProfile (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/user_ctl.js:115:9)
+[2024-09-22 00:02:12] [[31merror[39m] error: null value in column "phone_number" of relation "User" violates not-null constraint
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async editProfile (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/user_ctl.js:117:9)

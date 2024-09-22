@@ -99,5 +99,30 @@ const changePassword = async (req, res) => {
 };
 
 
+const editProfile = async (req, res) => {
+    try {
+        const authHeader = req.headers['authorization'];
+        const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
 
-export default { getUsersList, getUserByUserName, changePassword };
+        // Decode the token to extract user information
+        const user = jwt.decode(accessToken);
+        const userName = user ? user.username : null;
+        if (!userName) return res.status(401).json({message: 'Cannot identify the username'});
+        
+        const newPhoneNumber  = req.body.newPhoneNumber;
+
+        await pool.query(queries.changePhoneNumberByUserName, [userName, newPhoneNumber]);
+
+        logger.info(`username: ${userName} changed the phone number`);
+
+        return res.status(200).json({ message: 'Your phone number was changed successfully' });
+
+    } catch (error) {
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
+
+export default { getUsersList, getUserByUserName, changePassword, editProfile };

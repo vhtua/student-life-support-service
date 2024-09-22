@@ -18,7 +18,7 @@ const saltRounds = Number(process.env.SALT_ROUNDS) || 10;
  */
 async function hashPassword(userInputPassword) {
     try {
-        console.log(saltRounds);
+        // console.log(saltRounds);
         const salt = await bcrypt.genSalt(saltRounds);
         const hash = await bcrypt.hash(userInputPassword, salt);
         return hash; // Return the hashed password
