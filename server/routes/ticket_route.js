@@ -10,6 +10,7 @@ const ticketRouter = Router();
 
 ticketRouter.get("/", authenticateToken([constants.adminRoleName]), ticketController.getTicketsList);
 ticketRouter.get("/ticket-type", authenticateToken(constants.allRoleName), ticketController.getTicketTypeList);
+ticketRouter.get("/public-ticket", authenticateToken(constants.allRoleName), ticketController.getPublicTicketDetails);
 ticketRouter.get("/audience-type", authenticateToken(constants.allRoleName), ticketController.getTicketAudienceTypeList);
 ticketRouter.get("/attachments/:attachment_name", ticketController.getAttachments);
 ticketRouter.get("/rating/:ticket_id", authenticateToken(constants.allRoleName), ticketController.getRating);

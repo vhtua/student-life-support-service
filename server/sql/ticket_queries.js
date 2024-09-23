@@ -20,6 +20,8 @@ WHERE
 const getTicketDetails = `
 SELECT 
 	t.id AS ticket_id,
+	u.username AS username,
+	u.fullname AS fullname,
 	t.created_date AS created_date, 
 	t.ended_date AS ended_date,
 	tt.ticket_type_name AS ticket_type_name,
@@ -27,7 +29,9 @@ SELECT
 	t.content AS details,
 	at.audience_type_name AS audience_type, 
 	m.id AS message_id,
-	ts.status_name AS status
+	ts.status_name AS status,
+	d.area as dorm_area,
+	d.room as dorm_room
 
 FROM "Ticket" AS t 
 	INNER JOIN "User_Ticket" AS ut ON t.id = ut.ticket_id
@@ -37,6 +41,7 @@ FROM "Ticket" AS t
 	INNER JOIN "Audience_Type" AS at ON t.audience_type_id = at.id
 	-- INNER JOIN "Attachment" AS a ON t.id = a.ticket_id
 	INNER JOIN "Message" AS m ON t.id = m.ticket_id
+	INNER JOIN "Dorm" AS d ON u.dorm_id = d.id
 WHERE 
 	username = $1 AND
 	t.id = $2;
@@ -119,6 +124,38 @@ WHERE ticket_id = $1;
 `;
 
 
+const getPublicTicketDetails = `
+SELECT 
+	t.id AS ticket_id,
+	u.username AS username,
+	u.fullname AS fullname,
+	t.created_date AS created_date, 
+	t.ended_date AS ended_date,
+	tt.ticket_type_name AS ticket_type_name,
+	t.subject AS subject,
+	t.content AS details,
+	at.audience_type_name AS audience_type, 
+	-- m.id AS message_id,
+	ts.status_name AS status,
+	d.area as dorm_area,
+	d.room as dorm_room
+
+FROM "Ticket" AS t 
+	INNER JOIN "User_Ticket" AS ut ON t.id = ut.ticket_id
+	INNER JOIN "User" AS u ON ut.user_id = u.id
+	INNER JOIN "Ticket_Type" AS tt ON t.ticket_type_id = tt.id
+	INNER JOIN "Ticket_Status" AS ts ON t.ticket_status_id = ts.id
+	INNER JOIN "Audience_Type" AS at ON t.audience_type_id = at.id
+	-- INNER JOIN "Attachment" AS a ON t.id = a.ticket_id
+	INNER JOIN "Message" AS m ON t.id = m.ticket_id
+	INNER JOIN "Dorm" AS d ON u.dorm_id = d.id
+WHERE 
+	audience_type_name = 'public' AND
+	ts.status_name = 'pending' OR ts.status_name = 'in progress'
+	ORDER BY t.created_date DESC;
+`;
+
+
 export default { 
 	getTicketsList, 
 	getTicketDetails, 
@@ -130,5 +167,6 @@ export default {
 	insertIntoMessage,
 	insertIntoAttachment,
 	rateTicket,
-	getRating
+	getRating,
+	getPublicTicketDetails
 }; 

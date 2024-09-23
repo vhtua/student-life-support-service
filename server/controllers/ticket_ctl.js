@@ -271,4 +271,29 @@ const getRating = async (req, res) => {
 }
 
 
-export default { getTicketsList, getTicketDetails, getTicketTypeList, getTicketAudienceTypeList, createTicket, getAttachments, rateTicket, getRating };
+const getPublicTicketDetails = async (req, res) => {
+    try {
+        // const ticketId = req.params.ticket_id;
+
+        const { rows } = await pool.query(ticketQueries.getPublicTicketDetails);
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'Tickets not found' });
+        }
+
+        // For each ticket_id, get attachments
+        for (let i = 0; i < rows.length; i++) {
+            const attachments  = await pool.query(ticketQueries.getAttachmentsByTicketId, [rows[i].ticket_id]);
+            rows[i].attachments = attachments.rows;
+        }
+
+
+        return res.status(200).json( rows );
+    } catch (error) {
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+}
+
+
+
+export default { getTicketsList, getTicketDetails, getTicketTypeList, getTicketAudienceTypeList, createTicket, getAttachments, rateTicket, getRating, getPublicTicketDetails };
