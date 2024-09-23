@@ -129,7 +129,7 @@ const TicketRateCard = ({ onTicketCardUpdate }) => {
                     useEffect(() => {
                         const fetchRating = async () => {
                             try {
-                                const response = await axiosInstance.get(`${context.apiEndpoint.ticketApi.rootApi}/rating/${row.original.ticket_id}`);
+                                const response = await axiosInstance.get(`/api/v1/rating/${row.original.ticket_id}`);
                                 setRatingScore(response.data.rating_score);
                             } catch (error) {
                                 console.error('Error fetching rating score:', error);
@@ -185,7 +185,7 @@ const TicketRateCard = ({ onTicketCardUpdate }) => {
 
     const handleSubmit = async () => {
         try {
-            const apiUrl = `${context.apiEndpoint.ticketApi.rootApi}/rating`;
+            const apiUrl = `/api/v1/rating`;
             await axiosInstance.post(apiUrl, {
                 ticket_id: selectedTicketId,
                 rating: rating,

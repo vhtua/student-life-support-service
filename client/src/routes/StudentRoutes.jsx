@@ -103,6 +103,10 @@ const StudentRoutes = {
       path: 'announcement',
       element: <UtilsShadow />
     },
+    {
+      path: 'feedback',
+      element: <UtilsShadow />
+    },
 
   ]
 };

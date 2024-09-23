@@ -24,7 +24,7 @@ import PublicTicketCard from './utilities/PublicTicketCard';
 
 
 
-const Newsfeed = () => {
+const Notification = () => {
   const [ticketCardUpdate, setTicketCardUpdate] = useState(false);
   const [ticketData, setTicketData] = useState([]);
 
@@ -96,4 +96,4 @@ const Newsfeed = () => {
   );
 }
 
-export default Newsfeed;
+export default Notification;
