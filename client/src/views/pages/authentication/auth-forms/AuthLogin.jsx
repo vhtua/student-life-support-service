@@ -83,11 +83,13 @@ const AuthLogin = ({ ...others }) => {
             if (response.status === 200 && response.data.accessToken) {
               const accessToken = response.data.accessToken;
 
+              console.log(response.data);
+
               // Store the access token in localStorage
               localStorage.setItem('accessToken', accessToken);
               localStorage.setItem('username', response.data.username);
               localStorage.setItem('roleName', response.data.role_name);
-              localStorage.setItem('fullName', response.data.fullName);
+              localStorage.setItem('fullName', response.data.fullname);
 
               // Optionally store user information in Redux
               dispatch(setUser({ username: values.email, role_name: response.data.role_name }));

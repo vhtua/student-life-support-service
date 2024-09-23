@@ -93,30 +93,15 @@ const StudentRoutes = {
     },
     {
       path: 'newsfeed',
-      children: [
-        {
-          path: 'newsfeed',
-          element: <UtilsColor />
-        }
-      ]
+      element: <Newsfeed/>
     },
     {
       path: 'notification',
-      children: [
-        {
-          path: 'notification',
-          element: <UtilsShadow />
-        }
-      ]
+      element: <UtilsShadow />
     },
     {
       path: 'announcement',
-      children: [
-        {
-          path: 'announcement',
-          element: <UtilsShadow />
-        }
-      ]
+      element: <UtilsShadow />
     },
 
   ]

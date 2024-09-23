@@ -5,6 +5,10 @@ import axios from 'axios';
 import { DropzoneArea } from 'mui-file-dropzone';
 import { IconTicket } from '@tabler/icons-react';
 
+// For alert
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // project imports
 import axiosInstance from 'api/axiosInstance';
 
@@ -78,10 +82,15 @@ const CreateTicketCard = () => {
                     },
                 });
 
-                alert('Ticket created successfully');
+                // alert('Ticket created successfully');
+                toast.success('Ticket created successfully');
+
+                // Clear form fields
+                formik.resetForm();
             } catch (error) {
                 console.error('Error creating ticket', error);
-                alert('Failed to create ticket');
+                // alert('Failed to create ticket');
+                toast.error('Failed to create the ticket');
             }
         },
     });
@@ -220,6 +229,18 @@ const CreateTicketCard = () => {
                     </Grid>
                 </Grid>
             </form>
+
+                <ToastContainer 
+                  position="bottom-right" 
+                  autoClose={5000} 
+                  hideProgressBar={false} 
+                  newestOnTop={false} 
+                  closeOnClick 
+                  rtl={false} 
+                  pauseOnFocusLoss 
+                  draggable 
+                  pauseOnHover 
+                />
         </Box>
     );
 };

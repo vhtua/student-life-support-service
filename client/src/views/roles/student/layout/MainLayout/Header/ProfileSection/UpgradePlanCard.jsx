@@ -60,7 +60,7 @@ const UpgradePlanCard = () => {
               <Link sx={{ textDecoration: 'none' }} href="/student/tickets/create-ticket" target="_self">
                 <AnimateButton>
                   <Button variant="contained" color="warning" sx={{ boxShadow: 'none' }}>
-                    Raise Ticket
+                    Raise a ticket
                   </Button>
                 </AnimateButton>
               </Link>

@@ -102,9 +102,9 @@ const Dashboard = () => {
           </Grid>
 
 
-          <Grid item lg={4} md={12} sm={12} xs={12} >
+          {/* <Grid item lg={4} md={12} sm={12} xs={12} >
             <HowToUse isLoading={isLoading} />
-          </Grid>
+          </Grid> */}
           
           <Grid item lg={4} md={12} sm={12} xs={12} >
             <UpgradePlanCard isLoading={isLoading} />
@@ -123,9 +123,9 @@ const Dashboard = () => {
               />
           </Grid> */}
           
-          <Grid item xs={12} md={12}>
+          {/* <Grid item xs={12} md={12}>
             <TicketsTable isLoading={isLoading} />
-          </Grid>
+          </Grid> */}
           
 
 

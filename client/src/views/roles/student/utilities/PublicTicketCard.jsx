@@ -1,42 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, Typography, Box, IconButton, Link, Dialog, DialogContent, DialogTitle, Divider } from '@mui/material';
 import { IconEye, IconMessage, IconPlayerPlay, IconX, IconPaperclip, IconAnalyze, IconClockEdit, IconClockStop, IconBuilding, IconUser } from '@tabler/icons-react';
 import Chip from '@mui/material/Chip';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import axiosInstance from 'api/axiosInstance';
-import context from 'context';
-
-const TicketCard = ({ ticketCardUpdate }) => {
+const PublicTicketCard = ({ data }) => {
     const [open, setOpen] = useState(false);
     const [selectedAttachment, setSelectedAttachment] = useState(null);
-    const [ticketData, setTicketData] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const userName = localStorage.getItem('username');
-        const ticketIdSelected = localStorage.getItem('ticketIdSelected');
-
-        if (!ticketIdSelected) {
-            setLoading(false);
-            return;
-        }
-
-        const apiUrl = context.apiEndpoint.ticketApi.rootApi + "/" + userName + "/" + ticketIdSelected;
-
-        axiosInstance.get(apiUrl)
-            .then(response => {
-                setTicketData(response.data);
-                setLoading(false);
-                console.log('Ticket data:', response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching ticket data:', error);
-                setTicketData("error");
-                setLoading(false);
-            });
-    }, [ticketCardUpdate]);
 
     const handleOpen = (attachment) => {
         setSelectedAttachment(attachment);
@@ -48,34 +19,7 @@ const TicketCard = ({ ticketCardUpdate }) => {
         setSelectedAttachment(null);
     };
 
-    if (loading) {
-        return <Typography>Loading...</Typography>;
-    }
-
-    if (ticketData === "error") {
-        return (
-            <Card sx={{ maxWidth: 600, height: 400, boxShadow: 3, borderRadius: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <CardContent>
-                    <Typography variant="h2" align="center">
-                        Something happened while fetching the ticket #{localStorage.getItem('ticketIdSelected')} data
-                    </Typography>
-                </CardContent>
-                <ToastContainer
-                    position="bottom-right"
-                    autoClose={5000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                />
-            </Card>
-        );
-    }
-
-    if (!ticketData) {
+    if (!data) {
         return (
             <Card sx={{ maxWidth: 600, height: 400, boxShadow: 3, borderRadius: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <CardContent>
@@ -98,14 +42,7 @@ const TicketCard = ({ ticketCardUpdate }) => {
         );
     }
 
-    // Sample URLs for attachments
-    // const attachments = [
-    //     { type: 'image', url: 'https://picsum.photos/200/300' },
-    //     { type: 'image', url: 'https://picsum.photos/1080/900' },
-    //     { type: 'video', url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4' },
-    // ];
-
-    const { ticket_id, username, fullname, created_date, ended_date, ticket_type_name, subject, details, audience_type, message_id, status, dorm_area, dorm_room, attachments } = ticketData;
+    const { ticket_id, username, fullname, created_date, ended_date, ticket_type_name, subject, details, audience_type, message_id, status, dorm_area, dorm_room, attachments } = data;
 
     return (
         <Card sx={{ maxWidth: 600, boxShadow: 3, borderRadius: 2 }}>
@@ -114,10 +51,12 @@ const TicketCard = ({ ticketCardUpdate }) => {
                     <Typography variant="h2" component="div" fontWeight="bold">
                         Ticket #{ticket_id}
                     </Typography>
+
                     <Divider sx={{ my: 1 }} />
                     <Typography variant="h3" fontWeight="bold" sx={{ mb: 3 }}>
                         {subject}
                     </Typography>
+                    
 
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, textAlign: 'left' }}>
                         <IconButton color="primary" sx={{ padding: 0 }}>
@@ -146,7 +85,6 @@ const TicketCard = ({ ticketCardUpdate }) => {
                         </Typography>
                     </Box>
 
-
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, textAlign: 'left' }}>
                         <IconButton color="primary" sx={{ padding: 0 }}>
                             <IconBuilding />
@@ -155,9 +93,6 @@ const TicketCard = ({ ticketCardUpdate }) => {
                             Dorm: {dorm_area ? `${dorm_area} - ${dorm_room}` : 'N/A'}
                         </Typography>
                     </Box>
-
-
-                    
                 </Box>
 
                 <Box sx={{ mb: 2, textAlign: 'left' }}>
@@ -165,11 +100,6 @@ const TicketCard = ({ ticketCardUpdate }) => {
                         Ticket Type:
                         <Chip label={ticket_type_name} color="primary" sx={{ marginLeft: '5px' }} />
                     </Typography>
-
-                    {/* <Typography variant="body1" fontWeight="bold" sx={{ mt: 1 }}>
-                        Subject: {subject}
-                    </Typography> */}
-                    
 
                     <Divider sx={{ my: 1 }}>
                         <Chip label="Details" size="small" />
@@ -190,7 +120,7 @@ const TicketCard = ({ ticketCardUpdate }) => {
                     </Typography>
                 </Box>
 
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, textAlign: 'left' }}>
+                {/* <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, textAlign: 'left' }}>
                     <IconButton color="primary" sx={{ padding: 0 }}>
                         <IconMessage />
                     </IconButton>
@@ -200,7 +130,7 @@ const TicketCard = ({ ticketCardUpdate }) => {
                             #{message_id}
                         </Link>
                     </Typography>
-                </Box>
+                </Box> */}
 
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, textAlign: 'left' }}>
                     <IconButton color="primary" sx={{ padding: 0 }}>
@@ -327,4 +257,4 @@ const TicketCard = ({ ticketCardUpdate }) => {
     );
 };
 
-export default TicketCard;
+export default PublicTicketCard;
