@@ -14,13 +14,12 @@ import {
 
 import { Visibility } from '@mui/icons-material';
 
-
 import axiosInstance from 'api/axiosInstance';
 import context from 'context';
 
 // ==============================|| Tickets List Card ||============================== //
 
-const TicketsListCard = ( {onTicketCardUpdate} ) => {
+const TicketsListCard = ({ onTicketCardUpdate }) => {
   const [data, setData] = useState([]);
 
   // Fetch data from API
@@ -28,7 +27,7 @@ const TicketsListCard = ( {onTicketCardUpdate} ) => {
     const fetchTickets = async () => {
       try {
         const username = localStorage.getItem('username');
-        const apiUrl = context.apiEndpoint.ticketApi.rootApi + "/" + username
+        const apiUrl = context.apiEndpoint.ticketApi.rootApi + "/" + username;
 
         const response = await axiosInstance.get(apiUrl);
         setData(response.data);
@@ -74,9 +73,9 @@ const TicketsListCard = ( {onTicketCardUpdate} ) => {
               backgroundColor:
                 cell.getValue() === 'cancelled'
                   ? theme.palette.error.dark // "#f5821f" cancelled - red
-                  : cell.getValue() === 'pending' 
+                  : cell.getValue() === 'pending'
                     ? theme.palette.warning.dark  // pending - yellow
-                    : cell.getValue() === 'in progress' 
+                    : cell.getValue() === 'in progress'
                       ? theme.palette.info.dark     // in progress - blue 
                       : theme.palette.success.dark, // done - green
               borderRadius: '0.6rem',
@@ -129,7 +128,7 @@ const TicketsListCard = ( {onTicketCardUpdate} ) => {
               localStorage.setItem('ticketIdSelected', row.original.ticket_id);
 
               onTicketCardUpdate(); // Notify parent component to refresh TicketCard
-              
+
             }}
           >
             <Visibility />
@@ -146,9 +145,9 @@ const TicketsListCard = ( {onTicketCardUpdate} ) => {
 
   return (
     <Box>
-      <Typography variant="h2" component="h2" sx={{ mb: 2 }}>
+      {/* <Typography variant="h2" component="h2" sx={{ mb: 2 }}>
         Ticket List
-      </Typography>
+      </Typography> */}
 
       <MaterialReactTable table={table} />
     </Box>

@@ -58,7 +58,9 @@ const SearchSection = () => {
 
   return (
     <>
-      <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+      {/* Disable the search function in mobile edition */}
+
+      {/* <Box sx={{ display: { xs: 'block', md: 'none' } }}>
         <OutlinedInput
           ref={inputRef} // Attach the ref to the search box
           id="input-search-header"
@@ -83,9 +85,9 @@ const SearchSection = () => {
           inputProps={{ 'aria-label': 'search', sx: { bgcolor: 'transparent', pl: 0.5 } }}
           sx={{ width: '100%', ml: 0.5, px: 2, bgcolor: 'background.paper' }}
         />
-        {/* Render the autocomplete suggestions */}
+
         <AutoComplete value={value} handleSelect={handleSelect} inputRef={inputRef} />
-      </Box>
+      </Box> */}
 
       <Box sx={{ display: { xs: 'none', md: 'block' } }}>
         <OutlinedInput

@@ -1,5 +1,5 @@
 // assets
-import { IconTypography, IconPalette, IconShadow, IconWindmill, IconTicket, IconBell, IconCalendarClock, IconCirclePlus, IconListSearch, IconNews, IconMessage } from '@tabler/icons-react';
+import { IconTypography, IconPalette, IconShadow, IconWindmill, IconTicket, IconBell, IconCalendarClock, IconCirclePlus, IconListSearch, IconNews, IconMessage, IconThumbUp } from '@tabler/icons-react';
 
 // constant
 const icons = {
@@ -13,7 +13,8 @@ const icons = {
   IconCirclePlus,
   IconListSearch,
   IconNews,
-  IconMessage
+  IconMessage,
+  IconThumbUp
 };
 
 // ==============================|| UTILITIES MENU ITEMS ||============================== //
@@ -70,6 +71,14 @@ const utilities = {
           icon: icons.IconCirclePlus,
           // target: true
         },
+        {
+          id: 'rate-ticket',
+          title: 'Rate tickets',
+          type: 'item',
+          url: '/student/tickets/rate-ticket',
+          icon: icons.IconThumbUp,
+          // target: true
+        },
         
       ]
     },
@@ -82,10 +91,10 @@ const utilities = {
       // target: true
     },
     {
-      id: 'newfeeds',
-      title: 'Newsfeeds',
+      id: 'newfeed',
+      title: 'Newsfeed',
       type: 'item',
-      url: '/student/newsfeeds',
+      url: '/student/newsfeed',
       icon: icons.IconNews,
       breadcrumbs: true
     },

@@ -99,13 +99,13 @@ const TicketCard = ({ ticketCardUpdate }) => {
     }
 
     // Sample URLs for attachments
-    const attachments = [
-        { type: 'image', url: 'https://picsum.photos/200/300' },
-        { type: 'image', url: 'https://picsum.photos/1080/900' },
-        { type: 'video', url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4' },
-    ];
+    // const attachments = [
+    //     { type: 'image', url: 'https://picsum.photos/200/300' },
+    //     { type: 'image', url: 'https://picsum.photos/1080/900' },
+    //     { type: 'video', url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4' },
+    // ];
 
-    const { ticket_id, created_date, ended_date, ticket_type_name, subject, details, audience_type, message_id, status } = ticketData;
+    const { ticket_id, created_date, ended_date, ticket_type_name, subject, details, audience_type, message_id, status, attachments } = ticketData;
 
     return (
         <Card sx={{ maxWidth: 600, boxShadow: 3, borderRadius: 2 }}>
@@ -214,7 +214,7 @@ const TicketCard = ({ ticketCardUpdate }) => {
                                 }}
                                 onClick={() => handleOpen(attachment)}
                             >
-                                {attachment.type === 'image' ? (
+                                {attachment.type.includes('image') ? (
                                     <img
                                         src={attachment.url}
                                         alt={`attachment-${index}`}
@@ -272,13 +272,13 @@ const TicketCard = ({ ticketCardUpdate }) => {
                     </IconButton>
                 </DialogTitle>
                 <DialogContent sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    {selectedAttachment && selectedAttachment.type === 'image' ? (
+                    {selectedAttachment && selectedAttachment.type.includes('image') ? (
                         <img
                             src={selectedAttachment.url}
                             alt="attachment"
                             style={{ maxWidth: '100%', height: 'auto', borderRadius: 8 }}
                         />
-                    ) : selectedAttachment && selectedAttachment.type === 'video' ? (
+                    ) : selectedAttachment && selectedAttachment.type.includes('video') ? (
                         <video controls style={{ width: '100%', height: 'auto', borderRadius: 8 }}>
                             <source src={selectedAttachment.url} type="video/mp4" />
                             Your browser does not support the video tag.

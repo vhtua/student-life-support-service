@@ -10,6 +10,9 @@ const StudentProfile = Loadable(lazy(() => import('views/roles/student/StudentPr
 const EditProfile = Loadable(lazy(() => import('views/roles/student/EditProfile')));
 const ChangePassword = Loadable(lazy(() => import('views/roles/student/ChangePassword')));
 const MyTickets = Loadable(lazy(() => import('views/roles/student/MyTickets')));
+const CreateTicket = Loadable(lazy(() => import('views/roles/student/CreateTicket')));
+const RateTicket = Loadable(lazy(() => import('views/roles/student/RateTicket')));
+const Newsfeed = Loadable(lazy(() => import('views/roles/student/Newsfeed')));
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/roles/student/utilities/Typography')));
@@ -24,7 +27,7 @@ const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 import ProtectedRoutes from 'utils/ProtectedRoutes';
 import { element } from 'prop-types';
 
-// ==============================|| MAIN ROUTING ||============================== //
+// ==============================|| STUDENTS ROUTING ||============================== //
 
 const StudentRoutes = {
   path: '/student/',
@@ -69,8 +72,13 @@ const StudentRoutes = {
         },
         {
           path: 'create-ticket',
-          element: <UtilsTypography />
+          element: <CreateTicket />
         },
+        {
+          path: 'rate-ticket',
+          element: <RateTicket />
+        },
+        
         
       ]
     },
@@ -84,10 +92,10 @@ const StudentRoutes = {
       ]
     },
     {
-      path: 'newsfeeds',
+      path: 'newsfeed',
       children: [
         {
-          path: 'newsfeeds',
+          path: 'newsfeed',
           element: <UtilsColor />
         }
       ]
