@@ -13,6 +13,8 @@ import passwordTool from "../utils/password_tools.js";
 // Logger
 import logger from '../middleware/logger.js';
 import { json } from 'express';
+import fs from 'fs';
+import path from 'path';
 
 
 dotenv.config();
@@ -22,154 +24,57 @@ const ACCESS_TOKEN_EXPIRED_IN = String(process.env.EXPIRED_BEARER_ACCESS_TOKEN_T
 const REFRESH_TOKEN_EXPIRED_IN = Number(process.env.EXPIRED_BEARER_REFRESH_TOKEN_TIME);
 
 
-
-const getTicketsList = async (req, res) => {
+const getAttachments = async (req, res) => {
     try {
-        const authHeader = req.headers['authorization'];
-        const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
+        // Get the attachment name from the request parameter
+        const attachmentName = req.params.attachment_name;
+        const filePath = path.resolve(`./uploads/${attachmentName}`);
 
-        const userNameParam = req.params.username;
-
-        // Decode the token to extract user information
-        const user = jwt.decode(accessToken);
-        const userName = user ? user.username : null;
-        if (!userName) return res.status(401).json({message: 'Cannot identify the username'});
-
-        if (userNameParam !== userName) return res.status(403).json({message: 'Unauthorized access'});
-
-        // Retrieve data from the database
-        const { rows } = await pool.query(ticketQueries.getTicketsList, [userName]);
-        if (rows.length === 0) {
-            return res.status(404).json({ message: 'User not found' });
+        // Check if the file exists
+        if (!fs.existsSync(filePath)) {
+            return res.status(404).json({ message: 'File not found' });
         }
 
-       
-        return res.status(200).json( rows );
+        // Get the file stat
+        const stat = fs.statSync(filePath);
 
+        // Determine the content type based on the file extension
+        const ext = path.extname(filePath).toLowerCase();
+        let contentType = 'application/octet-stream'; // Default content type
+
+        switch (ext) {
+            case '.mp4':
+                contentType = 'video/mp4';
+                break;
+            case '.jpg':
+            case '.jpeg':
+                contentType = 'image/jpeg';
+                break;
+            case '.png':
+                contentType = 'image/png';
+                break;
+            case '.gif':
+                contentType = 'image/gif';
+                break;
+            // Add more cases as needed for other file types
+        }
+
+        // Set headers to stream the file
+        res.writeHead(200, {
+            'Content-Type': contentType,
+            'Content-Length': stat.size,
+            'Content-Disposition': 'inline'
+        });
+
+        // Create a read stream and pipe it to the response
+        const readStream = fs.createReadStream(filePath);
+        readStream.pipe(res);
     } catch (error) {
-        logger.error(error);
+        console.error(error);
         return res.status(500).json({ message: 'Server error' });
     }
 };
 
 
 
-
-const getTicketDetails = async (req, res) => {
-    try {
-        const authHeader = req.headers['authorization'];
-        const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
-
-        const userNameParam = req.params.username;
-
-
-        // Decode the token to extract user information
-        const user = jwt.decode(accessToken);
-        const userName = user ? user.username : null;
-        if (!userName) return res.status(401).json({message: 'Cannot identify the username'});
-
-        if (userNameParam !== userName) return res.status(403).json({message: 'Unauthorized access'});
-
-
-        const ticketId = req.params.ticket_id;
-
-
-        const { rows } = await pool.query(ticketQueries.getTicketDetails, [userName, ticketId]);
-        if (rows.length === 0) {
-            return res.status(404).json({ message: 'Ticket not found' });
-        }
-
-        // Get attachments
-        const attachments  = await pool.query(ticketQueries.getAttachmentsByTicketId, [ticketId]);
-        // Add the attachment as an object of the rows
-        rows[0].attachments = attachments.rows
-
-    
-        return res.status(200).json( rows[0] );
-    } catch (error) {
-        logger.error(error);
-        return res.status(500).json({ message: 'Server error' });
-    }
-};
-
-
-const getTicketTypeList = async (req, res) => {
-    try {
-        const { rows } = await pool.query(ticketQueries.getTicketTypeList);
-        if (rows.length === 0) {
-            return res.status(404).json({ message: 'Ticket not found' });
-        }
-
-        return res.status(200).json( rows );
-    } catch (error) {
-        logger.error(error);
-        return res.status(500).json({ message: 'Server error' });
-    }
-};
-
-
-const getTicketAudienceTypeList = async (req, res) => {
-    try {
-        const { rows } = await pool.query(ticketQueries.getTicketAudienceTypeList);
-        if (rows.length === 0) {
-            return res.status(404).json({ message: 'Ticket not found' });
-        }
-
-        return res.status(200).json( rows );
-    } catch (error) {
-        logger.error(error);
-        return res.status(500).json({ message: 'Server  error' });
-    }
-};
-
-
-const createTicket = async (req, res) => {
-    try {
-      const authHeader = req.headers['authorization'];
-      const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
-  
-      // Decode the token to extract user information
-      const user = jwt.decode(accessToken);
-      const userName = user ? user.username : null;
-      const userId = user ? user.userId : null;
-      if (!userName) return res.status(401).json({ message: 'Cannot identify the username' });
-        
-        
-
-      const createdDate = req.body.created_date;
-      const ticketTypeId = req.body.ticket_type_id;
-      const subject = req.body.subject;
-      const content = req.body.content;
-      const audienceTypeId = req.body.audience_type_id;
-      const ticketStatusId = req.body.ticket_status_id;
-  
-      await pool.query('BEGIN');
-  
-      const result = await pool.query(ticketQueries.insertIntoTicket, [createdDate, ticketTypeId, subject, content, audienceTypeId, ticketStatusId]);
-  
-      const ticketId = result.rows[0].ticket_id;
-      await pool.query(ticketQueries.insertIntoUserTicket, [userId, ticketId]);
-  
-      // Handle attachments
-      const attachments = req.files;
-      if (attachments && attachments.length > 0) {
-        for (const file of attachments) {
-          const attachmentType = file.mimetype;
-          const attachmentName = file.originalname;
-          const url = file.path; // You might want to adjust this to a public URL if needed
-          console.log
-          await pool.query(ticketQueries.insertIntoAttachment, [attachmentType, attachmentName, url, ticketId, createdDate]);
-        }
-      }
-  
-      await pool.query('COMMIT');
-      return res.status(200).json({ message: 'Successfully creating the ticket' });
-    } catch (error) {
-      console.error(error);
-      await pool.query('ROLLBACK');
-      return res.status(500).json({ message: 'Server error' });
-    }
-};
-
-
-export default { getTicketsList, getTicketDetails, getTicketTypeList, getTicketAudienceTypeList, createTicket };
+export default { getAttachments };

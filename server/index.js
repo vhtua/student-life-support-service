@@ -15,7 +15,8 @@ import authRoutes from './routes/auth_route.js'
 import userRoutes from './routes/user_route.js'
 import studentRoutes from './routes/student_route.js';
 import ticketRoutes from './routes/ticket_route.js';
-// import attachmentRoutes from './routes/attachment_route.js';
+import attachmentRoutes from './routes/attachment_route.js';
+import ratingRoutes from './routes/rating_routes.js';
 
 // Import samples
 import books from './utils/books.js';
@@ -35,10 +36,11 @@ app.use(cors(WebConfig.corsOptions));
 
 // ==============================|| Routes ||============================== //
 // Support GET, POST, PUT (update all attr), PATCH (update some parts), DELETE
-app.use("/auth", authRoutes);
-app.use("/api/v1/users", userRoutes);
-app.use("/api/v1/tickets", ticketRoutes);
-// app.use("/api/v1/attachments", attachmentRoutes);
+app.use("/auth", authRoutes);                     // 5 apis: login, logout, refresh, verify, verify refresh token
+app.use("/api/v1/users", userRoutes);             // 5 apis
+app.use("/api/v1/tickets", ticketRoutes);         // 7 apis
+app.use("/api/v1/attachments", attachmentRoutes); // 1 api
+app.use("/api/v1/rating", ratingRoutes);          // 2 apis
 
 // app.use("/api/v1/student", studentRoutes);
 // app.use("/api/v1/announcement", ticketRoutes);

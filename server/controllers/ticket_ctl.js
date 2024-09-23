@@ -160,7 +160,7 @@ const createTicket = async (req, res) => {
         for (const file of attachments) {
           const attachmentType = file.mimetype;
           const attachmentName = file.originalname;
-          const url = "http://localhost:3000/api/v1/tickets/attachments/" + file.originalname;
+          const url = "http://localhost:3000/api/v1/attachments/" + file.originalname;
           console.log
           await pool.query(ticketQueries.insertIntoAttachment, [attachmentType, attachmentName, url, ticketId, createdDate]);
         }
