@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Card, CardContent, Typography, Box, IconButton, Link, Dialog, DialogContent, DialogTitle, Divider } from '@mui/material';
 import { IconEye, IconMessage, IconPlayerPlay, IconX, IconPaperclip, IconAnalyze, IconClockEdit, IconClockStop } from '@tabler/icons-react';
 import Chip from '@mui/material/Chip';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 
 import axiosInstance from 'api/axiosInstance';
 import context from 'context';
 
-
-const TicketCard = ( {ticketCardUpdate} ) => {
+const TicketCard = ({ ticketCardUpdate }) => {
     const [open, setOpen] = useState(false);
     const [selectedAttachment, setSelectedAttachment] = useState(null);
     const [ticketData, setTicketData] = useState(null);
@@ -30,11 +27,9 @@ const TicketCard = ( {ticketCardUpdate} ) => {
 
         axiosInstance.get(apiUrl)
             .then(response => {
-                // toast.success('Ticket data fetched successfully.')
                 setTicketData(response.data);
                 setLoading(false);
                 console.log('Ticket data:', response.data);
-                
             })
             .catch(error => {
                 console.error('Error fetching ticket data:', error);
@@ -57,57 +52,53 @@ const TicketCard = ( {ticketCardUpdate} ) => {
         return <Typography>Loading...</Typography>;
     }
 
-
-
     if (ticketData === "error") {
         return (
             <Card sx={{ maxWidth: 600, height: 400, boxShadow: 3, borderRadius: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <CardContent>
-                <Typography variant="h2" align="center">
-                Something happened while fetching the ticket #{localStorage.getItem('ticketIdSelected')} data
-                </Typography>
-            </CardContent>
-            {/* Toastify */}
-            <ToastContainer
-                position="bottom-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-            />
+                <CardContent>
+                    <Typography variant="h2" align="center">
+                        Something happened while fetching the ticket #{localStorage.getItem('ticketIdSelected')} data
+                    </Typography>
+                </CardContent>
+                <ToastContainer
+                    position="bottom-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
             </Card>
         );
     }
-
 
     if (!ticketData) {
         return (
             <Card sx={{ maxWidth: 600, height: 400, boxShadow: 3, borderRadius: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <CardContent>
-                <Typography variant="h2" align="center">
-                View a ticket in the ticket list to see the details
-                </Typography>
-            </CardContent>
-            <ToastContainer
-                position="bottom-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-            />
+                <CardContent>
+                    <Typography variant="h2" align="center">
+                        View a ticket in the ticket list to see the details
+                    </Typography>
+                </CardContent>
+                <ToastContainer
+                    position="bottom-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
             </Card>
         );
     }
 
-      // Sample URLs for attachments
+    // Sample URLs for attachments
     const attachments = [
         { type: 'image', url: 'https://picsum.photos/200/300' },
         { type: 'image', url: 'https://picsum.photos/1080/900' },
@@ -130,7 +121,7 @@ const TicketCard = ( {ticketCardUpdate} ) => {
                             <IconClockEdit />
                         </IconButton>
                         <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
-                            Created Date: {created_date}
+                            Created Date: {new Date(created_date).toLocaleString()}
                         </Typography>
                     </Box>
 
@@ -139,7 +130,7 @@ const TicketCard = ( {ticketCardUpdate} ) => {
                             <IconClockStop />
                         </IconButton>
                         <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
-                            Ended Date: {ended_date || 'N/A'}
+                            Ended Date: {ended_date ? new Date(ended_date).toLocaleString() : 'N/A'}
                         </Typography>
                     </Box>
                 </Box>
@@ -158,7 +149,7 @@ const TicketCard = ( {ticketCardUpdate} ) => {
                         <Chip label="Details" size="small" />
                     </Divider>
 
-                    <Typography variant="body2" color="text.primary" sx={{ mt: 1 }}>
+                    <Typography variant="body2" color="text.primary" sx={{ mt: 1, whiteSpace: 'pre-line' }}>
                         {details}
                     </Typography>
                     <Divider sx={{ mt: 4 }} />

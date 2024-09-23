@@ -13,7 +13,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import AuthWrapper1 from '../../AuthWrapper1';
 import AuthCardWrapper from '../../AuthCardWrapper';
 import AuthLogin from './AuthLogin';
-import Logo from 'views/roles/student/ui-component/Logo';
 import LoginLogo from 'views/roles/student/ui-component/LoginLogo';
 import AuthFooter from 'views/roles/student/ui-component/cards/AuthFooter';
 
@@ -23,25 +22,16 @@ import validateUserRole from 'views/utilities/validateUserRole';
 
 const Login = () => {
   // Get authentication status from Redux or localStorage
-  // const isAuthenticated = localStorage.getItem('accessToken');
-
-  // // If user is already authenticated, redirect to dashboard
-  // if (isAuthenticated) {
-  //   return <Navigate to="/dashboard" replace />;
-  // }
-
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated) || localStorage.getItem('accessToken');
   const roleName = isAuthenticated ? localStorage.getItem('roleName') : null;
 
-  const baseRootUrl = validateUserRole.navigateRouteByUserRole(roleName)
-
-  if (isAuthenticated) {
-    // console.log(roleName);
-    return <Navigate to={baseRootUrl} replace />;
-  }
-
+  const baseRootUrl = validateUserRole.navigateRouteByUserRole(roleName);
 
   const downMD = useMediaQuery((theme) => theme.breakpoints.down('md'));
+
+  if (isAuthenticated) {
+    return <Navigate to={baseRootUrl} replace />;
+  }
 
   return (
     <AuthWrapper1>
@@ -70,7 +60,6 @@ const Login = () => {
                       </Grid>
                     </Grid>
                   </Grid>
-                  
                   <Grid item xs={12}>
                     <AuthLogin />
                   </Grid>
