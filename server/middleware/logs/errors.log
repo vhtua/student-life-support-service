@@ -56,3 +56,38 @@
     at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
     at async getTicketDetails (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:77:26)
+[2024-09-23 19:34:21] [[31merror[39m] TypeError: Client was passed a null or undefined query
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getTicketDetails (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:83:39)
+[2024-09-23 19:34:29] [[31merror[39m] TypeError: Client was passed a null or undefined query
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getTicketDetails (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:83:33)
+[2024-09-23 19:43:13] [[31merror[39m] error: bind message supplies 1 parameters, but prepared statement "" requires 0
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getTicketDetails (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:83:30)
+[2024-09-23 20:38:48] [[31merror[39m] error: cannot insert multiple commands into a prepared statement
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async createTicket (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:146:24)
+[2024-09-23 20:39:35] [[31merror[39m] error: cannot insert multiple commands into a prepared statement
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async createTicket (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:146:24)
+[2024-09-23 20:43:33] [[31merror[39m] error: syntax error at or near "RETURNING"
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async createTicket (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:144:24)
+[2024-09-23 20:47:13] [[31merror[39m] ReferenceError: ticketId is not defined
+    at createTicket (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:147:18)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2024-09-23 20:47:25] [[31merror[39m] error: insert or update on table "User_Ticket" violates foreign key constraint "User_Ticket_user_id_fkey"
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async createTicket (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:148:9)
+[2024-09-23 20:49:56] [[31merror[39m] error: null value in column "user_id" of relation "User_Ticket" violates not-null constraint
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async createTicket (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:150:9)

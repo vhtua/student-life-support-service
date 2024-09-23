@@ -13,8 +13,6 @@ import passwordTool from "../utils/password_tools.js";
 // Logger
 import logger from '../middleware/logger.js';
 import { json } from 'express';
-import fs from 'fs';
-import path from 'path';
 
 
 dotenv.config();
@@ -151,8 +149,6 @@ const createTicket = async (req, res) => {
   
       const ticketId = result.rows[0].ticket_id;
       await pool.query(ticketQueries.insertIntoUserTicket, [userId, ticketId]);
-
-      await pool.query(ticketQueries.insertIntoMessage, [ticketId, userId, createdDate]);
   
       // Handle attachments
       const attachments = req.files;
@@ -160,7 +156,7 @@ const createTicket = async (req, res) => {
         for (const file of attachments) {
           const attachmentType = file.mimetype;
           const attachmentName = file.originalname;
-          const url = "http://localhost:3000/api/v1/tickets/attachments/" + file.originalname;
+          const url = file.path; // You might want to adjust this to a public URL if needed
           console.log
           await pool.query(ticketQueries.insertIntoAttachment, [attachmentType, attachmentName, url, ticketId, createdDate]);
         }
@@ -176,99 +172,4 @@ const createTicket = async (req, res) => {
 };
 
 
-const getAttachments = async (req, res) => {
-    try {
-        // Get the attachment name from the request parameter
-        const attachmentName = req.params.attachment_name;
-        const filePath = path.resolve(`./uploads/${attachmentName}`);
-
-        // Check if the file exists
-        if (!fs.existsSync(filePath)) {
-            return res.status(404).json({ message: 'File not found' });
-        }
-
-        // Get the file stat
-        const stat = fs.statSync(filePath);
-
-        // Determine the content type based on the file extension
-        const ext = path.extname(filePath).toLowerCase();
-        let contentType = 'application/octet-stream'; // Default content type
-
-        switch (ext) {
-            case '.mp4':
-                contentType = 'video/mp4';
-                break;
-            case '.jpg':
-            case '.jpeg':
-                contentType = 'image/jpeg';
-                break;
-            case '.png':
-                contentType = 'image/png';
-                break;
-            case '.gif':
-                contentType = 'image/gif';
-                break;
-            // Add more cases as needed for other file types
-        }
-
-        // Set headers to stream the file
-        res.writeHead(200, {
-            'Content-Type': contentType,
-            'Content-Length': stat.size,
-            'Content-Disposition': 'inline'
-        });
-
-        // Create a read stream and pipe it to the response
-        const readStream = fs.createReadStream(filePath);
-        readStream.pipe(res);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Server error' });
-    }
-};
-
-
-const rateTicket = async (req, res) => {
-    try {
-        const authHeader = req.headers['authorization'];
-        const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
-
-        // Decode the token to extract user information
-        const user = jwt.decode(accessToken);
-        const userName = user ? user.username : null;
-        if (!userName) return res.status(401).json({ message: 'Cannot identify the username' });
-
-        console.log(req.body);
-
-        const ticketId = req.body.ticket_id;
-        const rating = req.body.rating;
-        const created_date = req.body.created_date;
-
-        await pool.query(ticketQueries.rateTicket, [ticketId, rating, created_date]);
-
-        return res.status(200).json({ message: 'Successfully rating the ticket' });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Server error' });
-    }
-}
-
-
-const getRating = async (req, res) => {
-    try {
-        const ticketId = req.params.ticket_id;
-
-        const { rows } = await pool.query(ticketQueries.getRating, [ticketId]);
-        if (rows.length === 0) {
-            return res.status(404).json({ message: 'Ticket not found' });
-        }
-
-        return res.status(200).json( rows[0] );
-    } catch (error) {
-        logger.error(error);
-        return res.status(500).json({ message: 'Server error' });
-    }
-}
-
-
-export default { getTicketsList, getTicketDetails, getTicketTypeList, getTicketAudienceTypeList, createTicket, getAttachments, rateTicket, getRating };
+export default { getTicketsList, getTicketDetails, getTicketTypeList, getTicketAudienceTypeList, createTicket };

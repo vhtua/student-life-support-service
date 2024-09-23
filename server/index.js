@@ -15,6 +15,7 @@ import authRoutes from './routes/auth_route.js'
 import userRoutes from './routes/user_route.js'
 import studentRoutes from './routes/student_route.js';
 import ticketRoutes from './routes/ticket_route.js';
+// import attachmentRoutes from './routes/attachment_route.js';
 
 // Import samples
 import books from './utils/books.js';
@@ -28,6 +29,8 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser()); // Enable cookie parsing
 app.use(cors(WebConfig.corsOptions));
+
+
 
 
 // ==============================|| Routes ||============================== //
