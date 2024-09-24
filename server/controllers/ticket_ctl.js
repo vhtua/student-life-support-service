@@ -295,5 +295,54 @@ const getPublicTicketDetails = async (req, res) => {
 }
 
 
+const getPendingTicketDetails = async (req, res) => {
+    try {
+        const { rows } = await pool.query(ticketQueries.getPendingTicketDetails);
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'Tickets not found' });
+        }
 
-export default { getTicketsList, getTicketDetails, getTicketTypeList, getTicketAudienceTypeList, createTicket, getAttachments, rateTicket, getRating, getPublicTicketDetails };
+        return res.status(200).json( rows );
+    } catch (error) {
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+}
+
+
+const getPendingTicketDetailsByTicketId = async (req, res) => {
+    try {
+        const ticketId = req.params.ticket_id;
+
+        const { rows } = await pool.query(ticketQueries.getPendingTicketDetailsByTicketId, [ticketId]);
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'Ticket not found' });
+        }
+
+        // Get attachments
+        const attachments  = await pool.query(ticketQueries.getAttachmentsByTicketId, [ticketId]);
+        // Add the attachment as an object of the rows
+        rows[0].attachments = attachments.rows
+
+        return res.status(200).json( rows[0] );
+    } catch (error) {
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+}
+
+
+
+export default { 
+    getTicketsList, 
+    getTicketDetails, 
+    getTicketTypeList, 
+    getTicketAudienceTypeList, 
+    createTicket, 
+    getAttachments, 
+    rateTicket, 
+    getRating, 
+    getPublicTicketDetails,
+    getPendingTicketDetails,
+    getPendingTicketDetailsByTicketId
+};

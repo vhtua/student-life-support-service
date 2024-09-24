@@ -11,9 +11,12 @@ const ticketRouter = Router();
 ticketRouter.get("/", authenticateToken([constants.adminRoleName]), ticketController.getTicketsList);
 ticketRouter.get("/ticket-type", authenticateToken(constants.allRoleName), ticketController.getTicketTypeList);
 ticketRouter.get("/public-ticket", authenticateToken(constants.allRoleName), ticketController.getPublicTicketDetails);
+ticketRouter.get("/pending-ticket", authenticateToken([constants.staffRoleName, constants.adminRoleName]), ticketController.getPendingTicketDetails);
+ticketRouter.get("/pending-ticket/:ticket_id", authenticateToken([constants.staffRoleName, constants.adminRoleName]), ticketController.getPendingTicketDetailsByTicketId);
 ticketRouter.get("/audience-type", authenticateToken(constants.allRoleName), ticketController.getTicketAudienceTypeList);
 ticketRouter.get("/:username", authenticateToken([constants.studentRoleName, constants.staffRoleName]), ticketController.getTicketsList);
 ticketRouter.get("/:username/:ticket_id", authenticateToken([constants.studentRoleName, constants.staffRoleName]), ticketController.getTicketDetails);
+
 ticketRouter.post("/", authenticateToken([constants.studentRoleName]), upload.array('attachments', 10), ticketController.createTicket);
 
 

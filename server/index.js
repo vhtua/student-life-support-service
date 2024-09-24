@@ -51,8 +51,6 @@ app.use("/api/v1/messages", messageRoutes);
 app.use("/api/v1/notification", notificationRoutes); 
 app.use("/api/v1/announcement", announcementRoutes);        
 app.use("/api/v1/feedback", feedbackRoutes);        
-// app.use("/api/v1/student", studentRoutes);
-// app.use("/api/v1/announcement", ticketRoutes);
 
 
 

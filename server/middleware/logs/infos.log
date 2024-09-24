@@ -1427,3 +1427,81 @@
 [2024-09-24 22:07:33] [[32minfo[39m] username: 10001 logged into the system
 [2024-09-24 22:46:50] [[32minfo[39m] username: 17965 is trying to log in
 [2024-09-24 22:46:50] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-24 23:07:05] [[32minfo[39m] Server running on port 3000
+[2024-09-24 23:42:07] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-24 23:42:07] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-24 23:42:27] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-24 23:42:28] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-24 23:42:44] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-24 23:42:44] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-24 23:43:13] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-24 23:43:14] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-24 23:45:05] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-24 23:45:06] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-24 23:46:03] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-24 23:46:03] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-24 23:47:19] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-24 23:47:20] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-24 23:48:30] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-24 23:48:31] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-24 23:49:35] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-24 23:49:36] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-24 23:50:32] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-24 23:50:33] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-24 23:51:51] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-24 23:51:51] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-24 23:52:23] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-24 23:52:23] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-24 23:53:43] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-24 23:53:43] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-24 23:53:50] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-24 23:53:50] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-24 23:55:17] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-24 23:55:17] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-24 23:55:43] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-24 23:55:43] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-24 23:55:51] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-24 23:55:51] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-24 23:57:36] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-24 23:57:36] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-24 23:57:46] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-24 23:57:47] [[31merror[39m] username: 10001 logged in failed due to wrong credentials information
+[2024-09-24 23:57:49] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-24 23:57:49] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-24 23:58:14] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-24 23:58:14] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-24 23:59:55] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-24 23:59:55] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-25 00:00:15] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-25 00:00:16] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-25 00:04:26] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-25 00:04:26] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-25 00:07:22] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-25 00:07:22] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-25 00:07:31] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-25 00:07:32] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-25 00:12:21] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-25 00:12:21] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-25 00:24:51] [[32minfo[39m] username: 17965 changed the phone number
+[2024-09-25 00:55:36] [[32minfo[39m] Server running on port 3000
+[2024-09-25 00:57:40] [[32minfo[39m] Server running on port 3000
+[2024-09-25 00:58:32] [[32minfo[39m] Server running on port 3000
+[2024-09-25 00:59:18] [[32minfo[39m] Server running on port 3000
+[2024-09-25 00:59:28] [[32minfo[39m] Server running on port 3000
+[2024-09-25 01:02:01] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-25 01:02:01] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-25 01:02:20] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-25 01:02:21] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-25 01:09:37] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-25 01:09:37] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-25 01:09:45] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-25 01:09:45] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-25 01:11:32] [[32minfo[39m] Server running on port 3000
+[2024-09-25 01:13:29] [[32minfo[39m] Server running on port 3000
+[2024-09-25 01:13:57] [[32minfo[39m] Server running on port 3000
+[2024-09-25 02:45:39] [[32minfo[39m] Server running on port 3000
+[2024-09-25 02:46:21] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-25 02:46:21] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-25 02:49:57] [[32minfo[39m] Server running on port 3000
+[2024-09-25 02:52:15] [[32minfo[39m] Server running on port 3000
+[2024-09-25 02:52:19] [[32minfo[39m] Server running on port 3000
