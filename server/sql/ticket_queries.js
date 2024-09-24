@@ -125,7 +125,8 @@ WHERE ticket_id = $1;
 
 
 const getPublicTicketDetails = `
-SELECT 
+SELECT
+	DISTINCT
 	t.id AS ticket_id,
 	u.username AS username,
 	u.fullname AS fullname,
@@ -147,7 +148,7 @@ FROM "Ticket" AS t
 	INNER JOIN "Ticket_Status" AS ts ON t.ticket_status_id = ts.id
 	INNER JOIN "Audience_Type" AS at ON t.audience_type_id = at.id
 	-- INNER JOIN "Attachment" AS a ON t.id = a.ticket_id
-	INNER JOIN "Message" AS m ON t.id = m.ticket_id
+	-- INNER JOIN "Message" AS m ON t.id = m.ticket_id
 	INNER JOIN "Dorm" AS d ON u.dorm_id = d.id
 WHERE 
 	audience_type_name = 'public' AND
