@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 // project imports
 import MainLayout from 'views/roles/student/layout/MainLayout';
@@ -13,6 +14,7 @@ const MyTickets = Loadable(lazy(() => import('views/roles/student/MyTickets')));
 const CreateTicket = Loadable(lazy(() => import('views/roles/student/CreateTicket')));
 const RateTicket = Loadable(lazy(() => import('views/roles/student/RateTicket')));
 const Newsfeed = Loadable(lazy(() => import('views/roles/student/Newsfeed')));
+const Message = Loadable(lazy(() => import('views/roles/student/Message')));
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/roles/student/utilities/Typography')));
@@ -20,12 +22,18 @@ const UtilsColor = Loadable(lazy(() => import('views/roles/student/utilities/Col
 const UtilsShadow = Loadable(lazy(() => import('views/roles/student/utilities/Shadow')));
 const Logout = Loadable(lazy(() => import('views/utilities/Logout')));
 
-
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 
 import ProtectedRoutes from 'utils/ProtectedRoutes';
 import { element } from 'prop-types';
+
+// Component to handle passing conversation_id to Message component
+const MessageWrapper = () => {
+  const [searchParams] = useSearchParams();
+  const conversationId = searchParams.get('conversation_id');
+  return <Message conversation_id={conversationId} />;
+};
 
 // ==============================|| STUDENTS ROUTING ||============================== //
 
@@ -39,30 +47,25 @@ const StudentRoutes = {
   children: [
     {
       path: 'homepage',
-      element: (
-          <DashboardDefault />
-      )
+      element: <DashboardDefault />
     },
     {
       path: 'profile',
       element: <StudentProfile />
     },
-
     {
       path: 'settings',
       children: [
         {
           path: 'edit-profile',
-          element: <EditProfile/>
+          element: <EditProfile />
         },
         {
           path: 'change-password',
-          element: <ChangePassword/>
+          element: <ChangePassword />
         }
-
       ]
     },
-
     {
       path: 'tickets',
       children: [
@@ -77,23 +80,16 @@ const StudentRoutes = {
         {
           path: 'rate-ticket',
           element: <RateTicket />
-        },
-        
-        
-      ]
-    },
-    {
-      path: 'message',
-      children: [
-        {
-          path: 'message',
-          element: <UtilsColor />
         }
       ]
     },
     {
+      path: 'message',
+      element: <MessageWrapper />
+    },
+    {
       path: 'newsfeed',
-      element: <Newsfeed/>
+      element: <Newsfeed />
     },
     {
       path: 'notification',
@@ -106,8 +102,7 @@ const StudentRoutes = {
     {
       path: 'feedback',
       element: <UtilsShadow />
-    },
-
+    }
   ]
 };
 

@@ -196,8 +196,8 @@ const TicketCard = ({ ticketCardUpdate }) => {
                     </IconButton>
                     <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
                         Message:
-                        <Link href={`/message/${message_id}`} sx={{ ml: 1, color: 'primary.main' }}>
-                            #{message_id}
+                        <Link href={`http://localhost:3210/student/message?conversation_id=${ticket_id}`} sx={{ ml: 1, color: 'primary.main' }}>
+                            #{ticket_id}
                         </Link>
                     </Typography>
                 </Box>

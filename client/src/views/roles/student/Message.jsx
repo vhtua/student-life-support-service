@@ -24,7 +24,7 @@ import MessageCard from './utilities/MessageCard';
 
 
 
-const Newsfeed = () => {
+const Message = ( {conversation_id} ) => {
   const [ticketCardUpdate, setTicketCardUpdate] = useState(false);
   const [ticketData, setTicketData] = useState([]);
 
@@ -48,8 +48,9 @@ const Newsfeed = () => {
     // <MainCard title="Ticket List">
       <Grid container spacing={gridSpacing}>
 
-        <Grid item xs={12} sm={12}>
-         {/* Refresh button */}
+        {/* Refresh button */}
+        {/* <Grid item xs={12} sm={12}>
+
          <Button
                 variant="contained"
                 color="success"
@@ -67,15 +68,22 @@ const Newsfeed = () => {
                 </Typography>
 
           </Button>
-        </Grid>
+        </Grid> */}
 
         
         {/* // Iterate the number of tickets in the ticketData array and create a PublicTicketCard for each ticket */}
-        {ticketData.map((ticket) => (
+        {/* {ticketData.map((ticket) => (
           <Grid item xs={12} sm={4}>
             <PublicTicketCard data={ticket} handleTicketCardUpdate={handleTicketCardUpdate} />
           </Grid>
-        ))}
+        ))} */}
+
+
+
+
+        <Grid item xs={12} sm={5}>
+          <MessageCard conversation_id={conversation_id}/>
+        </Grid>
 
 
       </Grid>
@@ -84,4 +92,4 @@ const Newsfeed = () => {
   );
 }
 
-export default Newsfeed;
+export default Message;
