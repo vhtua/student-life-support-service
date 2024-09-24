@@ -165,14 +165,14 @@ const NotificationSection = () => {
                         <Grid item>
                           <Stack direction="row" spacing={2}>
                             <Typography variant="subtitle1">All Notification</Typography>
-                            <Chip
+                            {/* <Chip
                               size="small"
                               label="01"
                               sx={{
                                 color: theme.palette.background.default,
                                 bgcolor: theme.palette.warning.dark
                               }}
-                            />
+                            /> */}
                           </Stack>
                         </Grid>
                         <Grid item>
@@ -182,6 +182,7 @@ const NotificationSection = () => {
                         </Grid>
                       </Grid>
                     </Grid>
+
                     <Grid item xs={12}>
                       <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 205px)', overflowX: 'hidden' }}>
                         <Grid container direction="column" spacing={2}>
@@ -212,7 +213,9 @@ const NotificationSection = () => {
                         <NotificationList />
                       </PerfectScrollbar>
                     </Grid>
+                    
                   </Grid>
+                  
                   <Divider />
                   <CardActions sx={{ p: 1.25, justifyContent: 'center' }}>
                     <Button size="small" disableElevation>

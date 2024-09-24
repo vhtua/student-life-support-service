@@ -15,6 +15,9 @@ const CreateTicket = Loadable(lazy(() => import('views/roles/student/CreateTicke
 const RateTicket = Loadable(lazy(() => import('views/roles/student/RateTicket')));
 const Newsfeed = Loadable(lazy(() => import('views/roles/student/Newsfeed')));
 const Message = Loadable(lazy(() => import('views/roles/student/Message')));
+const Notification = Loadable(lazy(() => import('views/roles/student/Notification')));
+const Announcement = Loadable(lazy(() => import('views/roles/student/Announcement')));
+const Feedback = Loadable(lazy(() => import('views/roles/student/Feedback')));
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/roles/student/utilities/Typography')));
@@ -93,15 +96,15 @@ const StudentRoutes = {
     },
     {
       path: 'notification',
-      element: <UtilsShadow />
+      element: <Notification />
     },
     {
       path: 'announcement',
-      element: <UtilsShadow />
+      element: <Announcement />
     },
     {
       path: 'feedback',
-      element: <UtilsShadow />
+      element: <Feedback />
     }
   ]
 };

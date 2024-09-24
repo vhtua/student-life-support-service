@@ -106,9 +106,9 @@ const Dashboard = () => {
             <HowToUse isLoading={isLoading} />
           </Grid> */}
           
-          <Grid item lg={4} md={12} sm={12} xs={12} >
+          {/* <Grid item lg={4} md={12} sm={12} xs={12} >
             <UpgradePlanCard isLoading={isLoading} />
-          </Grid>
+          </Grid> */}
 
 
 
