@@ -8,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import axiosInstance from 'api/axiosInstance';
 import context from 'context';
 
+import ReadMore from './ReadMore';
+
 const TicketCard = ({ ticketCardUpdate }) => {
     const [open, setOpen] = useState(false);
     const [selectedAttachment, setSelectedAttachment] = useState(null);
@@ -176,7 +178,9 @@ const TicketCard = ({ ticketCardUpdate }) => {
                     </Divider>
 
                     <Typography variant="body2" color="text.primary" sx={{ mt: 1, whiteSpace: 'pre-line' }}>
-                        {details}
+                        {/* {details} */}
+
+                        <ReadMore text={details} />
                     </Typography>
                     <Divider sx={{ mt: 4 }} />
                 </Box>

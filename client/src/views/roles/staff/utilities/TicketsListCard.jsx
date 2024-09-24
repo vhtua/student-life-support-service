@@ -27,9 +27,10 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
     const fetchTickets = async () => {
       try {
         const username = localStorage.getItem('username');
-        const apiUrl = context.apiEndpoint.ticketApi.rootApi + "/" + username;
+        const apiUrl = `/api/v1/tickets/pending-ticket`;
 
         const response = await axiosInstance.get(apiUrl);
+        console.log('Tickets:', response.data);
         setData(response.data);
       } catch (error) {
         console.error('Error fetching tickets:', error);
