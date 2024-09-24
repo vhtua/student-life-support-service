@@ -7,10 +7,10 @@ import Loadable from 'views/roles/staff/ui-component/Loadable';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/roles/staff/homepage')));
-const StudentProfile = Loadable(lazy(() => import('views/roles/staff/StudentProfile')));
+const Profile = Loadable(lazy(() => import('views/roles/staff/Profile')));
 const EditProfile = Loadable(lazy(() => import('views/roles/staff/EditProfile')));
 const ChangePassword = Loadable(lazy(() => import('views/roles/staff/ChangePassword')));
-const MyTickets = Loadable(lazy(() => import('views/roles/staff/MyTickets')));
+const MyTickets = Loadable(lazy(() => import('views/roles/staff/AvailableTickets')));
 const CreateTicket = Loadable(lazy(() => import('views/roles/staff/CreateTicket')));
 const RateTicket = Loadable(lazy(() => import('views/roles/staff/RateTicket')));
 const Newsfeed = Loadable(lazy(() => import('views/roles/staff/Newsfeed')));
@@ -28,7 +28,7 @@ const Feedback = Loadable(lazy(() => import('views/roles/staff/Feedback')));
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 
-import ProtectedRoutes from 'utils/ProtectedRoutes';
+import StaffProtectedRoutes from 'utils/StaffProtectedRoutes';
 import { element } from 'prop-types';
 
 // Component to handle passing conversation_id to Message component
@@ -40,32 +40,53 @@ const MessageWrapper = () => {
 
 // ==============================|| STUDENTS ROUTING ||============================== //
 
+
 const StaffRoutes = {
   path: '/staff/',
   element: (
-    <ProtectedRoutes>
+    <StaffProtectedRoutes>
       <MainLayout />
-    </ProtectedRoutes>
+    </StaffProtectedRoutes>
   ),
   children: [
     {
       path: 'homepage',
-      element: <DashboardDefault />
+      element: (
+        // <DashboardDefault />
+        <StaffProtectedRoutes>
+            <DashboardDefault />
+        </StaffProtectedRoutes>
+        )
     },
     {
       path: 'profile',
-      element: <StudentProfile />
+      element: (
+        // <Profile />
+        <StaffProtectedRoutes>
+          <Profile />
+        </StaffProtectedRoutes>
+      )
     },
     {
       path: 'settings',
       children: [
         {
           path: 'edit-profile',
-          element: <EditProfile />
+          element: (
+            // <EditProfile />
+            <StaffProtectedRoutes>
+              <EditProfile />
+            </StaffProtectedRoutes>
+          )
         },
         {
           path: 'change-password',
-          element: <ChangePassword />
+          element: (
+            // <ChangePassword />
+            <StaffProtectedRoutes>
+              <ChangePassword />
+            </StaffProtectedRoutes>
+          )
         }
       ]
     },
@@ -73,38 +94,73 @@ const StaffRoutes = {
       path: 'tickets',
       children: [
         {
-          path: 'my-tickets',
-          element: <MyTickets />
+          path: 'available-tickets',
+          element: (
+            // <MyTickets />
+            <StaffProtectedRoutes>
+              <MyTickets />
+            </StaffProtectedRoutes>
+          )
         },
         {
-          path: 'create-ticket',
-          element: <CreateTicket />
+          path: 'ticket-handling',
+          element: (
+            // <CreateTicket />
+            <StaffProtectedRoutes>
+              <CreateTicket /> 
+            </StaffProtectedRoutes>
+          )
         },
         {
           path: 'rate-ticket',
-          element: <RateTicket />
+          element: (
+            // <RateTicket />
+            <StaffProtectedRoutes>
+              <RateTicket />
+            </StaffProtectedRoutes>
+          )
         }
       ]
     },
     {
       path: 'message',
-      element: <MessageWrapper />
+      element: (
+        <StaffProtectedRoutes>
+          <MessageWrapper />
+        </StaffProtectedRoutes>
+      )
     },
     {
       path: 'newsfeed',
-      element: <Newsfeed />
+      element: (
+        <StaffProtectedRoutes>
+          <Newsfeed />
+        </StaffProtectedRoutes>
+      )
     },
     {
       path: 'notification',
-      element: <Notification />
+      element: (
+        <StaffProtectedRoutes>
+          <Notification />
+        </StaffProtectedRoutes>
+      )
     },
     {
       path: 'announcement',
-      element: <Announcement />
+      element: (<StaffProtectedRoutes>
+                    <Announcement />
+                </StaffProtectedRoutes>
+                )
     },
     {
       path: 'feedback',
-      element: <Feedback />
+      element: (
+                <StaffProtectedRoutes>
+                    <Feedback />
+                </StaffProtectedRoutes>
+                )
+                
     }
   ]
 };

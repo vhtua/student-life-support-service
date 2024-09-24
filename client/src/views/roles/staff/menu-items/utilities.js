@@ -1,5 +1,5 @@
 // assets
-import { IconTypography, IconPalette, IconShadow, IconWindmill, IconTicket, IconBell, IconCalendarClock, IconCirclePlus, IconListSearch, IconNews, IconMessage, IconThumbUp } from '@tabler/icons-react';
+import { IconTypography, IconPalette, IconShadow, IconWindmill, IconTicket, IconBell, IconCalendarClock, IconCirclePlus, IconListSearch, IconNews, IconMessage, IconThumbUp, IconHandFinger } from '@tabler/icons-react';
 
 // constant
 const icons = {
@@ -14,7 +14,8 @@ const icons = {
   IconListSearch,
   IconNews,
   IconMessage,
-  IconThumbUp
+  IconThumbUp,
+  IconHandFinger
 };
 
 // ==============================|| UTILITIES MENU ITEMS ||============================== //
@@ -31,19 +32,19 @@ const utilities = {
       icon: icons.IconTicket,
       children: [
         {
-          id: 'my-tickets',
-          title: 'My tickets',
+          id: 'available-tickets',
+          title: 'Available tickets',
           type: 'item',
-          url: '/staff/tickets/my-tickets',
+          url: '/staff/tickets/available-tickets',
           icon: icons.IconListSearch,
           // target: true
         },
         {
-          id: 'create-ticket',
-          title: 'Create a ticket',
+          id: 'ticket-handling',
+          title: 'Ticket Handling',
           type: 'item',
-          url: '/staff/tickets/create-ticket',
-          icon: icons.IconCirclePlus,
+          url: '/staff/tickets/ticket-handling',
+          icon: icons.IconHandFinger,
           // target: true
         },
         {
@@ -77,7 +78,7 @@ const utilities = {
       id: 'notification',
       title: 'Notification',
       type: 'item',
-      url: '/student/notification',
+      url: '/staff/notification',
       icon: icons.IconBell,
       breadcrumbs: true
     },

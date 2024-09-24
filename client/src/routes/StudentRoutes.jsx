@@ -50,22 +50,40 @@ const StudentRoutes = {
   children: [
     {
       path: 'homepage',
-      element: <DashboardDefault />
+      element: (
+        // <DashboardDefault />
+        <ProtectedRoutes role_name="Student">
+            <DashboardDefault />
+        </ProtectedRoutes>
+      )
     },
     {
       path: 'profile',
-      element: <StudentProfile />
+      element: (
+        // <Profile />
+        <ProtectedRoutes role_name="Student">
+          <StudentProfile />
+        </ProtectedRoutes>
+      )
     },
     {
       path: 'settings',
       children: [
         {
           path: 'edit-profile',
-          element: <EditProfile />
+          element: (
+            <ProtectedRoutes role_name="Student">
+              <EditProfile />
+            </ProtectedRoutes>
+          )
         },
         {
           path: 'change-password',
-          element: <ChangePassword />
+          element: (
+            <ProtectedRoutes role_name="Student">
+              <ChangePassword />
+            </ProtectedRoutes>
+          )
         }
       ]
     },
@@ -74,37 +92,69 @@ const StudentRoutes = {
       children: [
         {
           path: 'my-tickets',
-          element: <MyTickets />
+          element: (
+            <ProtectedRoutes role_name="Student">
+              <MyTickets />
+            </ProtectedRoutes>
+          )
         },
         {
           path: 'create-ticket',
-          element: <CreateTicket />
+          element: (
+            <ProtectedRoutes role_name="Student">
+              <CreateTicket />
+            </ProtectedRoutes>
+          )
         },
         {
           path: 'rate-ticket',
-          element: <RateTicket />
+          element: (
+            <ProtectedRoutes role_name="Student">
+              <RateTicket />
+            </ProtectedRoutes>
+          )
         }
       ]
     },
     {
       path: 'message',
-      element: <MessageWrapper />
+      element: (
+        <ProtectedRoutes role_name="Student">
+          <MessageWrapper />
+        </ProtectedRoutes>
+      )
     },
     {
       path: 'newsfeed',
-      element: <Newsfeed />
+      element: (
+        <ProtectedRoutes role_name="Student">
+          <Newsfeed />
+        </ProtectedRoutes>
+      )
     },
     {
       path: 'notification',
-      element: <Notification />
+      element: (
+        <ProtectedRoutes role_name="Student">
+          <Notification />
+        </ProtectedRoutes>
+      )
     },
     {
       path: 'announcement',
-      element: <Announcement />
+      element: (
+        <ProtectedRoutes role_name="Student">
+          <Announcement />
+        </ProtectedRoutes>
+      )
     },
     {
       path: 'feedback',
-      element: <Feedback />
+      element: (
+        <ProtectedRoutes role_name="Student">
+          <Feedback />
+        </ProtectedRoutes>
+      )
     }
   ]
 };

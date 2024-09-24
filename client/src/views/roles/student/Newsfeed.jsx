@@ -70,7 +70,7 @@ const Newsfeed = () => {
 
           </Button>
 
-          <Link href={`http://localhost:3210/student/ticket/create-ticket`} sx={{ ml: 1, color: 'primary.main' }}>
+          <Link href={`http://localhost:3210/student/tickets/create-ticket`} sx={{ ml: 1, color: 'primary.main' }}>
           <Button 
                 variant="contained"
                 color="warning"

@@ -8,7 +8,7 @@ import axiosInstance from '../api/axiosInstance';  // Import the Axios instance
 import context from "../context";
 import clearLocalStorage from './clear-storage';
 
-const ProtectedRoutes = ({ children, role_name }) => {
+const StaffProtectedRoutes = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem('accessToken');
@@ -22,11 +22,16 @@ const ProtectedRoutes = ({ children, role_name }) => {
                 // If the token is valid, allow access to the corresponding role's protected routes
                 if (response.status === 200 
                     && response.data.valid 
-                    && localStorage.getItem("roleName") === response.data.role_name 
-                    && role_name === response.data.role_name) {
+                    && localStorage.getItem("roleName") === response.data.role_name
+                    && response.data.role_name !== "Admin"
+                    && response.data.role_name !== "Student") {
+                    
                     setIsAuthenticated(true);
+
                 } else {
                     // If token is invalid, clear it from localStorage and set authentication to false
+                    console.log(role_name);
+                    console.log(typeof role_name);
                     console.log(response.data.role_name)
                     console.log("You are accessing the protected page");
                     clearLocalStorage();
@@ -49,7 +54,7 @@ const ProtectedRoutes = ({ children, role_name }) => {
             setLoading(false);
             setIsAuthenticated(false);
         }
-    }, [token, role_name]);
+    }, [token]);
 
     // While verifying the token, show a loading state
     if (loading) {
@@ -60,4 +65,4 @@ const ProtectedRoutes = ({ children, role_name }) => {
     return isAuthenticated ? children : <Navigate to="/login" replace />;
 };
 
-export default ProtectedRoutes;
+export default StaffProtectedRoutes;

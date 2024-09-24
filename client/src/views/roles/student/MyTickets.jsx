@@ -2,6 +2,16 @@ import React, { useEffect, useState } from 'react';
 
 // material-ui
 import Grid from '@mui/material/Grid';
+import {
+  Box,
+  IconButton,
+  Tooltip,
+  Typography,
+  Modal,
+  Button,
+  Link
+} from '@mui/material';
+import { IconReload, IconCirclePlus } from '@tabler/icons-react';
 
 // project imports
 import MainCard from 'views/roles/student/ui-component/cards/MainCard';
@@ -25,8 +35,25 @@ const MyTickets = () => {
   return (
     // <MainCard title="Ticket List">
       <Grid container spacing={gridSpacing}>
-        <Grid item xs={12} sm={8}>
-          {/* Pass profileUpdated to trigger refetch or rerender in ProfileCard */}
+      <Grid item xs={12} sm={12}>
+        {/* Refresh button */}
+        <Button
+        variant="contained"
+        color="success"
+        onClick={() => {
+          handleTicketCardUpdate(); // Toggle the state to trigger a re-render
+        }}
+        sx={{ mb: 2 }}
+        >
+        <IconReload />
+        <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
+          Refresh
+        </Typography>
+        </Button>
+      </Grid>
+
+      <Grid item xs={12} sm={8}>
+        {/* Pass profileUpdated to trigger refetch or rerender in ProfileCard */}
           <TicketsListCard onTicketCardUpdate={handleTicketCardUpdate} />
         </Grid>
 

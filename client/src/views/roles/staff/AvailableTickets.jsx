@@ -15,7 +15,7 @@ import TicketCard from './utilities/TicketCard';
 
 
 
-const MyTickets = () => {
+const AvailableTickets = () => {
   const [ticketCardUpdate, setTicketCardUpdate] = useState(false);
 
   const handleTicketCardUpdate = () => {
@@ -41,4 +41,4 @@ const MyTickets = () => {
   );
 }
 
-export default MyTickets;
+export default AvailableTickets;

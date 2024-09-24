@@ -87,15 +87,7 @@ export default function SchoolDetails() {
           <ListItemText primary="Program" secondary={schoolDetails?.program || 'N/A'} />
         </ListItem>
 
-        <ListItem>
-          <ListItemAvatar>
-            <Avatar>
-              <HistoryEduIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="Intake" secondary={schoolDetails?.intake || 'N/A'} />
-        </ListItem>
-
+      
         <ListItem>
           <ListItemAvatar>
             <Avatar>
