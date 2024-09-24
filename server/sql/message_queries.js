@@ -16,5 +16,11 @@ FROM "Message" AS m
 WHERE u.username = $1;
 `;
 
+const getMessagesAudience = `
+SELECT user_id
+FROM "User_Ticket"
+WHERE ticket_id = $1;
+`
 
-export default { getConversationId, getMessages }; 
+
+export default { getConversationId, getMessages, getMessagesAudience }; 

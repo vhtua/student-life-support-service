@@ -35,9 +35,21 @@ const getMessages = async (req, res) => {
         const userId = user ? user.userId : null;
         if (!userId) return res.status(401).json({message: 'Cannot identify the userId'});
 
+        
+
         // Check if the user is authorized to view the messages
-        // const senderId = Object.hasOwn(result.rows[0], 'sender_id') ? : null;
-        if (userId !=  result.rows[0].sender_id) return res.status(401).json({message: 'Cannot authorize the sender id'});
+        const messageAudience = await pool.query(messageQueries.getMessagesAudience, [ticket_id]);
+        [
+            { user_id: 1 },
+            { user_id: 2 }
+        ]
+        // check if the userId is in the message audience
+        const isAuthorized = messageAudience.rows.some(audience => audience.user_id == userId);
+        if (!isAuthorized) return res.status(401).json({message: 'Cannot authorize the user'});
+
+
+
+        // if (userId !=  result.rows[0].sender_id) return res.status(401).json({message: 'Cannot authorize the sender id'});
 
         // console.log(result.rows[0]);
 
