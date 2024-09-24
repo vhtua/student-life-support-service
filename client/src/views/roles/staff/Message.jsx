@@ -13,7 +13,7 @@ import {
 import { IconReload } from '@tabler/icons-react';
 
 // project imports
-import MainCard from 'views/roles/student/ui-component/cards/MainCard';
+import MainCard from 'views/roles/staff/ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 
 // Axios instance for API requests
@@ -43,6 +43,8 @@ const Message = ( {conversation_id} ) => {
         console.error(error);
       });
   }, [ticketCardUpdate]);
+
+  const userId = localStorage.getItem("userId")
 
   return (
     // <MainCard title="Ticket List">
@@ -80,9 +82,8 @@ const Message = ( {conversation_id} ) => {
 
 
 
-
         <Grid item xs={12} sm={9}>
-          <MessageCard conversation_id={conversation_id}/>
+          <MessageCard conversation_id={conversation_id} sender_id={userId}/>
         </Grid>
 
 

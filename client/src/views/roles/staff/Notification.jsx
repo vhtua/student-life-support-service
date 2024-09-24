@@ -20,43 +20,51 @@ import { gridSpacing } from 'store/constant';
 import axiosInstance from '../../../api/axiosInstance';  // Adjust the import path as needed
 
 import PublicTicketCard from './utilities/PublicTicketCard';
-import MessageCard from './utilities/MessageCard';
+import NotificationCard from './utilities/NotificationCard';
 
 
 
-const Message = ( {conversation_id} ) => {
-  const [ticketCardUpdate, setTicketCardUpdate] = useState(false);
-  const [ticketData, setTicketData] = useState([]);
+const Notification = () => {
+  const [notificationCardUpdate, setNotificationCardUpdate] = useState(false);
+  const [notificationData, setNotificationData] = useState([]);
 
-  const handleTicketCardUpdate = () => {
-    setTicketCardUpdate((prevState) => !prevState); // Toggle the state to trigger a re-render
+  const handleNotificationCardUpdate = () => {
+    setNotificationCardUpdate((prevState) => !prevState); // Toggle the state to trigger a re-render
   };
 
   // Using axios Instance to fetch data from this api endpoint http://localhost:3000/api/v1/tickets/public-ticket
   useEffect(() => {
-    axiosInstance.get('/api/v1/tickets/public-ticket')
+    axiosInstance.get('/api/v1/notification')
       .then((response) => {
         console.log(response.data);
-        setTicketData(response.data);
+        setNotificationData(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-  }, [ticketCardUpdate]);
+  }, [notificationCardUpdate]);
+
+
+  // Usage example
+  // const notification = {
+  //   title: "New Campus Cafeteria Opening on October 1st",
+  //   fullname: "Trần Văn Sinh",
+  //   created_date: "2024-09-21T07:15:13.000Z",
+  //   content: "Dear Resident,\r\nPlease be advised that maintenance work is scheduled in Dormitory Block A on September 25th, 2024, from 10:00 AM to 2:00 PM. Water and electricity will be temporarily unavailable during this time. We apologize for any inconvenience caused.\r\n\r\nBest regards,\r\nStudent Affairs Office"
+  // };
 
   return (
     // <MainCard title="Ticket List">
       <Grid container spacing={gridSpacing}>
 
-        {/* Refresh button */}
-        {/* <Grid item xs={12} sm={12}>
-
+        <Grid item xs={12} sm={12}>
+         {/* Refresh button */}
          <Button
                 variant="contained"
                 color="success"
                 onClick={() => {
-                  handleTicketCardUpdate(); // Toggle the state to trigger a re-render
-                  setTicketData([]); // Clear data 
+                  handleNotificationCardUpdate(); // Toggle the state to trigger a re-render
+                  setNotificationData([]); // Clear data 
                 }}
                 sx={{ mb: 2 }}
           >
@@ -68,7 +76,7 @@ const Message = ( {conversation_id} ) => {
                 </Typography>
 
           </Button>
-        </Grid> */}
+        </Grid>
 
         
         {/* // Iterate the number of tickets in the ticketData array and create a PublicTicketCard for each ticket */}
@@ -80,10 +88,17 @@ const Message = ( {conversation_id} ) => {
 
 
 
+        {/* <Grid item xs={12} sm={8}>
+          <NotificationCard notification={notification} />
+        </Grid> */}
 
-        <Grid item xs={12} sm={9}>
-          <MessageCard conversation_id={conversation_id}/>
-        </Grid>
+
+        {notificationData.map((eachNotification) => (
+          <Grid item xs={12} sm={12}>
+            <NotificationCard notification={eachNotification} handleNotificationCardUpdate={notificationCardUpdate} />
+          </Grid>
+        ))}
+
 
 
       </Grid>
@@ -92,4 +107,4 @@ const Message = ( {conversation_id} ) => {
   );
 }
 
-export default Message;
+export default Notification;

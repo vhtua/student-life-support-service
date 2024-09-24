@@ -8,7 +8,7 @@ import axiosInstance from '../api/axiosInstance';  // Import the Axios instance
 import context from "../context";
 import clearLocalStorage from './clear-storage';
 
-const ProtectedRoutes = ({ children, role_name }) => {
+const ProtectedRoutes = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem('accessToken');
@@ -19,11 +19,16 @@ const ProtectedRoutes = ({ children, role_name }) => {
                 // Send a request to verify the access token
                 const response = await axiosInstance.post(context.apiEndpoint.verifyRefreshTokenRoute, {}, { withCredentials: true });
 
-                // If the token is valid, allow access
-                if (response.status === 200 && response.data.valid && localStorage.getItem("roleName") === response.data.role_name && role_name === response.data.role_name) {
+                // If the token is valid, allow access to the corresponding role's protected routes
+                if (response.status === 200 
+                    && response.data.valid 
+                    && localStorage.getItem("roleName") === response.data.role_name) {
+                    
                     setIsAuthenticated(true);
+
                 } else {
                     // If token is invalid, clear it from localStorage and set authentication to false
+                    console.log(response.data.role_name)
                     console.log("You are accessing the protected page");
                     clearLocalStorage();
                     setIsAuthenticated(false);
@@ -45,7 +50,7 @@ const ProtectedRoutes = ({ children, role_name }) => {
             setLoading(false);
             setIsAuthenticated(false);
         }
-    }, [token, role_name]);
+    }, [token]);
 
     // While verifying the token, show a loading state
     if (loading) {

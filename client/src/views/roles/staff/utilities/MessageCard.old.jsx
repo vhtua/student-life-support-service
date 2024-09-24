@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import io from 'socket.io-client';
+import React, { useState, useEffect } from 'react';
+import io from 'socket.io-client';``
 import axios from 'axios';
 import { TextField, Button, List, ListItem, Box, Typography, MenuItem, IconButton, ListItemText, Grid  } from '@mui/material';
 import { styled } from '@mui/system';
@@ -31,25 +31,12 @@ const ChatBubble = styled(Box)(({ isUser }) => ({
     },
 }));
 
-function MessageCard( {conversation_id, sender_id} ) {
+function MessageCard() {
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState('');
-    const [allConversationId, setAllConversationID] = useState([]);
-    const [conversationId, setConversationId] = useState(!conversation_id ? 0 : conversation_id ); // Assuming one conversation
-    const [senderId, setSenderId] = useState(parseInt(localStorage.getItem('userId')) || 0); // Set senderId to the value of userId in localStorage or 0 if not found
-    const [senderFullName, setSenderFullName] = useState(localStorage.getItem('fullName')); // Hardcoded sender name for demo purposes
-
-    const chatBoxRef = useRef(null);
-
-    useEffect(() => {
-        // console.log('Conversation ID:', conversationId);
-        axiosInstance.get(`/api/v1/messages/conversation`)
-        .then(res => setAllConversationID(res.data))
-        .catch(err => {
-            console.error(err)
-            setAllConversationID([]);
-        });
-    }, [])
+    const [conversationId, setConversationId] = useState(3); // Assuming one conversation
+    const [senderId, setSenderId] = useState(1); // Hardcoded sender id for demo purposes
+    const [senderFullName, setSenderFullName] = useState('John Doe'); // Hardcoded sender name for demo purposes
 
     useEffect(() => {
         socket.emit('join_conversation', conversationId);
@@ -70,25 +57,27 @@ function MessageCard( {conversation_id, sender_id} ) {
         };
     }, [conversationId]);
 
-    useEffect(() => {
-        if (chatBoxRef.current) {
-            chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
-        }
-    }, [messages]);
-
     // Set the conversation id to the selected value in the drop down box
     const setConversation = (e) => {
         setConversationId(e.target.value);
-        // setSenderId(13);
         // console.log(e.target.value);
     };
+
+    // useEffect(() => {
+    //     axiosInstance.get(`/api/v1/users/${localStorage.getItem('username')}`)
+    //         .then(res => setSenderId(res.data.id))
+    //         .catch(err => console.error(err));
+
+        
+    // });
+
 
     const sendMessage = () => {
         if (message.trim()) {
             socket.emit('send_message', {
                 ticket_id: conversationId,
                 sender_id: senderId,
-                sender_fullName: senderFullName,
+                sender_fullname: senderFullName,
                 message_details: message,
             });
             setMessage('');
@@ -104,53 +93,49 @@ function MessageCard( {conversation_id, sender_id} ) {
             padding: '20px',
             backgroundColor: '#f5f5f5',
         }}>
+            {/* Chat Messages */}
+            
+            {/* Make a title for displaying chat id */}
+            {/* <Typography variant="h3" style={{ marginBottom: '10px', marginLeft: '10px' }}>
+                Ticket #{conversationId} conversation
+            </Typography> */}
+            {/* Add a Material Drop down box to select the conversation id */}
             <TextField
-                id="conversationId"
                 select
-                label="Select Ticket ID"
-                value={conversationId} // Ensure the value is set to conversationId state
+                label="Select Conversation ID"
+                value={conversationId}
                 onChange={setConversation}
                 variant="outlined"
                 style={{ marginBottom: '20px' }}
             >
-                {allConversationId.length === 0 ? (
-                    <MenuItem value={null}>
-                        No Conversation Found
-                    </MenuItem>
-                ) : (
-                    allConversationId
-                        .sort((a, b) => a.ticket_id - b.ticket_id) // Sort by ticket_id
-                        .map((conversation) => (
-                            <MenuItem key={conversation.ticket_id} value={conversation.ticket_id}>
-                                #{conversation.ticket_id}: {conversation.subject}
-                            </MenuItem>
-                        ))
-                )}
+                {/* use MenuItems */}
+                <MenuItem value={1}>#1</MenuItem>
+                <MenuItem value={2}>#2</MenuItem>
+                <MenuItem value={3}>#3</MenuItem>
+
             </TextField>
 
-            <List
-                ref={chatBoxRef}
-                style={{
-                    flexGrow: 1,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    overflowY: 'auto',
-                    padding: '10px',
-                    backgroundColor: '#ffffff',
-                    borderRadius: '10px',
-                    boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-                }}
-            > 
+
+            <List style={{
+                flexGrow: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                overflowY: 'auto',
+                padding: '10px',
+                backgroundColor: '#ffffff',
+                borderRadius: '10px',
+                boxShadow: '0 0 10px rgba(0,0,0,0.1)',
+            }}>
                 {messages.map((msg) => (
                     <ListItem
                         key={msg.id}
                         style={{ display: 'flex', justifyContent: msg.sender_id === senderId ? 'flex-end' : 'flex-start' }}
                     >
                         <ChatBubble isUser={msg.sender_id === senderId}>
-                            {/* { console.log(msg) } */}
                             <Typography>{msg.message_details}</Typography>
                             <Typography variant="caption" style={{ display: 'block', marginTop: '8px', color: '#888' }}>
-                                {msg.sender_fullName}
+                                Sender ID: {msg.sender_id}
+                                
                             </Typography>
                             <Typography variant="caption" style={{ display: 'block', color: '#888' }}>
                                 {new Date(msg.created_date).toLocaleString()}
@@ -159,6 +144,8 @@ function MessageCard( {conversation_id, sender_id} ) {
                     </ListItem>
                 ))}
             </List>
+
+            {/* Input Field */}
             <TextField
                 fullWidth
                 value={message}
@@ -169,18 +156,13 @@ function MessageCard( {conversation_id, sender_id} ) {
                 onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
             />
 
+            {/* Send Button */}
             <Button
                 fullWidth
                 variant="contained"
                 color="primary"
                 onClick={sendMessage}
                 style={{ marginTop: '10px' }}
-                sx={{
-                    backgroundColor: '#f7984c', // Custom default color
-                    '&:hover': {
-                        backgroundColor: '#f58427', // Custom hover color
-                    },
-                }}
             >
                 Send
             </Button>

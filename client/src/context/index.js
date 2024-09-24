@@ -2,6 +2,7 @@
 const adminRoleName = ["Admin"];
 const studentRoleName = ["Student"];
 const staffRoleName = ["Dorm Staff", "Student Affairs"];
+const allRoleName = [...adminRoleName, ...studentRoleName, ...staffRoleName];
 
 
 const appFeature = [
@@ -73,6 +74,7 @@ const internalServerHttpErrorCode = 500;
 
 
 export default  {   
+                    allRoleName,
                     adminRoleName,
                     studentRoleName,
                     staffRoleName,
