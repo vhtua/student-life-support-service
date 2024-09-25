@@ -194,8 +194,24 @@ const TicketCard = ({ ticketCardUpdate }) => {
                     <IconButton color="primary" sx={{ padding: 0 }}>
                         <IconEye />
                     </IconButton>
-                    <Typography variant="body1" sx={{ ml: 1 }}>
-                        <strong>Audience Type: </strong> {audience_type}
+                    <Typography component={'div'} variant="body1" sx={{ ml: 1 }}>
+                        {/* <strong>Audience Type: </strong> {audience_type} */}
+                        <strong>Audience Type: </strong> 
+                            <Box
+                                component="span"
+                                sx={(theme) => ({
+                                backgroundColor:
+                                audience_type === 'private'
+                                    ? "#673ab7" // purple
+                                    : "#2196f3",
+                                borderRadius: '0.6rem',
+                                color: '#fff',
+                                maxWidth: '9ch',
+                                p: '0.25rem',
+                                })}
+                            >
+                                {audience_type}
+                            </Box>
                     </Typography>
                 </Box>
 
@@ -204,10 +220,10 @@ const TicketCard = ({ ticketCardUpdate }) => {
                         <IconMessage />
                     </IconButton>
                     <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
-                        Message:
-                        <Link href={`http://localhost:3210/student/message?conversation_id=${ticket_id}`} sx={{ ml: 1, color: 'primary.main' }}>
+                        Message: not available
+                        {/* <Link href={`http://localhost:3210/staff/message?conversation_id=${ticket_id}`} sx={{ ml: 1, color: 'primary.main' }}>
                             #{ticket_id}
-                        </Link>
+                        </Link> */}
                     </Typography>
                 </Box>
 
@@ -216,7 +232,26 @@ const TicketCard = ({ ticketCardUpdate }) => {
                         <IconAnalyze />
                     </IconButton>
                     <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
-                        Status: <span style={{ color: 'orange' }}>{status}</span>
+                        {/* Status: <span style={{ color: 'orange' }}>{status}</span> */}
+                        Status: <Box
+                                component="span"
+                                sx={(theme) => ({
+                                backgroundColor:
+                                    status === 'cancelled'
+                                    ? theme.palette.error.dark // cancelled - red
+                                    : status === 'pending'
+                                        ? theme.palette.warning.dark  // pending - yellow
+                                        : status === 'in progress'
+                                        ? theme.palette.info.dark     // in progress - blue 
+                                        : theme.palette.success.dark, // done - green
+                                borderRadius: '0.6rem',
+                                color: '#fff',
+                                maxWidth: '9ch',
+                                p: '0.25rem',
+                                })}
+                            >
+                                {status}
+                            </Box>
                     </Typography>
                 </Box>
 

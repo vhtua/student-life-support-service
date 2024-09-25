@@ -86,9 +86,26 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
         accessorKey: 'audience_type',
         header: 'Audience Type',
         size: 50,
+        Cell: ({ cell }) => (
+          <Box
+              component="span"
+              sx={(theme) => ({
+              backgroundColor:
+              cell.getValue() === 'private'
+                  ? "#673ab7" // purple
+                  : "#2196f3",
+              borderRadius: '0.6rem',
+              color: '#fff',
+              maxWidth: '9ch',
+              p: '0.25rem',
+              })}
+          >
+              {cell.getValue()}
+          </Box>
+        )
       },
       {
-        accessorKey: 'status_name',
+        accessorKey: 'status',
         header: 'Status',
         size: 50,
         Cell: ({ cell }) => (

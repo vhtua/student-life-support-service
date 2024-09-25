@@ -189,8 +189,24 @@ const TicketCard = ({ ticketCardUpdate }) => {
                     <IconButton color="primary" sx={{ padding: 0 }}>
                         <IconEye />
                     </IconButton>
-                    <Typography variant="body1" sx={{ ml: 1 }}>
-                        <strong>Audience Type: </strong> {audience_type}
+                    <Typography component={'div'} variant="body1" sx={{ ml: 1 }}>
+                        {/* <strong>Audience Type: </strong> {audience_type} */}
+                        <strong>Audience Type: </strong> 
+                            <Box
+                                component="span"
+                                sx={(theme) => ({
+                                backgroundColor:
+                                audience_type === 'private'
+                                    ? "#673ab7" // purple
+                                    : "#2196f3",
+                                borderRadius: '0.6rem',
+                                color: '#fff',
+                                maxWidth: '9ch',
+                                p: '0.25rem',
+                                })}
+                            >
+                                {audience_type}
+                            </Box>
                     </Typography>
                 </Box>
 
