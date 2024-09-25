@@ -1,6 +1,7 @@
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import bcrypt from 'bcryptjs';
 
 // Set up storage engine for multer
 const storage = multer.diskStorage({
@@ -12,7 +13,25 @@ const storage = multer.diskStorage({
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
-    cb(null, `${file.originalname}`);
+    const attachments = req.files;
+    console.log("Before", attachments.length);
+    const generateUniqueFilename = (originalname) => {
+      const fileExtension = path.extname(originalname);
+
+      const today = new Date();
+      const dd = String(today.getDate()).padStart(2, '0');
+      const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      const yyyy = today.getFullYear();
+      const currentDate = dd + mm + yyyy;
+      const timestamp = Date.now();
+      const hash = bcrypt.hashSync(originalname + timestamp, 10);
+      return `${currentDate}-${hash.replace(/\//g, '')}${fileExtension}`;
+    };
+
+    const uniqueFilename = generateUniqueFilename(file.originalname);
+    file.hashedfilename = uniqueFilename; // Add the generated hashed filename to the file object
+
+    cb(null, uniqueFilename);
   },
 });
 

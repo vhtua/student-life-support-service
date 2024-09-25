@@ -13,7 +13,7 @@ ticketRouter.get("/types", authenticateToken(constants.allRoleName), ticketContr
 ticketRouter.get("/public", authenticateToken(constants.allRoleName), ticketController.getPublicTicketDetails);
 ticketRouter.get("/pending", authenticateToken([constants.staffRoleName, constants.adminRoleName]), ticketController.getPendingTicketDetails);
 ticketRouter.get("/pending/:ticket_id", authenticateToken([constants.staffRoleName, constants.adminRoleName]), ticketController.getPendingTicketDetailsByTicketId);
-ticketRouter.get("/staff/in-progress/", authenticateToken([constants.staffRoleName, constants.adminRoleName]), ticketController.getInProgressTickets);
+ticketRouter.get("/in-progress/", authenticateToken([constants.staffRoleName]), ticketController.getInProgressTickets);
 // ticketRouter.get("/staff/in-progress/:ticket_id", authenticateToken([constants.staffRoleName, constants.adminRoleName]), ticketController.getInProgressTicketDetailsByTicketId);
 ticketRouter.get("/audience-type", authenticateToken(constants.allRoleName), ticketController.getTicketAudienceTypeList);
 // ticketRouter.get("/:username", authenticateToken([constants.studentRoleName, constants.staffRoleName]), ticketController.getTicketsList);

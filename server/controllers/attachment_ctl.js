@@ -29,6 +29,7 @@ const getAttachments = async (req, res) => {
         // Get the attachment name from the request parameter
         const attachmentName = req.params.attachment_name;
         const filePath = path.resolve(`./uploads/${attachmentName}`);
+        
 
         // Check if the file exists
         if (!fs.existsSync(filePath)) {
@@ -37,6 +38,7 @@ const getAttachments = async (req, res) => {
 
         // Get the file stat
         const stat = fs.statSync(filePath);
+        console.log(filePath);
 
         // Determine the content type based on the file extension
         const ext = path.extname(filePath).toLowerCase();
