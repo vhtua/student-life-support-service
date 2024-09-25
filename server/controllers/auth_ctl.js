@@ -98,13 +98,13 @@ const authenticateUser = async (req, res) => {
                 } else {
                     // Authorization
 
-                    const userId = String(results.rows[0].id); 
+                    const user_id = String(results.rows[0].id); 
                     const username = String(results.rows[0].username); 
                     const email = String(results.rows[0].email);
                     const fullname = String(results.rows[0].fullname);
                     const role_name = String(results.rows[0].role_name);
 
-                    const user = { userId, username, email, fullname, role_name };
+                    const user = { user_id, username, email, fullname, role_name };
 
 
                     const { USER_ACCESS_TOKEN_SECRET, USER_REFRESH_TOKEN_SECRET } = TokenManager.getTokenSecretByRoleName(role_name);
@@ -118,7 +118,7 @@ const authenticateUser = async (req, res) => {
                     const refreshToken = jwt.sign(user, USER_REFRESH_TOKEN_SECRET);
                 
                     // Store Refresh Token in Redis with expiration
-                    await Redis.storeRefreshTokenInRedis(userId, refreshToken, REFRESH_TOKEN_EXPIRED_IN);
+                    await Redis.storeRefreshTokenInRedis(user_id, refreshToken, REFRESH_TOKEN_EXPIRED_IN);
                 
                     // Send Refresh Token as an HTTP-only, Secure cookie
                     res.cookie('refreshToken', refreshToken, {
@@ -239,8 +239,8 @@ const refreshToken = async (req, res) => {
     } else {
         try {
             // Verify Refresh Token in Redis
-            const userId = await Redis.verifyRefreshTokenInRedis(refreshToken);
-            if (!userId) return res.status(403).send('Invalid Refresh Token');
+            const user_id = await Redis.verifyRefreshTokenInRedis(refreshToken);
+            if (!user_id) return res.status(403).send('Invalid Refresh Token');
 
             // Fetch the role from the Refresh Token
             const user = jwt.decode(refreshToken); // Decode the token to extract the user information

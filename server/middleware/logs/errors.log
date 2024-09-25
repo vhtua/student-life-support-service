@@ -92,3 +92,39 @@
     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
     at async createTicket (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:150:9)
 [2024-09-24 23:57:47] [[31merror[39m] username: 10001 logged in failed due to wrong credentials information
+[2024-09-25 14:31:41] [[31merror[39m] error: invalid input syntax for type integer: "null"
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPendingTicketDetailsByTicketId (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:222:26)
+[2024-09-25 14:33:21] [[31merror[39m] error: invalid input syntax for type integer: "null"
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPendingTicketDetailsByTicketId (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:222:26)
+[2024-09-25 14:35:30] [[31merror[39m] error: invalid input syntax for type integer: "null"
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPendingTicketDetailsByTicketId (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:222:26)
+[2024-09-25 14:36:11] [[31merror[39m] error: invalid input syntax for type integer: "null"
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPendingTicketDetailsByTicketId (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:222:26)
+[2024-09-25 14:36:15] [[31merror[39m] error: invalid input syntax for type integer: "null"
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPendingTicketDetailsByTicketId (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:222:26)
+[2024-09-25 14:36:23] [[31merror[39m] error: invalid input syntax for type integer: "null"
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPendingTicketDetailsByTicketId (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:222:26)
+[2024-09-25 14:36:33] [[31merror[39m] error: invalid input syntax for type integer: "null"
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPendingTicketDetailsByTicketId (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:222:26)
+[2024-09-25 16:25:56] [[31merror[39m] error: insert or update on table "User_Ticket" violates foreign key constraint "User_Ticket_ticket_id_fkey"
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async assignStaffToTicket (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:282:9)
+[2024-09-25 16:26:10] [[31merror[39m] error: insert or update on table "User_Ticket" violates foreign key constraint "User_Ticket_ticket_id_fkey"
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async assignStaffToTicket (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:282:9)

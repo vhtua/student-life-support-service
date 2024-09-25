@@ -32,8 +32,8 @@ const rateTicket = async (req, res) => {
 
         // Decode the token to extract user information
         const user = jwt.decode(accessToken);
-        const userName = user ? user.username : null;
-        if (!userName) return res.status(401).json({ message: 'Cannot identify the username' });
+        const user_id = user ? user.user_id : null;
+        if (!user_id) return res.status(401).json({ message: 'Cannot identify the username' });
 
         console.log(req.body);
 

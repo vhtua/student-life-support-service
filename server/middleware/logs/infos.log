@@ -1505,3 +1505,154 @@
 [2024-09-25 02:49:57] [[32minfo[39m] Server running on port 3000
 [2024-09-25 02:52:15] [[32minfo[39m] Server running on port 3000
 [2024-09-25 02:52:19] [[32minfo[39m] Server running on port 3000
+[2024-09-25 02:53:42] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-25 02:53:42] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-25 02:54:01] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-25 02:54:01] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-25 04:54:54] [[32minfo[39m] Server running on port 3000
+[2024-09-25 04:55:50] [[32minfo[39m] Server running on port 3000
+[2024-09-25 04:56:09] [[32minfo[39m] Server running on port 3000
+[2024-09-25 04:57:35] [[32minfo[39m] Server running on port 3000
+[2024-09-25 04:58:16] [[32minfo[39m] Server running on port 3000
+[2024-09-25 04:58:22] [[32minfo[39m] Server running on port 3000
+[2024-09-25 04:58:47] [[32minfo[39m] Server running on port 3000
+[2024-09-25 04:59:13] [[32minfo[39m] Server running on port 3000
+[2024-09-25 04:59:58] [[32minfo[39m] Server running on port 3000
+[2024-09-25 05:00:55] [[32minfo[39m] Server running on port 3000
+[2024-09-25 05:02:52] [[32minfo[39m] Server running on port 3000
+[2024-09-25 05:03:35] [[32minfo[39m] Server running on port 3000
+[2024-09-25 05:04:07] [[32minfo[39m] Server running on port 3000
+[2024-09-25 05:05:40] [[32minfo[39m] Server running on port 3000
+[2024-09-25 05:06:58] [[32minfo[39m] Server running on port 3000
+[2024-09-25 05:07:35] [[32minfo[39m] Server running on port 3000
+[2024-09-25 05:07:47] [[32minfo[39m] Server running on port 3000
+[2024-09-25 05:07:56] [[32minfo[39m] Server running on port 3000
+[2024-09-25 05:08:49] [[32minfo[39m] Server running on port 3000
+[2024-09-25 05:09:07] [[32minfo[39m] Server running on port 3000
+[2024-09-25 05:29:47] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-25 05:29:47] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-25 10:13:10] [[32minfo[39m] Server running on port 3000
+[2024-09-25 10:13:16] [[32minfo[39m] Server running on port 3000
+[2024-09-25 10:14:14] [[32minfo[39m] Server running on port 3000
+[2024-09-25 10:16:13] [[32minfo[39m] Server running on port 3000
+[2024-09-25 10:16:32] [[32minfo[39m] Server running on port 3000
+[2024-09-25 10:16:47] [[32minfo[39m] Server running on port 3000
+[2024-09-25 10:17:00] [[32minfo[39m] Server running on port 3000
+[2024-09-25 10:17:15] [[32minfo[39m] Server running on port 3000
+[2024-09-25 10:17:25] [[32minfo[39m] Server running on port 3000
+[2024-09-25 10:20:15] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-25 10:20:15] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-25 14:31:41] [[31merror[39m] error: invalid input syntax for type integer: "null"
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPendingTicketDetailsByTicketId (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:222:26)
+[2024-09-25 14:33:21] [[31merror[39m] error: invalid input syntax for type integer: "null"
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPendingTicketDetailsByTicketId (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:222:26)
+[2024-09-25 14:35:27] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-25 14:35:27] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-25 14:35:30] [[31merror[39m] error: invalid input syntax for type integer: "null"
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPendingTicketDetailsByTicketId (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:222:26)
+[2024-09-25 14:36:11] [[31merror[39m] error: invalid input syntax for type integer: "null"
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPendingTicketDetailsByTicketId (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:222:26)
+[2024-09-25 14:36:15] [[31merror[39m] error: invalid input syntax for type integer: "null"
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPendingTicketDetailsByTicketId (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:222:26)
+[2024-09-25 14:36:23] [[31merror[39m] error: invalid input syntax for type integer: "null"
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPendingTicketDetailsByTicketId (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:222:26)
+[2024-09-25 14:36:33] [[31merror[39m] error: invalid input syntax for type integer: "null"
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getPendingTicketDetailsByTicketId (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:222:26)
+[2024-09-25 14:39:38] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-25 14:39:38] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-25 14:41:43] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-25 14:41:43] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-25 14:45:49] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-25 14:45:50] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-25 14:47:27] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-25 14:47:27] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-25 14:48:11] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-25 14:48:11] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-25 14:49:58] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-25 14:49:58] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-25 14:53:47] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-25 14:53:47] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-25 15:05:34] [[32minfo[39m] Server running on port 3000
+[2024-09-25 15:06:03] [[32minfo[39m] Server running on port 3000
+[2024-09-25 15:09:07] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-25 15:09:07] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-25 15:41:01] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-25 15:41:01] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-25 15:41:19] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-25 15:41:19] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-25 15:43:12] [[32minfo[39m] username: 10001 is trying to log in
+[2024-09-25 15:43:12] [[32minfo[39m] username: 10001 logged into the system
+[2024-09-25 15:50:14] [[32minfo[39m] Server running on port 3000
+[2024-09-25 15:50:18] [[32minfo[39m] Server running on port 3000
+[2024-09-25 15:51:03] [[32minfo[39m] Server running on port 3000
+[2024-09-25 15:51:16] [[32minfo[39m] Server running on port 3000
+[2024-09-25 15:51:47] [[32minfo[39m] Server running on port 3000
+[2024-09-25 15:52:05] [[32minfo[39m] Server running on port 3000
+[2024-09-25 16:07:46] [[32minfo[39m] username: 10001 changed the phone number
+[2024-09-25 16:15:06] [[32minfo[39m] Server running on port 3000
+[2024-09-25 16:15:12] [[32minfo[39m] Server running on port 3000
+[2024-09-25 16:17:19] [[32minfo[39m] Server running on port 3000
+[2024-09-25 16:17:29] [[32minfo[39m] Server running on port 3000
+[2024-09-25 16:24:43] [[32minfo[39m] Server running on port 3000
+[2024-09-25 16:25:56] [[31merror[39m] error: insert or update on table "User_Ticket" violates foreign key constraint "User_Ticket_ticket_id_fkey"
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async assignStaffToTicket (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:282:9)
+[2024-09-25 16:26:10] [[31merror[39m] error: insert or update on table "User_Ticket" violates foreign key constraint "User_Ticket_ticket_id_fkey"
+    at D:\VGU\2024 Final\Thesis\github\student-life-support-service\server\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async assignStaffToTicket (file:///D:/VGU/2024%20Final/Thesis/github/student-life-support-service/server/controllers/ticket_ctl.js:282:9)
+[2024-09-25 16:27:31] [[32minfo[39m] Server running on port 3000
+[2024-09-25 16:37:16] [[32minfo[39m] Server running on port 3000
+[2024-09-25 16:37:21] [[32minfo[39m] Server running on port 3000
+[2024-09-25 16:38:39] [[32minfo[39m] Server running on port 3000
+[2024-09-25 16:41:56] [[32minfo[39m] Server running on port 3000
+[2024-09-25 17:15:43] [[32minfo[39m] Server running on port 3000
+[2024-09-25 17:16:09] [[32minfo[39m] Server running on port 3000
+[2024-09-25 17:16:28] [[32minfo[39m] Server running on port 3000
+[2024-09-25 17:17:46] [[32minfo[39m] Server running on port 3000
+[2024-09-25 17:20:25] [[32minfo[39m] Server running on port 3000
+[2024-09-25 17:20:55] [[32minfo[39m] Server running on port 3000
+[2024-09-25 17:21:41] [[32minfo[39m] Server running on port 3000
+[2024-09-25 17:22:15] [[32minfo[39m] Server running on port 3000
+[2024-09-25 17:50:46] [[32minfo[39m] Server running on port 3000
+[2024-09-25 17:53:54] [[32minfo[39m] Server running on port 3000
+[2024-09-25 17:54:07] [[32minfo[39m] Server running on port 3000
+[2024-09-25 17:54:20] [[32minfo[39m] Server running on port 3000
+[2024-09-25 17:55:55] [[32minfo[39m] Server running on port 3000
+[2024-09-25 17:56:59] [[32minfo[39m] Server running on port 3000
+[2024-09-25 17:57:24] [[32minfo[39m] username: 17965 is trying to log in
+[2024-09-25 17:57:24] [[32minfo[39m] username: 17965 logged into the system
+[2024-09-25 17:58:00] [[32minfo[39m] Server running on port 3000
+[2024-09-25 17:58:50] [[32minfo[39m] Server running on port 3000
+[2024-09-25 17:59:04] [[32minfo[39m] Server running on port 3000
+[2024-09-25 18:01:30] [[32minfo[39m] Server running on port 3000
+[2024-09-25 18:01:32] [[32minfo[39m] Server running on port 3000
+[2024-09-25 18:04:13] [[32minfo[39m] Server running on port 3000
+[2024-09-25 18:07:03] [[32minfo[39m] Server running on port 3000
+[2024-09-25 18:07:45] [[32minfo[39m] Server running on port 3000
+[2024-09-25 18:08:46] [[32minfo[39m] Server running on port 3000
+[2024-09-25 18:09:09] [[32minfo[39m] Server running on port 3000
+[2024-09-25 18:09:20] [[32minfo[39m] Server running on port 3000
+[2024-09-25 18:09:45] [[32minfo[39m] Server running on port 3000
+[2024-09-25 18:09:54] [[32minfo[39m] Server running on port 3000
+[2024-09-25 18:10:03] [[32minfo[39m] Server running on port 3000
+[2024-09-25 18:11:06] [[32minfo[39m] Server running on port 3000
+[2024-09-25 18:11:10] [[32minfo[39m] Server running on port 3000
+[2024-09-25 18:11:43] [[32minfo[39m] Server running on port 3000
+[2024-09-25 18:11:51] [[32minfo[39m] Server running on port 3000
+[2024-09-25 18:12:11] [[32minfo[39m] Server running on port 3000

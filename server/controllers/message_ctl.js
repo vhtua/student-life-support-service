@@ -32,8 +32,8 @@ const getMessages = async (req, res) => {
 
         // Decode the token to extract user information
         const user = jwt.decode(accessToken);
-        const userId = user ? user.userId : null;
-        if (!userId) return res.status(401).json({message: 'Cannot identify the userId'});
+        const user_id = user ? user.user_id : null;
+        if (!user_id) return res.status(401).json({message: 'Cannot identify the user_id'});
 
         
 
@@ -44,7 +44,7 @@ const getMessages = async (req, res) => {
             { user_id: 2 }
         ]
         // check if the userId is in the message audience
-        const isAuthorized = messageAudience.rows.some(audience => audience.user_id == userId);
+        const isAuthorized = messageAudience.rows.some(audience => audience.user_id == user_id);
         if (!isAuthorized) return res.status(401).json({message: 'Cannot authorize the user'});
 
 
@@ -69,12 +69,12 @@ const getConversationId = async (req, res) => {
 
         // Decode the token to extract user information
         const user = jwt.decode(accessToken);
-        const username = user ? user.username : null;
-        if (!username) return res.status(401).json({message: 'Cannot identify the userId'});
+        const user_id = user ? user.user_id : null;
+        if (!user_id) return res.status(401).json({message: 'Cannot identify the userId'});
 
         const result = await pool.query(
             messageQueries.getConversationId,
-            [username]
+            [user_id]
         );
 
         if (result.rows == undefined || result.rows.length == 0) {
