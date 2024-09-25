@@ -35,9 +35,8 @@ import { element } from 'prop-types';
 const MessageWrapper = () => {
   const [searchParams] = useSearchParams();
   const conversationId = searchParams.get('conversation_id');
-  return <Message conversation_id={conversationId} />;
+  return <Message conversation_id={conversationId ? parseInt(conversationId) : 0} />;
 };
-
 // ==============================|| STUDENTS ROUTING ||============================== //
 
 const StudentRoutes = {

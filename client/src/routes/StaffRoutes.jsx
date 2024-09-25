@@ -34,9 +34,9 @@ import { element } from 'prop-types';
 
 // Component to handle passing conversation_id to Message component
 const MessageWrapper = () => {
-  const [searchParams] = useSearchParams();
-  const conversationId = searchParams.get('conversation_id');
-  return <Message conversation_id={conversationId} />;
+    const [searchParams] = useSearchParams();
+    const conversationId = searchParams.get('conversation_id');
+    return <Message conversation_id={conversationId ? parseInt(conversationId) : 0} />;
 };
 
 // ==============================|| STUDENTS ROUTING ||============================== //

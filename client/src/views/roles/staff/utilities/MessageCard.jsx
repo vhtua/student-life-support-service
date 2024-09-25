@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import io from 'socket.io-client';
-import axios from 'axios';
-import { TextField, Button, List, ListItem, Box, Typography, MenuItem, IconButton, ListItemText, Grid  } from '@mui/material';
+import { TextField, Button, List, ListItem, Box, Typography, MenuItem } from '@mui/material';
 import { styled } from '@mui/system';
-
 import axiosInstance from 'api/axiosInstance';
 
 const socket = io('http://localhost:3000');
@@ -31,28 +30,28 @@ const ChatBubble = styled(Box)(({ isUser }) => ({
     },
 }));
 
-function MessageCard( {conversation_id, sender_id} ) {
+function MessageCard() {
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const initialConversationId = parseInt(searchParams.get('conversation_id')) || 0;
+
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState('');
     const [allConversationId, setAllConversationID] = useState([]);
-    const [conversationId, setConversationId] = useState(!conversation_id ? 0 : conversation_id ); // Assuming one conversation
-    const [senderId, setSenderId] = useState(parseInt(localStorage.getItem('userId')) || 0); // Set senderId to the value of userId in localStorage or 0 if not found
-    const [senderFullName, setSenderFullName] = useState(localStorage.getItem('fullName')); // Hardcoded sender name for demo purposes
+    const [conversationId, setConversationId] = useState(initialConversationId);
+    const senderId = parseInt(localStorage.getItem('userId')) || 0; // Set senderId to the value of userId in localStorage or 0 if not found
+    const senderFullName = localStorage.getItem('fullName'); // Hardcoded sender name for demo purposes
 
     const chatBoxRef = useRef(null);
 
     useEffect(() => {
-        // console.log('Conversation ID:', conversationId);
-        setConversationId(conversation_id);
-
         axiosInstance.get(`/api/v1/messages/conversation`)
-        .then(res => setAllConversationID(res.data))
-        .catch(err => {
-            console.error(err)
-            setAllConversationID([]);
-        });
-    }, [])
-
+            .then(res => setAllConversationID(res.data))
+            .catch(err => {
+                console.error(err);
+                setAllConversationID([]);
+            });
+    }, []);
 
     useEffect(() => {
         socket.emit('join_conversation', conversationId);
@@ -61,18 +60,19 @@ function MessageCard( {conversation_id, sender_id} ) {
         axiosInstance.get(`/api/v1/messages/${conversationId}`)
             .then(res => setMessages(res.data))
             .catch(err => {
-                console.error(err)
-                setMessages([]);});
+                console.error(err);
+                setMessages([]);
+            });
 
         socket.on('receive_message', (newMessage) => {
-            console.log("Co tin nhan moi");
             setMessages((prevMessages) => [...prevMessages, newMessage]);
         });
 
         return () => {
+            console.log("Leaving conversation");
             socket.off('receive_message');
         };
-    }, [conversationId, messages]);
+    }, [conversationId]);
 
     useEffect(() => {
         if (chatBoxRef.current) {
@@ -83,14 +83,10 @@ function MessageCard( {conversation_id, sender_id} ) {
     // Set the conversation id to the selected value in the drop down box
     const setConversation = (e) => {
         setConversationId(e.target.value);
-        // navigate to the route /staff/message?conversation_id={e.target.value}
-        // window.location.href = `/staff/message?conversation_id=${e.target.value}`;
+
         const url = new URL(window.location);
         url.searchParams.set('conversation_id', e.target.value);
         window.history.pushState({}, '', url);
-
-        // setSenderId(13);
-        // console.log(e.target.value);
     };
 
     const sendMessage = () => {
@@ -150,14 +146,13 @@ function MessageCard( {conversation_id, sender_id} ) {
                     borderRadius: '10px',
                     boxShadow: '0 0 10px rgba(0,0,0,0.1)',
                 }}
-            > 
+            >
                 {messages.map((msg) => (
                     <ListItem
                         key={msg.id}
                         style={{ display: 'flex', justifyContent: msg.sender_id === senderId ? 'flex-end' : 'flex-start' }}
                     >
                         <ChatBubble isUser={msg.sender_id === senderId}>
-                            {/* { console.log(msg) } */}
                             <Typography>{msg.message_details}</Typography>
                             <Typography variant="caption" style={{ display: 'block', marginTop: '8px', color: '#888' }}>
                                 {msg.sender_fullName}
@@ -176,7 +171,7 @@ function MessageCard( {conversation_id, sender_id} ) {
                 placeholder="Type a message"
                 variant="outlined"
                 style={{ marginTop: '20px' }}
-                onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
             />
 
             <Button
