@@ -18,6 +18,7 @@ import TicketHandlingCard from './utilities/TicketHandlingCard';
 
 const TicketsHandling = () => {
   const [ticketCardUpdate, setTicketCardUpdate] = useState(false);
+  const [selectedTicketId, setSelectedTicketId] = useState(null);
 
   const handleTicketCardUpdate = () => {
     setTicketCardUpdate((prevState) => !prevState); // Toggle the state to trigger a re-render
@@ -28,11 +29,14 @@ const TicketsHandling = () => {
     <Grid container spacing={gridSpacing}>
     <Grid item xs={12} sm={8}>
       {/* Pass profileUpdated to trigger refetch or rerender in ProfileCard */}
-      <TicketsHandlingListCard onTicketCardUpdate={handleTicketCardUpdate} />
+      <TicketsHandlingListCard 
+        onTicketCardUpdate={handleTicketCardUpdate} />
     </Grid>
 
     <Grid item xs={12} sm={4}>
-      <TicketHandlingCard ticketCardUpdate={ticketCardUpdate}/>
+      <TicketHandlingCard 
+        ticketCardUpdate={ticketCardUpdate}
+/>
     </Grid>
 
 

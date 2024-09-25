@@ -13,7 +13,7 @@ import axiosInstance from '../../../api/axiosInstance';  // Adjust the import pa
 import TicketRateCard from './utilities/TicketRateCard';
 
 
-const RateTicket = () => {
+const TicketHistory = () => {
   const [ticketCardUpdate, setTicketCardUpdate] = useState(false);
 
   const handleTicketCardUpdate = () => {
@@ -28,9 +28,9 @@ const RateTicket = () => {
           <TicketRateCard onTicketCardUpdate={handleTicketCardUpdate} />
         </Grid>
 
-        {/* <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={4}>
           <TicketCard ticketCardUpdate={ticketCardUpdate}/>
-        </Grid> */}
+        </Grid>
 
 
       </Grid>
@@ -39,4 +39,4 @@ const RateTicket = () => {
   );
 }
 
-export default RateTicket;
+export default TicketHistory;

@@ -19,7 +19,7 @@ const TicketHandlingCard = ({ ticketCardUpdate }) => {
 
     useEffect(() => {
         const userName = localStorage.getItem('username');
-        const ticketIdSelected = localStorage.getItem('ticketIdSelected');
+        const ticketIdSelected = localStorage.getItem('handlingTicketIdSelected');
 
         console.log('Ticket ID selected:', ticketIdSelected);
 

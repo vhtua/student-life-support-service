@@ -1,5 +1,5 @@
 // assets
-import { IconTypography, IconPalette, IconShadow, IconWindmill, IconTicket, IconBell, IconCalendarClock, IconCirclePlus, IconListSearch, IconNews, IconMessage, IconThumbUp, IconHandFinger } from '@tabler/icons-react';
+import { IconTypography, IconPalette, IconShadow, IconWindmill, IconTicket, IconBell, IconCalendarClock, IconCirclePlus, IconListSearch, IconNews, IconMessage, IconThumbUp, IconHandFinger, IconHistory } from '@tabler/icons-react';
 
 // constant
 const icons = {
@@ -15,7 +15,8 @@ const icons = {
   IconNews,
   IconMessage,
   IconThumbUp,
-  IconHandFinger
+  IconHandFinger,
+  IconHistory
 };
 
 // ==============================|| UTILITIES MENU ITEMS ||============================== //
@@ -51,10 +52,10 @@ const utilities = {
         },
         {
           id: 'rate-ticket',
-          title: 'Rate tickets',
+          title: 'History',
           type: 'item',
-          url: '/staff/tickets/rate-ticket',
-          icon: icons.IconThumbUp,
+          url: '/staff/tickets/history',
+          icon: icons.IconHistory,
           breadcrumbs: true
           // target: true
         },

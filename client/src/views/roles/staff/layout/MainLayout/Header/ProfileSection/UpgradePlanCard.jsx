@@ -57,7 +57,7 @@ const UpgradePlanCard = () => {
           </Grid>
           <Grid item>
             <Stack direction="row">
-              <Link sx={{ textDecoration: 'none' }} href="/student/tickets/create-ticket" target="_self">
+              <Link sx={{ textDecoration: 'none' }} href="/staff/tickets/available-tickets" target="_self">
                 <AnimateButton>
                   <Button variant="contained" color="warning" sx={{ boxShadow: 'none' }}>
                     View available tickets

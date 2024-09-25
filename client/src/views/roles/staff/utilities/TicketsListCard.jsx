@@ -48,10 +48,13 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
 
         const response = await axiosInstance.get(apiUrl);
         console.log('Tickets:', response.data);
-        localStorage.removeItem('ticketIdSelected');
+        // localStorage.removeItem('ticketIdSelected');
         setData(response.data);
       } catch (error) {
         console.error('Error fetching tickets:', error);
+        if (error.status === 404) {
+          localStorage.remove('handlingTicketIdSelected');
+        }
       }
     };
 
@@ -189,7 +192,7 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
         console.log('Handle action', response.data);
         onTicketCardUpdate(); // Notify parent component to refresh TicketCard
         handleCloseModal();
-        localStorage.removeItem('ticketIdSelected');
+        // localStorage.removeItem('ticketIdSelected');
         
         // run the handle refresh function
         handleRefresh();
@@ -226,7 +229,7 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
           <IconButton
             onClick={() => {
               console.log('View action', row.original);
-              localStorage.setItem('ticketIdSelected', row.original.ticket_id);
+              localStorage.setItem('availableTicketIdSelected', row.original.ticket_id);
 
               onTicketCardUpdate(); // Notify parent component to refresh TicketCard
             }}

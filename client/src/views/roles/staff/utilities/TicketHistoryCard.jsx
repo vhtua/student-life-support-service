@@ -11,7 +11,7 @@ import context from 'context';
 import ReadMore from './ReadMore';
 
 
-const TicketCard = ({ ticketCardUpdate }) => {
+const TicketHistoryCard = ({ ticketCardUpdate }) => {
     const [open, setOpen] = useState(false);
     const [selectedAttachment, setSelectedAttachment] = useState(null);
     const [ticketData, setTicketData] = useState(null);
@@ -371,4 +371,4 @@ const TicketCard = ({ ticketCardUpdate }) => {
     );
 };
 
-export default TicketCard;
+export default TicketHistoryCard;

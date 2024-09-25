@@ -27,18 +27,13 @@ import context from 'context';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
-// ==============================|| Tickets List Card ||============================== //
-
-const TicketsListCard = ({ onTicketCardUpdate }) => {
+const TicketsHandlingListCard = ({ onTicketCardUpdate }) => {
   const [data, setData] = useState([]);
   const [isRefresh, setRefresh] = useState(false);
 
-
   const handleRefresh = () => {
-    setRefresh((prevState) => !prevState); // Toggle the state to trigger a re-render
+    setRefresh((prevState) => !prevState);// Toggle the state to trigger a re-render
   };
-
 
   // Fetch data from API
   useEffect(() => {
@@ -49,10 +44,17 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
 
         const response = await axiosInstance.get(apiUrl);
         console.log('Tickets:', response.data);
-        localStorage.removeItem('ticketIdSelected');
         setData(response.data);
+
+        // Check if the data is empty and set localStorage accordingly
+        if (response.data.length === 0) {
+          localStorage.remove('handlingTicketIdSelected');
+        }
       } catch (error) {
         console.error('Error fetching tickets:', error);
+        if (error.status === 404) {
+          localStorage.remove('handlingTicketIdSelected');
+        }
       }
     };
 
@@ -183,30 +185,19 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
         apiUrl = '/api/v1/tickets/cancel';
       }
 
-      // const response = await axiosInstance.patch(apiUrl, {
-      //   ticket_id: selectedTicket.ticket_id,
-      //   ticket_status_id: modalType === 'handle' ? 2 : 4,
-      // });
-
-      // assign ticket to staff
       const response = await axiosInstance.post(apiUrl, { 
         ticket_id: selectedTicket.ticket_id,
       });
       
-      
       if (modalType === 'done') {
-        toast.success('The ticket has been successfully added to your ticket handling list');
+        toast.success('The ticket has been successfully marked as done');
       } else if (modalType === 'cancel') {
         toast.success('The ticket has been successfully cancelled');
       }
       
-    
       console.log('Handle action', response.data);
       onTicketCardUpdate(); // Notify parent component to refresh TicketCard
       handleCloseModal();
-      localStorage.removeItem('ticketIdSelected');
-      
-      // run the handle refresh function
       handleRefresh();
       
     } catch (error) {
@@ -233,8 +224,7 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
           <IconButton
             onClick={() => {
               console.log('View action', row.original);
-              localStorage.setItem('ticketIdSelected', row.original.ticket_id);
-
+              localStorage.setItem('handlingTicketIdSelected', row.original.ticket_id);
               onTicketCardUpdate(); // Notify parent component to refresh TicketCard
             }}
           >
@@ -268,7 +258,7 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
 
   return (
     <Box>
-        <ToastContainer containerId={"handling-tickets-toast"}
+      <ToastContainer containerId={"handling-tickets-toast"}
         position="bottom-right" 
         autoClose={5000} 
         hideProgressBar={false} 
@@ -278,20 +268,18 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
         pauseOnFocusLoss 
         draggable 
         pauseOnHover 
-        />
-          <Button
-          variant="contained"
-          color="success"
-          onClick={
-            handleRefresh // Toggle the state to trigger a re-render
-          }
-          sx={{ mb: 2 }}
-          >
-          <IconReload />
-          <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
-            Refresh
+      />
+      <Button
+        variant="contained"
+        color="success"
+        onClick={handleRefresh}
+        sx={{ mb: 2 }}
+      >
+        <IconReload />
+        <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
+          Refresh
         </Typography>
-        </Button>
+      </Button>
 
       <MaterialReactTable table={table} />
       {openModal && selectedTicket && (
@@ -327,12 +315,12 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
 
             <Box sx={{ mt: 4, display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
               <Button variant="contained" color="primary" onClick={handleConfirm}
-              sx={{
-                backgroundColor: '#f7984c', // Custom default color
-                '&:hover': {
-                    backgroundColor: '#f58427', // Custom hover color
-                },
-              }}
+                sx={{
+                  backgroundColor: '#f7984c', // Custom default color
+                  '&:hover': {
+                      backgroundColor: '#f58427', // Custom hover color
+                  },
+                }}
               >
                 OK
               </Button>
@@ -343,12 +331,8 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
           </Box>
         </Modal>
       )}
-
-
-
     </Box>
-    
   );
 };
 
-export default TicketsListCard;
+export default TicketsHandlingListCard;

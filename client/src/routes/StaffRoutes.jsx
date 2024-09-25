@@ -12,7 +12,7 @@ const EditProfile = Loadable(lazy(() => import('views/roles/staff/EditProfile'))
 const ChangePassword = Loadable(lazy(() => import('views/roles/staff/ChangePassword')));
 const AvailableTickets = Loadable(lazy(() => import('views/roles/staff/AvailableTickets')));
 const CreateTicket = Loadable(lazy(() => import('views/roles/staff/CreateTicket')));
-const RateTicket = Loadable(lazy(() => import('views/roles/staff/RateTicket')));
+const TicketHistory = Loadable(lazy(() => import('views/roles/staff/TicketHistory')));
 const Newsfeed = Loadable(lazy(() => import('views/roles/staff/Newsfeed')));
 const Message = Loadable(lazy(() => import('views/roles/staff/Message')));
 const Notification = Loadable(lazy(() => import('views/roles/staff/Notification')));
@@ -113,11 +113,11 @@ const StaffRoutes = {
           )
         },
         {
-          path: 'rate-ticket',
+          path: 'history',
           element: (
-            // <RateTicket />
+            // <TicketHistory />
             <StaffProtectedRoutes>
-              <RateTicket />
+              <TicketHistory />
             </StaffProtectedRoutes>
           )
         }
