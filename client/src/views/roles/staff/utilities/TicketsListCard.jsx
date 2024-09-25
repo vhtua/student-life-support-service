@@ -22,6 +22,11 @@ import { IconReload } from '@tabler/icons-react';
 import axiosInstance from 'api/axiosInstance';
 import context from 'context';
 
+// For alert
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 // ==============================|| Tickets List Card ||============================== //
 
 const TicketsListCard = ({ onTicketCardUpdate }) => {
@@ -39,7 +44,7 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
     const fetchTickets = async () => {
       try {
         const username = localStorage.getItem('username');
-        const apiUrl = `/api/v1/tickets/pending-ticket`;
+        const apiUrl = `/api/v1/tickets/pending`;
 
         const response = await axiosInstance.get(apiUrl);
         console.log('Tickets:', response.data);
@@ -176,11 +181,18 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
         apiUrl = '/api/v1/tickets/cancel';
       }
 
-      const response = await axiosInstance.patch(apiUrl, {
-        ticket_id: selectedTicket.ticket_id,
-        ticket_status_id: modalType === 'handle' ? 2 : 4,
-      });
+      // const response = await axiosInstance.patch(apiUrl, {
+      //   ticket_id: selectedTicket.ticket_id,
+      //   ticket_status_id: modalType === 'handle' ? 2 : 4,
+      // });
 
+      // assign ticket to staff
+      const response = await axiosInstance.post('/api/v1/tickets/staff', { 
+        ticket_id: selectedTicket.ticket_id,
+      });
+      
+      
+      toast.success('The ticket has been successfully added to your ticket handling list')
       
 
       console.log('Handle action', response.data);
@@ -190,8 +202,9 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
       
       // run the handle refresh function
       handleRefresh();
-
+      
     } catch (error) {
+      toast.error('Error handling this ticket');
       console.error('Error handling ticket:', error);
       onTicketCardUpdate(); // Notify parent component to refresh TicketCard
       handleCloseModal();
@@ -249,6 +262,17 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
 
   return (
     <Box>
+        <ToastContainer containerId={"available-tickets-toast"}
+        position="bottom-right" 
+        autoClose={5000} 
+        hideProgressBar={false} 
+        newestOnTop={false} 
+        closeOnClick 
+        rtl={false} 
+        pauseOnFocusLoss 
+        draggable 
+        pauseOnHover 
+        />
           <Button
           variant="contained"
           color="success"
@@ -262,7 +286,6 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
             Refresh
         </Typography>
         </Button>
-
 
       <MaterialReactTable table={table} />
       {openModal && selectedTicket && (
@@ -314,7 +337,11 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
           </Box>
         </Modal>
       )}
+
+
+
     </Box>
+    
   );
 };
 

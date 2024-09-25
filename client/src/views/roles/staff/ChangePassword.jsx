@@ -39,26 +39,8 @@ const listStyle = {
 
 
 const ChangePassword = () => {
-  const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-
-  // Fetch book data from the server
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const response = await axiosInstance.get('/books');
-        setBooks(response.data);  // Assuming the response contains an array of books
-        setLoading(false);  // Stop loading when data is fetched
-      } catch (err) {
-        setError('Failed to fetch book data');
-        setLoading(false);
-      }
-    };
-
-    fetchBooks();  // Call the function when the component is mounted
-  }, []);
 
 
   return (

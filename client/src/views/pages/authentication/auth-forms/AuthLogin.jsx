@@ -90,7 +90,7 @@ const AuthLogin = ({ ...others }) => {
               localStorage.setItem('username', response.data.username);
               localStorage.setItem('roleName', response.data.role_name);
               localStorage.setItem('fullName', response.data.fullname);
-              localStorage.setItem('userId', response.data.userId);
+              localStorage.setItem('userId', response.data.user_id);
 
               // Optionally store user information in Redux
               dispatch(setUser({ username: values.email, role_name: response.data.role_name }));

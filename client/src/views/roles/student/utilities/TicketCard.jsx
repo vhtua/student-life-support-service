@@ -25,7 +25,7 @@ const TicketCard = ({ ticketCardUpdate }) => {
             return;
         }
 
-        const apiUrl = context.apiEndpoint.ticketApi.rootApi + "/" + userName + "/" + ticketIdSelected;
+        const apiUrl = `/api/v1/tickets/${ticketIdSelected}`;
 
         axiosInstance.get(apiUrl)
             .then(response => {

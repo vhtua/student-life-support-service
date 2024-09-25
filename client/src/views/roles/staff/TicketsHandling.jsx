@@ -10,8 +10,7 @@ import { gridSpacing } from 'store/constant';
 // Axios instance for API requests
 import axiosInstance from '../../../api/axiosInstance';  // Adjust the import path as needed
 
-import TicketsListCard from './utilities/TicketsListCard';
-import TicketCard from './utilities/TicketCard';
+import TicketsHandlingListCard from './utilities/TicketsHandlingListCard';
 
 
 
@@ -25,14 +24,11 @@ const TicketsHandling = () => {
   return (
     // <MainCard title="Ticket List">
       <Grid container spacing={gridSpacing}>
-        <Grid item xs={12} sm={8}>
+        <Grid item xs={12} sm={12}>
           {/* Pass profileUpdated to trigger refetch or rerender in ProfileCard */}
-          <TicketsListCard onTicketCardUpdate={handleTicketCardUpdate} />
+          <TicketsHandlingListCard onTicketCardUpdate={handleTicketCardUpdate} />
         </Grid>
 
-        <Grid item xs={12} sm={4}>
-          <TicketCard ticketCardUpdate={ticketCardUpdate}/>
-        </Grid>
 
 
       </Grid>

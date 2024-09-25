@@ -20,7 +20,6 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 
 import Grid from '@mui/material/Grid';
-import MainCard from 'views/roles/student/ui-component/cards/MainCard';
 import SubCard from '../ui-component/cards/SubCard';
 import { gridSpacing } from 'store/constant';
 

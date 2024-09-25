@@ -35,8 +35,9 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
   useEffect(() => {
     const fetchTickets = async () => {
       try {
-        const username = localStorage.getItem('username');
-        const apiUrl = context.apiEndpoint.ticketApi.rootApi + "/" + username;
+        // const username = localStorage.getItem('username');
+        // const apiUrl = context.apiEndpoint.ticketApi.rootApi + "/" + username;
+        const apiUrl = `/api/v1/tickets/`;
 
         const response = await axiosInstance.get(apiUrl);
         setData(response.data);

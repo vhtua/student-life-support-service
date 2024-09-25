@@ -31,7 +31,7 @@ const TicketCard = ({ ticketCardUpdate }) => {
             return;
         }
 
-        const apiUrl = `/api/v1/tickets/pending-ticket/${ticketIdSelected}`;
+        const apiUrl = `/api/v1/tickets/pending/${ticketIdSelected}`;
 
         axiosInstance.get(apiUrl)
             .then(response => {

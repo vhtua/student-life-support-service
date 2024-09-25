@@ -21,7 +21,7 @@ const CreateTicketCard = () => {
     useEffect(() => {
         const fetchDropdownValues = async () => {
             try {
-                const ticketTypeResponse = await axiosInstance.get('/api/v1/tickets/ticket-type');
+                const ticketTypeResponse = await axiosInstance.get('/api/v1/tickets/types');
                 const audienceTypeResponse = await axiosInstance.get('/api/v1/tickets/audience-type');
 
                 console.log(audienceTypeResponse);

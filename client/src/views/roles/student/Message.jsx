@@ -32,9 +32,8 @@ const Message = ( {conversation_id} ) => {
     setTicketCardUpdate((prevState) => !prevState); // Toggle the state to trigger a re-render
   };
 
-  // Using axios Instance to fetch data from this api endpoint http://localhost:3000/api/v1/tickets/public-ticket
   useEffect(() => {
-    axiosInstance.get('/api/v1/tickets/public-ticket')
+    axiosInstance.get('/api/v1/tickets/public')
       .then((response) => {
         console.log(response.data);
         setTicketData(response.data);

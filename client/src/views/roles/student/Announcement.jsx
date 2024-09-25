@@ -32,7 +32,6 @@ const Announcement = () => {
     setAnnouncementCardUpdate((prevState) => !prevState); // Toggle the state to trigger a re-render
   };
 
-  // Using axios Instance to fetch data from this api endpoint http://localhost:3000/api/v1/tickets/public-ticket
   useEffect(() => {
     axiosInstance.get('/api/v1/announcement')
       .then((response) => {

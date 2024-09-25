@@ -41,7 +41,7 @@ const TicketRateCard = ({ onTicketCardUpdate }) => {
         const fetchTickets = async () => {
             try {
                 const username = localStorage.getItem('username');
-                const apiUrl = `/api/v1/tickets`;
+                const apiUrl = context.apiEndpoint.ticketApi.rootApi + "/" + username;
 
                 const response = await axiosInstance.get(apiUrl);
                 const filteredData = response.data.filter(ticket => ticket.status_name === 'done');
