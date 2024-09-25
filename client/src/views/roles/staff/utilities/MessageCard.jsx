@@ -43,6 +43,8 @@ function MessageCard( {conversation_id, sender_id} ) {
 
     useEffect(() => {
         // console.log('Conversation ID:', conversationId);
+        setConversationId(conversation_id);
+
         axiosInstance.get(`/api/v1/messages/conversation`)
         .then(res => setAllConversationID(res.data))
         .catch(err => {
@@ -50,6 +52,7 @@ function MessageCard( {conversation_id, sender_id} ) {
             setAllConversationID([]);
         });
     }, [])
+
 
     useEffect(() => {
         socket.emit('join_conversation', conversationId);
@@ -62,13 +65,14 @@ function MessageCard( {conversation_id, sender_id} ) {
                 setMessages([]);});
 
         socket.on('receive_message', (newMessage) => {
+            console.log("Co tin nhan moi");
             setMessages((prevMessages) => [...prevMessages, newMessage]);
         });
 
         return () => {
             socket.off('receive_message');
         };
-    }, [conversationId]);
+    }, [conversationId, messages]);
 
     useEffect(() => {
         if (chatBoxRef.current) {
@@ -79,6 +83,12 @@ function MessageCard( {conversation_id, sender_id} ) {
     // Set the conversation id to the selected value in the drop down box
     const setConversation = (e) => {
         setConversationId(e.target.value);
+        // navigate to the route /staff/message?conversation_id={e.target.value}
+        // window.location.href = `/staff/message?conversation_id=${e.target.value}`;
+        const url = new URL(window.location);
+        url.searchParams.set('conversation_id', e.target.value);
+        window.history.pushState({}, '', url);
+
         // setSenderId(13);
         // console.log(e.target.value);
     };

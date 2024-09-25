@@ -68,7 +68,7 @@ function MessageCard( {conversation_id, sender_id} ) {
         return () => {
             socket.off('receive_message');
         };
-    }, [conversationId]);
+    }, [conversationId, messages]);
 
     useEffect(() => {
         if (chatBoxRef.current) {
@@ -79,8 +79,11 @@ function MessageCard( {conversation_id, sender_id} ) {
     // Set the conversation id to the selected value in the drop down box
     const setConversation = (e) => {
         setConversationId(e.target.value);
-        // setSenderId(13);
-        // console.log(e.target.value);
+        
+        const url = new URL(window.location);
+        url.searchParams.set('conversation_id', e.target.value);
+        window.history.pushState({}, '', url);
+
     };
 
     const sendMessage = () => {

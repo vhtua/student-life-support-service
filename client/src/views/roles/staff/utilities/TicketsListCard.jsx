@@ -48,6 +48,7 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
 
         const response = await axiosInstance.get(apiUrl);
         console.log('Tickets:', response.data);
+        localStorage.removeItem('ticketIdSelected');
         setData(response.data);
       } catch (error) {
         console.error('Error fetching tickets:', error);
@@ -175,33 +176,31 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
   const handleConfirm = async () => {
     try {
       let apiUrl = '';
+      
+      
       if (modalType === 'handle') {
-        apiUrl = '/api/v1/tickets/status';
+        apiUrl = '/api/v1/tickets/in-progress';
+        
+        const response = await axiosInstance.post(apiUrl, { 
+          ticket_id: selectedTicket.ticket_id,
+        });
+        toast.success('The ticket has been successfully added to your ticket handling list');
+        
+        console.log('Handle action', response.data);
+        onTicketCardUpdate(); // Notify parent component to refresh TicketCard
+        handleCloseModal();
+        localStorage.removeItem('ticketIdSelected');
+        
+        // run the handle refresh function
+        handleRefresh();
+        
+
       } else if (modalType === 'cancel') {
         apiUrl = '/api/v1/tickets/cancel';
+
+        toast.success('The ticket has been successfully cancelled');
       }
-
-      // const response = await axiosInstance.patch(apiUrl, {
-      //   ticket_id: selectedTicket.ticket_id,
-      //   ticket_status_id: modalType === 'handle' ? 2 : 4,
-      // });
-
-      // assign ticket to staff
-      const response = await axiosInstance.post('/api/v1/tickets/staff', { 
-        ticket_id: selectedTicket.ticket_id,
-      });
       
-      
-      toast.success('The ticket has been successfully added to your ticket handling list')
-      
-
-      console.log('Handle action', response.data);
-      onTicketCardUpdate(); // Notify parent component to refresh TicketCard
-      handleCloseModal();
-      localStorage.removeItem('ticketIdSelected');
-      
-      // run the handle refresh function
-      handleRefresh();
       
     } catch (error) {
       toast.error('Error handling this ticket');
@@ -244,13 +243,13 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
           </IconButton>
         </Tooltip>
 
-        <Tooltip title="Cancel">
+        {/* <Tooltip title="Cancel">
           <IconButton
             onClick={() => handleOpenModal(row.original, 'cancel')}
           >
             <CancelIcon />
           </IconButton>
-        </Tooltip>
+        </Tooltip> */}
       </Box>
     ),
     muiTableBodyRowProps: ({ rowIndex }) => ({

@@ -25,23 +25,23 @@ import MessageCard from './utilities/MessageCard';
 
 
 const Message = ( {conversation_id} ) => {
-  const [ticketCardUpdate, setTicketCardUpdate] = useState(false);
-  const [ticketData, setTicketData] = useState([]);
+  // const [ticketCardUpdate, setTicketCardUpdate] = useState(false);
+  // const [ticketData, setTicketData] = useState([]);
 
-  const handleTicketCardUpdate = () => {
-    setTicketCardUpdate((prevState) => !prevState); // Toggle the state to trigger a re-render
-  };
+  // const handleTicketCardUpdate = () => {
+  //   setTicketCardUpdate((prevState) => !prevState); // Toggle the state to trigger a re-render
+  // };
 
-  useEffect(() => {
-    axiosInstance.get('/api/v1/tickets/public')
-      .then((response) => {
-        console.log(response.data);
-        setTicketData(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [ticketCardUpdate]);
+  // useEffect(() => {
+  //   axiosInstance.get('/api/v1/tickets/public')
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       setTicketData(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }, [ticketCardUpdate]);
 
   return (
     // <MainCard title="Ticket List">
