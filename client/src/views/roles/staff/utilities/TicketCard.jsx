@@ -21,8 +21,13 @@ const TicketCard = ({ ticketCardUpdate }) => {
         const userName = localStorage.getItem('username');
         const ticketIdSelected = localStorage.getItem('ticketIdSelected');
 
+        console.log('Ticket ID selected:', ticketIdSelected);
+
+
         if (!ticketIdSelected) {
+            console.log('No ticket selected');
             setLoading(false);
+            setTicketData(null);
             return;
         }
 
@@ -164,7 +169,7 @@ const TicketCard = ({ ticketCardUpdate }) => {
                 </Box>
 
                 <Box sx={{ mb: 2, textAlign: 'left' }}>
-                    <Typography variant="body2" fontWeight="bold">
+                    <Typography component={'div'} variant="body2" fontWeight="bold">
                         Ticket Type:
                         <Chip label={ticket_type_name} color="primary" sx={{ marginLeft: '5px' }} />
                     </Typography>

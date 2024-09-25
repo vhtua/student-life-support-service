@@ -48,39 +48,6 @@ const Message = ( {conversation_id} ) => {
     // <MainCard title="Ticket List">
       <Grid container spacing={gridSpacing}>
 
-        {/* Refresh button */}
-        {/* <Grid item xs={12} sm={12}>
-
-         <Button
-                variant="contained"
-                color="success"
-                onClick={() => {
-                  handleTicketCardUpdate(); // Toggle the state to trigger a re-render
-                  setTicketData([]); // Clear data 
-                }}
-                sx={{ mb: 2 }}
-          >
-
-                <IconReload />
-
-                <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
-                    Refresh
-                </Typography>
-
-          </Button>
-        </Grid> */}
-
-        
-        {/* // Iterate the number of tickets in the ticketData array and create a PublicTicketCard for each ticket */}
-        {/* {ticketData.map((ticket) => (
-          <Grid item xs={12} sm={4}>
-            <PublicTicketCard data={ticket} handleTicketCardUpdate={handleTicketCardUpdate} />
-          </Grid>
-        ))} */}
-
-
-
-
         <Grid item xs={12} sm={9}>
           <MessageCard conversation_id={conversation_id}/>
         </Grid>

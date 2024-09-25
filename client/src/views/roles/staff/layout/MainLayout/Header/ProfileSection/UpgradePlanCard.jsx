@@ -47,12 +47,12 @@ const UpgradePlanCard = () => {
       <CardContent>
         <Grid container direction="column" spacing={2}>
           <Grid item>
-            <Typography variant="h4">Having an issue?</Typography>
+            <Typography variant="h4">Ready to support students?</Typography>
           </Grid>
           <Grid item>
             <Typography variant="subtitle2" color={'grey.900'} sx={{ opacity: 0.6 }}>
-              We always be here to<br />
-              support you.
+              Students really need<br />
+              your support.
             </Typography>
           </Grid>
           <Grid item>
@@ -60,7 +60,7 @@ const UpgradePlanCard = () => {
               <Link sx={{ textDecoration: 'none' }} href="/student/tickets/create-ticket" target="_self">
                 <AnimateButton>
                   <Button variant="contained" color="warning" sx={{ boxShadow: 'none' }}>
-                    Raise a ticket
+                    View available tickets
                   </Button>
                 </AnimateButton>
               </Link>

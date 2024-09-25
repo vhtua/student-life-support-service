@@ -10,7 +10,10 @@ import {
   IconButton,
   Tooltip,
   Typography,
+  Button
 } from '@mui/material';
+
+import { IconReload } from '@tabler/icons-react';
 
 import { Visibility } from '@mui/icons-material';
 
@@ -21,6 +24,12 @@ import context from 'context';
 
 const TicketsListCard = ({ onTicketCardUpdate }) => {
   const [data, setData] = useState([]);
+  const [isRefresh, setRefresh] = useState(false);
+
+
+  const handleRefresh = () => {
+    setRefresh((prevState) => !prevState); // Toggle the state to trigger a re-render
+  };
 
   // Fetch data from API
   useEffect(() => {
@@ -37,7 +46,8 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
     };
 
     fetchTickets();
-  }, []);
+  }, [isRefresh]);
+  
 
   // Define the columns for the table
   const columns = useMemo(
@@ -144,7 +154,20 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
   });
 
   return (
-    <Box>
+    <Box>{/* Refresh button */}
+    <Button
+    variant="contained"
+    color="success"
+    onClick={
+      handleRefresh // Toggle the state to trigger a re-render
+    }
+    sx={{ mb: 2 }}
+    >
+    <IconReload />
+    <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
+      Refresh
+    </Typography>
+    </Button>
       {/* <Typography variant="h2" component="h2" sx={{ mb: 2 }}>
         Ticket List
       </Typography> */}

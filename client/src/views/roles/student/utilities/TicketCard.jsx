@@ -163,7 +163,7 @@ const TicketCard = ({ ticketCardUpdate }) => {
                 </Box>
 
                 <Box sx={{ mb: 2, textAlign: 'left' }}>
-                    <Typography variant="body2" fontWeight="bold">
+                    <Typography component={'div'} variant="body2" fontWeight="bold">
                         Ticket Type:
                         <Chip label={ticket_type_name} color="primary" sx={{ marginLeft: '5px' }} />
                     </Typography>
@@ -211,7 +211,26 @@ const TicketCard = ({ ticketCardUpdate }) => {
                         <IconAnalyze />
                     </IconButton>
                     <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
-                        Status: <span style={{ color: 'orange' }}>{status}</span>
+                        {/* Status: <span style={{ color: 'orange' }}>{status}</span> */}
+                        Status: <Box
+                                component="span"
+                                sx={(theme) => ({
+                                backgroundColor:
+                                    status === 'cancelled'
+                                    ? theme.palette.error.dark // cancelled - red
+                                    : status === 'pending'
+                                        ? theme.palette.warning.dark  // pending - yellow
+                                        : status === 'in progress'
+                                        ? theme.palette.info.dark     // in progress - blue 
+                                        : theme.palette.success.dark, // done - green
+                                borderRadius: '0.6rem',
+                                color: '#fff',
+                                maxWidth: '9ch',
+                                p: '0.25rem',
+                                })}
+                            >
+                                {status}
+                            </Box>
                     </Typography>
                 </Box>
 

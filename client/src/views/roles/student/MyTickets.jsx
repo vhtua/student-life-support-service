@@ -35,8 +35,8 @@ const MyTickets = () => {
   return (
     // <MainCard title="Ticket List">
       <Grid container spacing={gridSpacing}>
-      <Grid item xs={12} sm={12}>
-        {/* Refresh button */}
+      {/* <Grid item xs={12} sm={12}>
+
         <Button
         variant="contained"
         color="success"
@@ -50,7 +50,7 @@ const MyTickets = () => {
           Refresh
         </Typography>
         </Button>
-      </Grid>
+      </Grid> */}
 
       <Grid item xs={12} sm={8}>
         {/* Pass profileUpdated to trigger refetch or rerender in ProfileCard */}

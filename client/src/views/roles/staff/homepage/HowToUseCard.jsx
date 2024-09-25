@@ -25,7 +25,7 @@ const style = {
 
 
 const HowToUseCard = () => (
-  <SubCard title="What You Can Do ">
+  <SubCard title="About this service">
     <Grid item>
         <Typography variant="body2" gutterBottom>
         The Student Support Service web application is designed to assist students with their daily activities at the Vietnamese-German University (VGU). Through this system, students are able to submit support tickets and await resolution. 
@@ -47,7 +47,7 @@ const HowToUseCard = () => (
       src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
     /> */}
 
-    <List sx={style}>
+    {/* <List sx={style}>
       <ListItem>
         <ListItemText primary="Raise support tickets and receive the assistance from VGU staff" />
       </ListItem>
@@ -70,7 +70,7 @@ const HowToUseCard = () => (
         <ListItemText primary="Send feedback" />
       </ListItem>
 
-    </List>
+    </List> */}
 
   </SubCard>
 );

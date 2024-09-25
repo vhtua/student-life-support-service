@@ -5,6 +5,10 @@ import Chip from '@mui/material/Chip';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
+import ReadMore from './ReadMore';
+
+
 const PublicTicketCard = ({ data }) => {
     const [open, setOpen] = useState(false);
     const [selectedAttachment, setSelectedAttachment] = useState(null);
@@ -106,7 +110,8 @@ const PublicTicketCard = ({ data }) => {
                     </Divider>
 
                     <Typography variant="body2" color="text.primary" sx={{ mt: 1, whiteSpace: 'pre-line' }}>
-                        {details}
+                        {/* {details} */}
+                        <ReadMore text={details} />
                     </Typography>
                     <Divider sx={{ mt: 4 }} />
                 </Box>

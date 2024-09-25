@@ -70,27 +70,6 @@ const Newsfeed = () => {
 
           </Button>
 
-          <Link href={`http://localhost:3210/student/ticket/create-ticket`} sx={{ ml: 1, color: 'primary.main' }}>
-          <Button 
-                variant="contained"
-                color="warning"
-                onClick={() => {
-                  handleTicketCardUpdate(); // Toggle the state to trigger a re-render
-                  setTicketData([]); // Clear data 
-                }}
-                sx={{ ml: 1, mt: -2 }}
-          >
-
-                <IconCirclePlus />
-
-                <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
-                    Create a ticket
-                        
-                </Typography>
-                
-
-          </Button>
-          </Link>
           
         </Grid>
 

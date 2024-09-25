@@ -40,10 +40,10 @@ const utilities = {
           // target: true
         },
         {
-          id: 'ticket-handling',
-          title: 'Ticket Handling',
+          id: 'tickets-handling',
+          title: 'Tickets Handling',
           type: 'item',
-          url: '/staff/tickets/ticket-handling',
+          url: '/staff/tickets/tickets-handling',
           icon: icons.IconHandFinger,
           // target: true
         },

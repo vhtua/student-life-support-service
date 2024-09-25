@@ -4,15 +4,20 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
 } from 'material-react-table';
-
+import Modal from '@mui/material/Modal';
 import {
   Box,
   IconButton,
   Tooltip,
   Typography,
+  Button
 } from '@mui/material';
 
 import { Visibility } from '@mui/icons-material';
+import BuildIcon from '@mui/icons-material/Build';
+import CloseIcon from '@mui/icons-material/Close';
+import CancelIcon from '@mui/icons-material/Cancel';
+import { IconReload } from '@tabler/icons-react';
 
 import axiosInstance from 'api/axiosInstance';
 import context from 'context';
@@ -21,6 +26,13 @@ import context from 'context';
 
 const TicketsListCard = ({ onTicketCardUpdate }) => {
   const [data, setData] = useState([]);
+  const [isRefresh, setRefresh] = useState(false);
+
+
+  const handleRefresh = () => {
+    setRefresh((prevState) => !prevState); // Toggle the state to trigger a re-render
+  };
+
 
   // Fetch data from API
   useEffect(() => {
@@ -38,7 +50,19 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
     };
 
     fetchTickets();
-  }, []);
+  }, [isRefresh]);
+
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
   // Define the columns for the table
   const columns = useMemo(
@@ -110,6 +134,53 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
   );
 
   // Initialize the table
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedTicket, setSelectedTicket] = useState(null);
+  const [modalType, setModalType] = useState('');
+
+  const handleOpenModal = (ticket, type) => {
+    setSelectedTicket(ticket);
+    setModalType(type);
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    setSelectedTicket(null);
+    setModalType('');
+  };
+
+  const handleConfirm = async () => {
+    try {
+      let apiUrl = '';
+      if (modalType === 'handle') {
+        apiUrl = '/api/v1/tickets/status';
+      } else if (modalType === 'cancel') {
+        apiUrl = '/api/v1/tickets/cancel';
+      }
+
+      const response = await axiosInstance.patch(apiUrl, {
+        ticket_id: selectedTicket.ticket_id,
+        ticket_status_id: modalType === 'handle' ? 2 : 4,
+      });
+
+      
+
+      console.log('Handle action', response.data);
+      onTicketCardUpdate(); // Notify parent component to refresh TicketCard
+      handleCloseModal();
+      localStorage.removeItem('ticketIdSelected');
+      
+      // run the handle refresh function
+      handleRefresh();
+
+    } catch (error) {
+      console.error('Error handling ticket:', error);
+      onTicketCardUpdate(); // Notify parent component to refresh TicketCard
+      handleCloseModal();
+    }
+  };
+
   const table = useMaterialReactTable({
     columns,
     data,
@@ -129,10 +200,25 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
               localStorage.setItem('ticketIdSelected', row.original.ticket_id);
 
               onTicketCardUpdate(); // Notify parent component to refresh TicketCard
-
             }}
           >
             <Visibility />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title="Handle">
+          <IconButton
+            onClick={() => handleOpenModal(row.original, 'handle')}
+          >
+            <BuildIcon />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title="Cancel">
+          <IconButton
+            onClick={() => handleOpenModal(row.original, 'cancel')}
+          >
+            <CancelIcon />
           </IconButton>
         </Tooltip>
       </Box>
@@ -146,11 +232,71 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
 
   return (
     <Box>
-      {/* <Typography variant="h2" component="h2" sx={{ mb: 2 }}>
-        Ticket List
-      </Typography> */}
+          <Button
+          variant="contained"
+          color="success"
+          onClick={
+            handleRefresh // Toggle the state to trigger a re-render
+          }
+          sx={{ mb: 2 }}
+          >
+          <IconReload />
+          <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
+            Refresh
+        </Typography>
+        </Button>
+
 
       <MaterialReactTable table={table} />
+      {openModal && selectedTicket && (
+        <Modal
+          open={openModal}
+          onClose={handleCloseModal}
+          aria-labelledby="modal-title"
+          aria-describedby="modal-description"
+        >
+          <Box sx={{ ...modalStyle }}>
+            <IconButton
+              sx={{ position: 'absolute', top: 8, right: 8 }}
+              onClick={handleCloseModal}
+            >
+              <CloseIcon />
+            </IconButton>
+            
+            <Typography id="modal-title" variant="h4" component="h2">
+              {modalType === 'handle' ? 'Are you sure you want to handle this ticket?' : 'Are you sure you want to cancel this ticket?'}
+            </Typography>
+
+            <Typography id="modal-title" variant="body1" component="h2" sx={{ mt: 1}}>
+              Ticket #{selectedTicket.ticket_id}
+            </Typography>
+
+            <Typography id="modal-title" variant="body1" component="h2" sx={{ mt: 1}}>
+              Subject: {selectedTicket.subject}
+            </Typography>
+
+            <Typography id="modal-title" variant="body1" component="h2" sx={{ mt: 1}}>
+              Student: {selectedTicket.fullname}. ID: {selectedTicket.username}
+            </Typography>
+
+            <Box sx={{ mt: 4, display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+              <Button variant="contained" color="primary" onClick={handleConfirm}
+              sx={{
+                backgroundColor: '#f7984c', // Custom default color
+                '&:hover': {
+                    backgroundColor: '#f58427', // Custom hover color
+                },
+              }}
+              >
+                OK
+              </Button>
+              <Button variant="outlined" onClick={handleCloseModal}>
+                Cancel
+              </Button>
+            </Box>
+          </Box>
+        </Modal>
+      )}
     </Box>
   );
 };

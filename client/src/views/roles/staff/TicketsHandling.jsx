@@ -14,7 +14,8 @@ import TicketsListCard from './utilities/TicketsListCard';
 import TicketCard from './utilities/TicketCard';
 
 
-const AvailableTickets = () => {
+
+const TicketsHandling = () => {
   const [ticketCardUpdate, setTicketCardUpdate] = useState(false);
 
   const handleTicketCardUpdate = () => {
@@ -40,4 +41,4 @@ const AvailableTickets = () => {
   );
 }
 
-export default AvailableTickets;
+export default TicketsHandling;

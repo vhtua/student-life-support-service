@@ -13,7 +13,7 @@ const ReadMore = ({ text }) => {
 
   return (
     <>
-      <Typography variant="body2" color="text.primary" sx={{ mt: 1, whiteSpace: 'pre-line' }}>
+      <Typography component={'span'} variant="body2" color="text.primary" sx={{ mt: 1, whiteSpace: 'pre-line' }}>
         {truncatedText}
         {text.split(' ').length > wordLimit && (
           <Typography component="span" color="primary" onClick={handleOpen} sx={{ cursor: 'pointer' }}>
@@ -26,7 +26,7 @@ const ReadMore = ({ text }) => {
           <IconButton onClick={handleClose} sx={{ position: 'absolute', top: 8, right: 8 }}>
             <CloseIcon />
           </IconButton>
-          <Typography variant="body2" color="text.primary" sx={{ whiteSpace: 'pre-line' }}>
+          <Typography component={'span'}variant="body2" color="text.primary" sx={{ whiteSpace: 'pre-line' }}>
             {text}
           </Typography>
         </Box>

@@ -18,6 +18,7 @@ const Message = Loadable(lazy(() => import('views/roles/staff/Message')));
 const Notification = Loadable(lazy(() => import('views/roles/staff/Notification')));
 const Announcement = Loadable(lazy(() => import('views/roles/staff/Announcement')));
 const Feedback = Loadable(lazy(() => import('views/roles/staff/Feedback')));
+const TicketsHandling = Loadable(lazy(() => import('views/roles/staff/TicketsHandling')));
 
 // utilities routing
 // const UtilsTypography = Loadable(lazy(() => import('views/roles/student/utilities/Typography')));
@@ -103,11 +104,11 @@ const StaffRoutes = {
           )
         },
         {
-          path: 'ticket-handling',
+          path: 'tickets-handling',
           element: (
             // <CreateTicket />
             <StaffProtectedRoutes>
-              <CreateTicket /> 
+              <TicketsHandling /> 
             </StaffProtectedRoutes>
           )
         },
