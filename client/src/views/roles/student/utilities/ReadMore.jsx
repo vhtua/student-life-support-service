@@ -22,13 +22,33 @@ const ReadMore = ({ text }) => {
         )}
       </Typography>
       <Modal open={isOpen} onClose={handleClose}>
-        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
-          <IconButton onClick={handleClose} sx={{ position: 'absolute', top: 8, right: 8 }}>
+        <Box sx={{ 
+          position: 'absolute', 
+          top: '50%', 
+          left: '50%', 
+          transform: 'translate(-50%, -50%)', 
+          width: 400, 
+          maxHeight: 600, 
+          bgcolor: 'background.paper', 
+          boxShadow: 24, 
+          p: 4, 
+          overflowY: 'auto' 
+        }}>
+          <IconButton onClick={handleClose} sx={{ 
+            position: 'sticky', 
+            top: 0, 
+            right: 1, 
+            zIndex: 1, 
+            bgcolor: 'background.paper' 
+          }}>
             <CloseIcon />
           </IconButton>
-          <Typography component={'span'} variant="body2" color="text.primary" sx={{ whiteSpace: 'pre-line' }}>
-            {text}
-          </Typography>
+
+          <Box sx={{ mt: 4 }}>
+            <Typography component={'span'} variant="body2" color="text.primary" sx={{ whiteSpace: 'pre-line' }}>
+              {text}
+            </Typography>
+          </Box>
         </Box>
       </Modal>
     </>

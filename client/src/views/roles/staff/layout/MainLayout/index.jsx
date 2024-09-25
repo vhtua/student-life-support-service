@@ -12,7 +12,7 @@ import { CssBaseline, styled, useTheme } from '@mui/material';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Customization from '../Customization';
-import Breadcrumbs from 'views/roles/student/ui-component/extended/Breadcrumbs';
+import Breadcrumbs from 'views/roles/staff/ui-component/extended/Breadcrumbs';
 import { SET_MENU } from 'store/actions';
 import { drawerWidth } from 'store/constant';
 

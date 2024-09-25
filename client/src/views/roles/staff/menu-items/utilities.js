@@ -37,6 +37,7 @@ const utilities = {
           type: 'item',
           url: '/staff/tickets/available-tickets',
           icon: icons.IconListSearch,
+          breadcrumbs: true
           // target: true
         },
         {
@@ -45,6 +46,7 @@ const utilities = {
           type: 'item',
           url: '/staff/tickets/tickets-handling',
           icon: icons.IconHandFinger,
+          breadcrumbs: true
           // target: true
         },
         {
@@ -53,6 +55,7 @@ const utilities = {
           type: 'item',
           url: '/staff/tickets/rate-ticket',
           icon: icons.IconThumbUp,
+          breadcrumbs: true
           // target: true
         },
         
@@ -64,6 +67,7 @@ const utilities = {
       type: 'item',
       url: '/staff/message',
       icon: icons.IconMessage,
+      breadcrumbs: true
       // target: true
     },
     {
