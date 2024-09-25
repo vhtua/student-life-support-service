@@ -108,7 +108,7 @@ io.on('connection', (socket) => {
           const sender_fullName = getFullName.rows[0].fullname;
 
           result.rows[0].sender_fullName = sender_fullName;
-          // console.log(result.rows[0]);
+          // console.log(result.rows[0], sender_fullName + "just sent msg");
           
           const newMessage = result.rows[0];
           await pool.query('COMMIT');
@@ -120,7 +120,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-      // console.log('A user disconnected');
+      console.log('A user disconnected from the conversation');
   });
 });
 

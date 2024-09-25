@@ -38,7 +38,7 @@ const getAttachments = async (req, res) => {
 
         // Get the file stat
         const stat = fs.statSync(filePath);
-        console.log(filePath);
+        // console.log(filePath);
 
         // Determine the content type based on the file extension
         const ext = path.extname(filePath).toLowerCase();

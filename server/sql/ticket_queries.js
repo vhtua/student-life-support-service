@@ -239,7 +239,7 @@ WHERE id = $1;
 `; 
 
 
-const assignStaffToTicket = `
+const assignUserToTicket = `
 INSERT INTO "User_Ticket" (user_id, ticket_id)
 VALUES ($1, $2);
 `;
@@ -257,8 +257,10 @@ SELECT
 	t.id AS ticket_id, 
 	tt.ticket_type_name AS ticket_type_name,
 	t.subject AS subject,
+	u.fullname AS fullname,
+	u.username AS username,
 	at.audience_type_name AS audience_type, 
-	ts.status_name AS status_name, 
+	ts.status_name AS status, 
 	t.created_date AS created_date, 
 	t.ended_date AS ended_date
 FROM "Ticket" AS t
@@ -266,15 +268,18 @@ FROM "Ticket" AS t
 	INNER JOIN "Ticket_Type" AS tt ON t.ticket_type_id = tt.id
 	INNER JOIN "Audience_Type" AS at ON t.audience_type_id = at.id
 	INNER JOIN "User_Ticket" AS ut ON t.id = ut.ticket_id
+	INNER JOIN "User" AS u ON ut.user_id = u.id
 WHERE
 	(t.id IN (SELECT ticket_id FROM "User_Ticket" WHERE user_id = $1)) AND
-	ts.status_name = 'in progress'
+	ts.status_name = 'in progress' AND
+	user_id <> $1
 	ORDER BY t.created_date DESC;
 `;
 
 
 const getInProgressTicketDetailsByTicketId = `
-SELECT 
+SELECT
+	DISTINCT
 	t.id AS ticket_id,
 	u.username AS username,
 	u.fullname AS fullname,
@@ -284,7 +289,7 @@ SELECT
 	t.subject AS subject,
 	t.content AS details,
 	at.audience_type_name AS audience_type, 
-	m.id AS message_id,
+	-- m.id AS message_id,
 	ts.status_name AS status,
 	d.area as dorm_area,
 	d.room as dorm_room
@@ -294,11 +299,70 @@ FROM "Ticket" AS t
 	INNER JOIN "Ticket_Type" AS tt ON t.ticket_type_id = tt.id
 	INNER JOIN "Ticket_Status" AS ts ON t.ticket_status_id = ts.id
 	INNER JOIN "Audience_Type" AS at ON t.audience_type_id = at.id
-	INNER JOIN "Message" AS m ON t.id = m.ticket_id
+	-- INNER JOIN "Message" AS m ON t.id = m.ticket_id
 	INNER JOIN "Dorm" AS d ON u.dorm_id = d.id
 WHERE 
-	t.id = $1;
+	t.id = $1 AND 
+	u.id <> $2;
 `;
+
+
+const getClosedTickets = `
+SELECT
+	DISTINCT
+	t.id AS ticket_id, 
+	tt.ticket_type_name AS ticket_type_name,
+	t.subject AS subject,
+	u.fullname AS fullname,
+	u.username AS username,
+	at.audience_type_name AS audience_type, 
+	ts.status_name AS status, 
+	t.created_date AS created_date, 
+	t.ended_date AS ended_date
+FROM "Ticket" AS t
+	INNER JOIN "Ticket_Status" AS ts ON t.ticket_status_id = ts.id
+	INNER JOIN "Ticket_Type" AS tt ON t.ticket_type_id = tt.id
+	INNER JOIN "Audience_Type" AS at ON t.audience_type_id = at.id
+	INNER JOIN "User_Ticket" AS ut ON t.id = ut.ticket_id
+	INNER JOIN "User" AS u ON ut.user_id = u.id
+WHERE
+	(t.id IN (SELECT ticket_id FROM "User_Ticket" WHERE user_id = $1)) AND
+	(ts.status_name = 'done' OR ts.status_name = 'cancelled') AND
+	user_id = $1
+	ORDER BY t.created_date DESC;
+`;
+
+
+
+const getClosedTicketDetails = `
+SELECT
+	DISTINCT
+	t.id AS ticket_id,
+	u.username AS username,
+	u.fullname AS fullname,
+	t.created_date AS created_date, 
+	t.ended_date AS ended_date,
+	tt.ticket_type_name AS ticket_type_name,
+	t.subject AS subject,
+	t.content AS details,
+	at.audience_type_name AS audience_type, 
+	-- m.id AS message_id,
+	ts.status_name AS status,
+	d.area as dorm_area,
+	d.room as dorm_room
+FROM "Ticket" AS t 
+	INNER JOIN "User_Ticket" AS ut ON t.id = ut.ticket_id
+	INNER JOIN "User" AS u ON ut.user_id = u.id
+	INNER JOIN "Ticket_Type" AS tt ON t.ticket_type_id = tt.id
+	INNER JOIN "Ticket_Status" AS ts ON t.ticket_status_id = ts.id
+	INNER JOIN "Audience_Type" AS at ON t.audience_type_id = at.id
+	-- INNER JOIN "Message" AS m ON t.id = m.ticket_id
+	INNER JOIN "Dorm" AS d ON u.dorm_id = d.id
+WHERE 
+	t.id = $1 AND 
+	u.id = $2;
+`;
+
 
 
 export default { 
@@ -317,7 +381,9 @@ export default {
 	getPendingTicketDetails,
 	getPendingTicketDetailsByTicketId,
 	updateTicketStatus,
-	assignStaffToTicket,
+	assignUserToTicket,
 	assignStaffToMessage,
-	getInProgressTickets
+	getInProgressTickets,
+	getInProgressTicketDetailsByTicketId,
+	getClosedTickets
 }; 

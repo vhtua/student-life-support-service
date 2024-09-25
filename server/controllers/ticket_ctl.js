@@ -273,7 +273,7 @@ const assignStaffToTicket = async (req, res) => {
         await pool.query('BEGIN');
         await pool.query(ticketQueries.updateTicketStatus, [ticketId, 2]);  // 2 == in progress
 
-        await pool.query(ticketQueries.assignStaffToTicket, [user_id, ticketId]);
+        await pool.query(ticketQueries.assignUserToTicket, [user_id, ticketId]);
 
 
         const created_date = new Date().toISOString();
@@ -316,6 +316,149 @@ const getInProgressTickets = async (req, res) => {
 }
 
 
+const getInProgressTicketDetailsByTicketId = async (req, res) => {
+    try {
+        const authHeader = req.headers['authorization'];
+        const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
+  
+        // Decode the token to extract user information
+        const user = jwt.decode(accessToken);
+        const user_id = user ? user.user_id : null;
+        if (!user_id) return res.status(401).json({ message: 'Cannot identify the user' });
+
+        const ticketId = req.params.ticket_id;
+
+        const { rows } = await pool.query(ticketQueries.getInProgressTicketDetailsByTicketId, [ticketId, user_id]);
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'Ticket not found' });
+        }
+
+        // Get attachments
+        const attachments  = await pool.query(ticketQueries.getAttachmentsByTicketId, [ticketId]);
+        // Add the attachment as an object of the rows
+        rows[0].attachments = attachments.rows
+
+        return res.status(200).json( rows[0] );
+    } catch (error) {
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+
+}
+
+
+const cancelTicket = async (req, res) => {
+    try {
+        const authHeader = req.headers['authorization'];
+        const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
+  
+        // Decode the token to extract user information
+        const user = jwt.decode(accessToken);
+        const user_id = user ? user.user_id : null;
+        if (!user_id) return res.status(401).json({ message: 'Cannot identify the user' });
+
+        const ticketId = req.body.ticket_id;
+
+        await pool.query('BEGIN');
+        await pool.query(ticketQueries.updateTicketStatus, [ticketId, 4]);  // 4 == cancelled
+
+        // await pool.query(ticketQueries.assignUserToTicket, [user_id, ticketId]);
+
+        await pool.query('COMMIT');
+
+        return res.status(200).json({ message: 'Successfully cancelling the ticket' });
+
+    } catch (error) {
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
+const doneTicket = async (req, res) => {
+    try {
+        const authHeader = req.headers['authorization'];
+        const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
+  
+        // Decode the token to extract user information
+        const user = jwt.decode(accessToken);
+        const user_id = user ? user.user_id : null;
+        if (!user_id) return res.status(401).json({ message: 'Cannot identify the user' });
+
+        const ticketId = req.body.ticket_id;
+
+        await pool.query('BEGIN');
+        await pool.query(ticketQueries.updateTicketStatus, [ticketId, 3]);  // 3 == done
+
+        // await pool.query(ticketQueries.assignUserToTicket, [user_id, ticketId]);
+
+        await pool.query('COMMIT');
+
+        return res.status(200).json({ message: 'Successfully done the ticket' });
+    } catch (error) {
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
+
+const getClosedTickets = async (req, res) => {
+    try {
+        const authHeader = req.headers['authorization'];
+        const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
+  
+        // Decode the token to extract user information
+        const user = jwt.decode(accessToken);
+        const user_id = user ? user.user_id : null;
+        if (!user_id) return res.status(401).json({ message: 'Cannot identify the user' });
+
+
+        const { rows } = await pool.query(ticketQueries.getClosedTickets, [user_id]);
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'Tickets not found' });
+        }
+
+        return res.status(200).json( rows );
+    } catch (error) {
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
+
+const getClosedTicketDetails = async (req, res) => {
+    try {
+        const authHeader = req.headers['authorization'];
+        const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
+  
+        // Decode the token to extract user information
+        const user = jwt.decode(accessToken);
+        const user_id = user ? user.user_id : null;
+        if (!user_id) return res.status(401).json({ message: 'Cannot identify the user' });
+
+        const ticketId = req.params.ticket_id;
+
+        const { rows } = await pool.query(ticketQueries.getClosedTicketDetails, [ticketId, user_id]);
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'Ticket not found' });
+        }
+
+        // Get attachments
+        const attachments  = await pool.query(ticketQueries.getAttachmentsByTicketId, [ticketId]);
+        // Add the attachment as an object of the rows
+        rows[0].attachments = attachments.rows
+
+        return res.status(200).json( rows[0] );
+    } catch (error) {
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
+
 export default { 
     getTicketsList, 
     getTicketDetails, 
@@ -327,5 +470,10 @@ export default {
     getPendingTicketDetailsByTicketId,
     updateTicketStatus,
     assignStaffToTicket,
-    getInProgressTickets
+    getInProgressTickets,
+    getInProgressTicketDetailsByTicketId,
+    cancelTicket,
+    doneTicket,
+    getClosedTickets,
+    getClosedTicketDetails
 };
