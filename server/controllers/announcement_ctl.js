@@ -44,4 +44,37 @@ const getAnnouncementList = async (req, res) => {
 
 
 
-export default { getAnnouncementList };
+const createAnnouncement = async (req, res) => {
+    try {
+        const authHeader = req.headers['authorization'];
+        const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
+
+        // Decode the token to extract user information
+        const user = jwt.decode(accessToken);
+        const user_id = user ? user.user_id : null;
+        if (!user_id) return res.status(401).json({message: 'Cannot identify the user'});
+
+        console.log(req.body);
+
+        const sender_id = user_id;
+        const title = req.body.title;
+        const content = req.body.content;
+        const created_date = new Date().toISOString();
+
+        await pool.query('BEGIN');
+
+        // Insert data into the database
+        const { rows } = await pool.query(announcementQueries.createAnnouncement, [title, content, sender_id, created_date]);
+        
+        await pool.query('COMMIT');
+
+        return res.status(200).json({ message: 'Announcement created' });
+    } catch (error) {
+        await pool.query('ROLLBACK');
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+}
+
+
+export default { getAnnouncementList, createAnnouncement };

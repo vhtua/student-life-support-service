@@ -9,5 +9,7 @@ const announcementRouter = Router();
 
 announcementRouter.get("/", authenticateToken(constants.allRoleName), announcementController.getAnnouncementList);
 
+announcementRouter.post("/", authenticateToken([constants.staffRoleName, constants.adminRoleName]), announcementController.createAnnouncement);
+
 
 export default announcementRouter;

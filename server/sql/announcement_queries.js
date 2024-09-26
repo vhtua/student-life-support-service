@@ -6,4 +6,10 @@ ORDER BY a.created_date DESC;
 `;
 
 
-export default { getAnnouncementList }; 
+const createAnnouncement = `
+INSERT INTO "Announcement" (title, content, sender_id, created_date)
+VALUES ($1, $2, $3, $4);
+`;
+
+
+export default { getAnnouncementList, createAnnouncement }; 

@@ -357,12 +357,13 @@ const cancelTicket = async (req, res) => {
         const user_id = user ? user.user_id : null;
         if (!user_id) return res.status(401).json({ message: 'Cannot identify the user' });
 
-        const ticketId = req.body.ticket_id;
+        const ticket_id = req.body.ticket_id;
 
         await pool.query('BEGIN');
-        await pool.query(ticketQueries.updateTicketStatus, [ticketId, 4]);  // 4 == cancelled
+        await pool.query(ticketQueries.updateTicketStatus, [ticket_id, 4]);  // 4 == cancelled
+        const ended_date = new Date().toISOString();
+        await pool.query(ticketQueries.updateTicketEndedDate, [ticket_id, ended_date]);
 
-        // await pool.query(ticketQueries.assignUserToTicket, [user_id, ticketId]);
 
         await pool.query('COMMIT');
 
@@ -385,12 +386,13 @@ const doneTicket = async (req, res) => {
         const user_id = user ? user.user_id : null;
         if (!user_id) return res.status(401).json({ message: 'Cannot identify the user' });
 
-        const ticketId = req.body.ticket_id;
+        const ticket_id = req.body.ticket_id;
 
         await pool.query('BEGIN');
-        await pool.query(ticketQueries.updateTicketStatus, [ticketId, 3]);  // 3 == done
+        await pool.query(ticketQueries.updateTicketStatus, [ticket_id, 3]);  // 3 == done
 
-        // await pool.query(ticketQueries.assignUserToTicket, [user_id, ticketId]);
+        const ended_date = new Date().toISOString();
+        await pool.query(ticketQueries.updateTicketEndedDate, [ticket_id, ended_date]);
 
         await pool.query('COMMIT');
 

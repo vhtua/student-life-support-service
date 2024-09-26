@@ -239,6 +239,14 @@ WHERE id = $1;
 `; 
 
 
+const updateTicketEndedDate = `
+UPDATE "Ticket"
+SET ended_date = $2
+WHERE id = $1;
+`;
+
+
+
 const assignUserToTicket = `
 INSERT INTO "User_Ticket" (user_id, ticket_id)
 VALUES ($1, $2);
@@ -381,6 +389,7 @@ export default {
 	getPendingTicketDetails,
 	getPendingTicketDetailsByTicketId,
 	updateTicketStatus,
+	updateTicketEndedDate,
 	assignUserToTicket,
 	assignStaffToMessage,
 	getInProgressTickets,
