@@ -60,12 +60,12 @@ const Notification = () => {
          {/* Refresh button */}
          <Button
                 variant="contained"
-                color="success"
+                // color="success"
                 onClick={() => {
                   handleNotificationCardUpdate(); // Toggle the state to trigger a re-render
                   setNotificationData([]); // Clear data 
                 }}
-                sx={{ mb: 2 }}
+                sx={{ backgroundColor: '#5bbaea', mb: 2 }}
           >
 
                 <IconReload />

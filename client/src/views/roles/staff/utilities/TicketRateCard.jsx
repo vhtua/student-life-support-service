@@ -226,12 +226,12 @@ const TicketRateCard = ({ onTicketCardUpdate }) => {
             {/* Refresh button */}
             <Button
                 variant="contained"
-                color="success"
+                // color="success"
                 onClick={() => {
                     setIsRatingSubmitted(prev => !prev);
                     setData([]); // Clear data to trigger useEffect
                 }}
-                sx={{ mb: 2 }}
+                sx={{ backgroundColor: '#5bbaea', mb: 2 }}
             >
 
                 <IconReload />

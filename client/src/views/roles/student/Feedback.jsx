@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 
 // project imports
-import MainCard from 'views/roles/student/ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 
 // Axios instance for API requests

@@ -277,14 +277,14 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
         />
           <Button
           variant="contained"
-          color="success"
+          // color="success"
           onClick={
             handleRefresh // Toggle the state to trigger a re-render
           }
-          sx={{ mb: 2 }}
+          sx={{ backgroundColor: '#5bbaea', mb: 2 }}
           >
           <IconReload />
-          <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
+          <Typography variant="body1" fontWeight="bold" sx={{  ml: 1 }}>
             Refresh
         </Typography>
         </Button>

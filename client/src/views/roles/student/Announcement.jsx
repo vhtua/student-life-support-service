@@ -60,12 +60,12 @@ const Announcement = () => {
          {/* Refresh button */}
          <Button
                 variant="contained"
-                color="success"
+                // color="success"
                 onClick={() => {
                   handleAnnouncementCardUpdate(); // Toggle the state to trigger a re-render
                   setAnnouncementData([]); // Clear data 
                 }}
-                sx={{ mb: 2 }}
+                sx={{ backgroundColor: '#5bbaea', mb: 2 }}
           >
 
                 <IconReload />

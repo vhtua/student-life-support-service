@@ -53,12 +53,12 @@ const Newsfeed = () => {
          {/* Refresh button */}
          <Button
                 variant="contained"
-                color="success"
+                // color="success"
                 onClick={() => {
                   handleTicketCardUpdate(); // Toggle the state to trigger a re-render
                   setTicketData([]); // Clear data 
                 }}
-                sx={{ mb: 2 }}
+                sx={{ backgroundColor: '#5bbaea',  mb: 2 }}
           >
 
                 <IconReload />
@@ -72,7 +72,7 @@ const Newsfeed = () => {
           <Link href={`http://localhost:3210/student/tickets/create-ticket`} sx={{ ml: 1, color: 'primary.main' }}>
           <Button 
                 variant="contained"
-                color="warning"
+                color="success"
                 onClick={() => {
                   handleTicketCardUpdate(); // Toggle the state to trigger a re-render
                   setTicketData([]); // Clear data 

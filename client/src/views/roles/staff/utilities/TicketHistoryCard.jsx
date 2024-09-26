@@ -9,6 +9,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import axiosInstance from 'api/axiosInstance';
 import context from 'context';
 import ReadMore from './ReadMore';
+import ChatModal from './ChatModal';
+import ChatModal2 from './ChatModal2';
+
+
 
 
 const TicketHistoryCard = ({ ticketCardUpdate }) => {
@@ -17,9 +21,20 @@ const TicketHistoryCard = ({ ticketCardUpdate }) => {
     const [ticketData, setTicketData] = useState(null);
     const [loading, setLoading] = useState(true);
 
+
+    const [isChatModalOpen, setChatModalOpen] = useState(false);
+
+    const handleOpenChatModal = () => {
+        setChatModalOpen(true);
+    };
+
+    const handleCloseChatModal = () => {
+        setChatModalOpen(false);
+    };
+
     useEffect(() => {
         const userName = localStorage.getItem('username');
-        const ticketIdSelected = localStorage.getItem('availableTicketIdSelected');
+        const ticketIdSelected = localStorage.getItem('historyTicketIdSelected');
 
         console.log('Ticket ID selected:', ticketIdSelected);
 
@@ -31,7 +46,7 @@ const TicketHistoryCard = ({ ticketCardUpdate }) => {
             return;
         }
 
-        const apiUrl = `/api/v1/tickets/pending/${ticketIdSelected}`;
+        const apiUrl = `/api/v1/tickets/closed/${ticketIdSelected}`;
 
         axiosInstance.get(apiUrl)
             .then(response => {
@@ -216,15 +231,23 @@ const TicketHistoryCard = ({ ticketCardUpdate }) => {
                 </Box>
 
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, textAlign: 'left' }}>
-                    <IconButton color="primary" sx={{ padding: 0 }}>
+                    <IconButton color="primary" sx={{ padding: 0 }} onClick={handleOpenChatModal}>
                         <IconMessage />
                     </IconButton>
                     <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
-                        Message: not available
-                        {/* <Link href={`http://localhost:3210/staff/message?conversation_id=${ticket_id}`} sx={{ ml: 1, color: 'primary.main' }}>
-                            #{ticket_id}
-                        </Link> */}
+                        Message:
                     </Typography>
+                    <Chip label={`#${ticket_id}`} onClick={handleOpenChatModal}  sx={{ ml: 1, backgroundColor: "" }}/>
+
+                    <ChatModal2
+                        ticketId={ticket_id}
+                        open={isChatModalOpen}
+                        sender_id={parseInt(localStorage.getItem('userId'))}
+                        sender_name={localStorage.getItem('fullName')}
+                        recipient_id={parseInt(username)}
+                        recipient_name={fullname}
+                        onClose={handleCloseChatModal}
+                    />
                 </Box>
 
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, textAlign: 'left' }}>
