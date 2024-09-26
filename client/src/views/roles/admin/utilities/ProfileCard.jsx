@@ -30,7 +30,7 @@ export default function ProfileCard({ profileUpdated }) {  // Accept profileUpda
     try {
       const username = localStorage.getItem('username');
 
-      const response = await axiosInstance.get(context.apiEndpoint.userApi.rootApi + "/" + username);
+      const response = await axiosInstance.get(context.apiEndpoint.userApi.rootApi);
       console.log(response.data);
       setUserDetails(response.data);  // Set user details
       setLoading(false);  // Stop loading when data is fetched

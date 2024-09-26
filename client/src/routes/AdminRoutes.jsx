@@ -7,16 +7,21 @@ import Loadable from 'views/roles/admin/ui-component/Loadable';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/roles/admin/homepage')));
-const Profile = Loadable(lazy(() => import('views/roles/admin/Profile')));
-const EditProfile = Loadable(lazy(() => import('views/roles/admin/EditProfile')));
-const ChangePassword = Loadable(lazy(() => import('views/roles/admin/ChangePassword')));
 const TicketsManagement = Loadable(lazy(() => import('views/roles/admin/TicketsManagement')));
-const CreateTicket = Loadable(lazy(() => import('views/roles/admin/CreateTicket')));
-const TicketHistory = Loadable(lazy(() => import('views/roles/admin/TicketHistory')));
-const Newsfeed = Loadable(lazy(() => import('views/roles/admin/Newsfeed')));
-const Message = Loadable(lazy(() => import('views/roles/admin/Message')));
+const UsersManagement = Loadable(lazy(() => import('views/roles/admin/UsersManagement')));
 const Notification = Loadable(lazy(() => import('views/roles/admin/Notification')));
 const Announcement = Loadable(lazy(() => import('views/roles/admin/Announcement')));
+const EditProfile = Loadable(lazy(() => import('views/roles/admin/EditProfile')));
+const ChangePassword = Loadable(lazy(() => import('views/roles/admin/ChangePassword')));
+const Newsfeed = Loadable(lazy(() => import('views/roles/admin/Newsfeed')));
+
+
+const Profile = Loadable(lazy(() => import('views/roles/admin/Profile')));
+const CreateTicket = Loadable(lazy(() => import('views/roles/admin/CreateTicket')));
+const TicketHistory = Loadable(lazy(() => import('views/roles/admin/TicketHistory')));
+
+const Message = Loadable(lazy(() => import('views/roles/admin/Message')));
+
 const Feedback = Loadable(lazy(() => import('views/roles/admin/Feedback')));
 const TicketsHandling = Loadable(lazy(() => import('views/roles/admin/TicketsHandling')));
 
@@ -91,38 +96,6 @@ const AdminRoutes = {
         }
       ]
     },
-    // {
-    //   path: 'tickets',
-    //   children: [
-    //     {
-    //       path: 'available-tickets',
-    //       element: (
-    //         // <AvailableTickets />
-    //         <AdminProtectedRoutes>
-    //           <AvailableTickets />
-    //         </AdminProtectedRoutes>
-    //       )
-    //     },
-    //     {
-    //       path: 'tickets-handling',
-    //       element: (
-    //         // <CreateTicket />
-    //         <AdminProtectedRoutes>
-    //           <TicketsHandling /> 
-    //         </AdminProtectedRoutes>
-    //       )
-    //     },
-    //     {
-    //       path: 'history',
-    //       element: (
-    //         // <TicketHistory />
-    //         <AdminProtectedRoutes>
-    //           <TicketHistory />
-    //         </AdminProtectedRoutes>
-    //       )
-    //     }
-    //   ]
-    // },
     {
         path: 'tickets',
         element: (
@@ -135,7 +108,7 @@ const AdminRoutes = {
       path: 'users',
       element: (
         <AdminProtectedRoutes>
-          <MessageWrapper />
+          <UsersManagement />
         </AdminProtectedRoutes>
       )
     },
