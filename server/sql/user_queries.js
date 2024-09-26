@@ -14,8 +14,7 @@ FROM  "User" AS u
     INNER JOIN "Role" AS r ON u.role_id = r.id
     INNER JOIN "Dorm" AS d ON u.dorm_id = d.id
 WHERE
-    username = $1 AND
-    role_name <> 'Admin';
+    username = $1;
 `;
 
 

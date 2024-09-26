@@ -49,6 +49,67 @@ WHERE
 `;
 
 
+const getAllTicketsList = `
+SELECT
+	DISTINCT
+	t.id AS ticket_id, 
+	tt.ticket_type_name AS ticket_type_name,
+	t.subject AS subject,
+	u.fullname AS fullname,
+	u.username AS username,
+	at.audience_type_name AS audience_type, 
+	ts.status_name AS status, 
+	t.created_date AS created_date, 
+	t.ended_date AS ended_date,
+	ra.rating_score AS rating_score
+FROM "Ticket" AS t
+	INNER JOIN "Ticket_Status" AS ts ON t.ticket_status_id = ts.id
+	INNER JOIN "Ticket_Type" AS tt ON t.ticket_type_id = tt.id
+	INNER JOIN "Audience_Type" AS at ON t.audience_type_id = at.id
+	INNER JOIN "User_Ticket" AS ut ON t.id = ut.ticket_id
+	INNER JOIN "User" AS u ON ut.user_id = u.id
+	INNER JOIN "Role" AS r ON r.id = u.role_id
+	FULL OUTER JOIN "Rating" AS ra ON ra.ticket_id = t.id
+WHERE
+	r.role_name = 'Student'
+	ORDER BY t.created_date DESC;
+`;
+
+
+const getAllTicketsDetailsByTicketId = `
+SELECT 
+	t.id AS ticket_id,
+	u.username AS username,
+	u.fullname AS fullname,
+	t.created_date AS created_date, 
+	t.ended_date AS ended_date,
+	tt.ticket_type_name AS ticket_type_name,
+	t.subject AS subject,
+	t.content AS details,
+	at.audience_type_name AS audience_type, 
+	-- m.id AS message_id,
+	ts.status_name AS status,
+	d.area as dorm_area,
+	d.room as dorm_room
+
+FROM "Ticket" AS t 
+	INNER JOIN "User_Ticket" AS ut ON t.id = ut.ticket_id
+	INNER JOIN "User" AS u ON ut.user_id = u.id
+	INNER JOIN "Ticket_Type" AS tt ON t.ticket_type_id = tt.id
+	INNER JOIN "Ticket_Status" AS ts ON t.ticket_status_id = ts.id
+	INNER JOIN "Audience_Type" AS at ON t.audience_type_id = at.id
+	INNER JOIN "Role" AS r ON r.id = u.role_id
+	-- INNER JOIN "Attachment" AS a ON t.id = a.ticket_id
+	-- INNER JOIN "Message" AS m ON t.id = m.ticket_id
+	INNER JOIN "Dorm" AS d ON u.dorm_id = d.id
+WHERE 
+	r.role_name = 'Student' AND
+	t.id = $1
+	ORDER BY t.created_date DESC;
+`;
+
+
+
 const getAttachmentsByTicketId = `
 SELECT a.id as id, a.attachment_type AS type, a.attachment_name AS name, url
 FROM "Attachment" AS a INNER JOIN "Ticket" AS t ON a.ticket_id = t.id
@@ -372,10 +433,18 @@ WHERE
 `;
 
 
+const deleteTicket = `
+DELETE FROM "Ticket"
+WHERE id = $1;
+`;
+
+
 
 export default { 
 	getTicketsList, 
-	getTicketDetails, 
+	getTicketDetails,
+	getAllTicketsList,
+	getAllTicketsDetailsByTicketId,
 	getTicketTypeList, 
 	getTicketAudienceTypeList, 
 	getAttachmentsByTicketId,
@@ -395,5 +464,6 @@ export default {
 	getInProgressTickets,
 	getInProgressTicketDetailsByTicketId,
 	getClosedTickets,
-	getClosedTicketDetails
+	getClosedTicketDetails,
+	deleteTicket
 }; 

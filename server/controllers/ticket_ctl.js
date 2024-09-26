@@ -89,6 +89,46 @@ const getTicketDetails = async (req, res) => {
 };
 
 
+
+const getAllTicketsList = async (req, res) => {
+    try {
+        const { rows } = await pool.query(ticketQueries.getAllTicketsList);
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'Ticket not found' });
+        }
+
+        return res.status(200).json( rows );
+    } catch (error) {
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
+
+const getAllTicketsDetailsByTicketId = async (req, res) => {
+    try {
+        const ticketId = req.params.ticket_id;
+
+        const { rows } = await pool.query(ticketQueries.getAllTicketsDetailsByTicketId, [ticketId]);
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'Ticket not found' });
+        }
+
+        // Get attachments
+        const attachments  = await pool.query(ticketQueries.getAttachmentsByTicketId, [ticketId]);
+        // Add the attachment as an object of the rows
+        rows[0].attachments = attachments.rows
+
+        return res.status(200).json( rows[0] );
+    } catch (error) {
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
+
 const getTicketTypeList = async (req, res) => {
     try {
         const { rows } = await pool.query(ticketQueries.getTicketTypeList);
@@ -462,9 +502,28 @@ const getClosedTicketDetails = async (req, res) => {
 
 
 
+const deleteTicket = async (req, res) => {
+    try {
+        const ticketId = req.params.ticket_id;
+
+        await pool.query('BEGIN');
+        await pool.query(ticketQueries.deleteTicket, [ticketId]);
+        await pool.query('COMMIT');
+
+        return res.status(200).json({ message: 'Successfully deleting the ticket' });
+    } catch (error) {
+        console.error(error);
+        await pool.query('ROLLBACK');
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
 export default { 
     getTicketsList, 
-    getTicketDetails, 
+    getTicketDetails,
+    getAllTicketsList,
+    getAllTicketsDetailsByTicketId,
     getTicketTypeList, 
     getTicketAudienceTypeList, 
     createTicket, 
@@ -478,5 +537,6 @@ export default {
     cancelTicket,
     doneTicket,
     getClosedTickets,
-    getClosedTicketDetails
+    getClosedTicketDetails,
+    deleteTicket
 };
