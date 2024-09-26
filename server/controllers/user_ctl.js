@@ -39,7 +39,14 @@ const getUsersList = async (req, res) => {
 
 
 const getUserByUserName = async (req, res) => {
-    const username = req.params.username;
+    const authHeader = req.headers['authorization'];
+    const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
+    
+    // Decode the token to extract user information
+    const user = jwt.decode(accessToken);
+    const username = user ? user.username : null;
+    if (!username) return res.status(401).json({message: 'Cannot identify the username'});
+
 
     pool.query(queries.getUserByUserName, [username], (error, results) => {
         if (error) {
