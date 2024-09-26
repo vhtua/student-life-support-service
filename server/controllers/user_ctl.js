@@ -23,20 +23,6 @@ const REFRESH_TOKEN_EXPIRED_IN = Number(process.env.EXPIRED_BEARER_REFRESH_TOKEN
 
 
 
-const getUsersList = async (req, res) => {
-    pool.query(queries.getUsersList, (error, results) => {
-        if (error) {
-            res.status(500).json([]);
-            logger.error();
-            throw error;
-        }
-        
-        res.json({results});
-
-    });
-
-}
-
 
 const getUserByUserName = async (req, res) => {
     const authHeader = req.headers['authorization'];
@@ -61,6 +47,22 @@ const getUserByUserName = async (req, res) => {
     });
 }
 
+
+
+const getUsersList = async (req, res) => {
+    pool.query(queries.getUsersList, (error, results) => {
+        if (error) {
+            res.status(500).json([]);
+            logger.error();
+            throw error;
+        }
+        
+        const userDetailsList = results.rows;
+        res.json(userDetailsList);
+
+    });
+
+}
 
 
 const changePassword = async (req, res) => {
