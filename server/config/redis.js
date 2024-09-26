@@ -24,10 +24,24 @@ const storeRefreshTokenInRedis = async (userId, refreshToken, expiresIn) => {
   };
 
 
+// Function to store newly reset password of a token in Redis
+const storeResetPasswordInRedis = async (password, token, expiresIn) => {
+  await redisClient.set(token, password, {
+    EX: expiresIn,
+  });
+};
+
+
+const getResetPasswordFromRedis = async (token) => {
+  const password = await redisClient.get(token);
+  return password;
+};
+
+
 // Function to verify refresh token in Redis
 const verifyRefreshTokenInRedis = async (refreshToken) => {
     const userId = await redisClient.get(`refreshToken:${refreshToken}`);
     return userId;
 };
 
-export default { redisClient, connectRedis, storeRefreshTokenInRedis, verifyRefreshTokenInRedis }
+export default { redisClient, connectRedis, storeRefreshTokenInRedis, verifyRefreshTokenInRedis, storeResetPasswordInRedis, getResetPasswordFromRedis }

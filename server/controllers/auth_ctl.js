@@ -2,6 +2,8 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
+import { fileURLToPath } from 'url';
+import path from 'path';
 import Redis from '../config/redis.js';
 import TokenManager from '../utils/token_manager.js'
 
@@ -12,6 +14,7 @@ import passwordTool from "../utils/password_tools.js"
 
 // Logger
 import logger from '../middleware/logger.js';
+import mailer from '../middleware/mailer.js';
 
 
 dotenv.config();
@@ -463,6 +466,128 @@ const verifyRefreshToken = async (req, res) => {
 
 
 
+const getResetPassword = async (req, res) => {
+    try {
+        const email = req.query.email;
+
+        // check if the email exists in the database
+        const existEmail = await pool.query(queries.getUserByEmail, [email]);
+        if (existEmail.rows.length === 0) {
+            return res.status(404).json({ message: 'Email not found' });
+        }
+
+        // generate a new password    
+        const password = passwordTool.generateRandomPassword();
+        const newAccessToken = jwt.sign({email}, ACCESS_TOKEN_SECRET, { expiresIn: "120s" });
+
+        // save the new password to the redis server with the token as the key for 2 minutes
+        await Redis.storeResetPasswordInRedis(password, newAccessToken, 120);
+        
+        const __filename = fileURLToPath(import.meta.url);
+        const __dirname = path.dirname(__filename); 
+        const __static_dirname = path.join(__dirname, '..', 'static'); 
+
+        console.log(__static_dirname);
+        
+        const resetPasswordLink = `http://localhost:3210/login?token=${newAccessToken}`;
+        
+        const mailOptions = {
+            from: {
+                name: 'VGU Student Life Support Service',
+                address: process.env.SYS_EMAIL
+            },
+            to: [email],
+            subject: 'RESET PASSWORD REQUEST',
+            // text: 'This is a title',
+            html: `
+            <div style="font-family: Arial, sans-serif; color: #333; padding: 20px;">
+                <table width="100%" style="max-width: 600px; margin: 0 auto; border: 1px solid #ddd; border-radius: 10px;">
+                    <tr>
+                        <td style="text-align: center; background-color: #f7f7f7; padding: 20px 0;">
+                            <h2 style="color: #444;">VGU Student Life Support Service</h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 20px;">
+                            <p>We received a request to reset the password for your account. To reset your password, click on the button below:</p>
+                            <div style="text-align: center; margin: 30px 0;">
+                                <a href="${resetPasswordLink}" style="background-color: #f58427; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                                    Reset Password
+                                </a>
+                            </div>
+                            <p>If the button above doesn’t work, copy and paste the URL below into your browser:</p>
+                            <p style="word-break: break-word;">
+                                <a href="${resetPasswordLink}" style="color: #f58427;">${resetPasswordLink}</a>
+
+                            <p> After redirecting to the login page of the service, you need to use this new password: </p>
+                            <div style="text-align: center; margin: 30px 0; ">
+                                <p> <strong><pre>${password}</pre></strong> </p>
+                            </div>
+
+                            <p>If you didn’t request a password reset, please ignore this email or contact support if you have questions.</p>
+                            
+                            
+                            <p>Best regards,</p>
+                            <p>VGU Student Life Support Service</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #f7f7f7; text-align: center; padding: 10px;">
+                            <small style="color: #888;">© 2024 VGU Student Life Support Service</small>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        `,
+        };
+
+        await mailer.sendMail(mailer.transporter, mailOptions)
+
+        res.status(200).json({ message: 'Password reset successfully', token: newAccessToken });
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
 
 
-export default { authenticateUser, logOutUser, refreshToken, verifyToken, verifyRefreshToken }
+const resetPassword = async (req, res) => {
+    const { token } = req.body;
+
+    // Decode the token to extract user information
+    const user = jwt.decode(token);
+    const email = user ? user.email : null;
+    if (!email) return res.status(401).json({ message: 'Cannot identify the user email' });
+
+    
+    console.log(token);
+
+    try {
+        const password = await Redis.getResetPasswordFromRedis(token);
+        if (password) {
+
+            // hash the password
+            const hashedPassword = await passwordTool.hashPassword(password);
+
+            await pool.query("BEGIN");
+            // save the new password to the database
+            await pool.query(queries.updateUserPassword, [hashedPassword, email]);
+
+            await pool.query("COMMIT");
+
+            res.status(200).json({ message: 'Password reset successfully' });
+            console.log(email, "has changed the new password with reset password token");
+        } else {
+            console.log("Password not found for the given token");
+            res.status(404).json({ message: 'Password not found for the given token' }); 
+        }
+    } catch (error) {
+        await pool.query("ROLLBACK");
+        console.log(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+
+}
+
+
+
+export default { authenticateUser, logOutUser, refreshToken, verifyToken, verifyRefreshToken, getResetPassword, resetPassword }
