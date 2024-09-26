@@ -48,12 +48,12 @@ const TicketsHandlingListCard = ({ onTicketCardUpdate }) => {
 
         // Check if the data is empty and set localStorage accordingly
         if (response.data.length === 0) {
-          localStorage.remove('handlingTicketIdSelected');
+          localStorage.removeItem('handlingTicketIdSelected');
         }
       } catch (error) {
         console.error('Error fetching tickets:', error);
         if (error.status === 404) {
-          localStorage.remove('handlingTicketIdSelected');
+          localStorage.removeItem('handlingTicketIdSelected');
         }
       }
     };
@@ -190,9 +190,11 @@ const TicketsHandlingListCard = ({ onTicketCardUpdate }) => {
       });
       
       if (modalType === 'done') {
-        toast.success('The ticket has been successfully marked as done');
+        localStorage.removeItem('handlingTicketIdSelected');
+        toast.success('The ticket has been successfully marked as done', { containerId: 'handling-tickets-toast' });
       } else if (modalType === 'cancel') {
-        toast.success('The ticket has been successfully cancelled');
+        localStorage.removeItem('handlingTicketIdSelected');
+        toast.success('The ticket has been successfully cancelled', {containerId: 'handling-tickets-toast'});
       }
       
       console.log('Handle action', response.data);
@@ -298,7 +300,7 @@ const TicketsHandlingListCard = ({ onTicketCardUpdate }) => {
             </IconButton>
             
             <Typography id="modal-title" variant="h4" component="h2">
-              {modalType === 'handle' ? 'Are you sure you want to handle this ticket?' : 'Are you sure you want to cancel this ticket?'}
+              {modalType === 'done' ? 'Are you sure you want to mark this ticket as done?' : 'Are you sure you want to cancel this ticket?'}
             </Typography>
 
             <Typography id="modal-title" variant="body1" component="h2" sx={{ mt: 1}}>

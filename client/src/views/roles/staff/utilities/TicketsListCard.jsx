@@ -187,9 +187,11 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
         const response = await axiosInstance.post(apiUrl, { 
           ticket_id: selectedTicket.ticket_id,
         });
-        toast.success('The ticket has been successfully added to your ticket handling list');
+        localStorage.removeItem('availableTicketIdSelected');
+        toast.success('The ticket has been successfully added to your ticket handling list', { containerId: 'available-tickets-toast' });
         
         console.log('Handle action', response.data);
+
         onTicketCardUpdate(); // Notify parent component to refresh TicketCard
         handleCloseModal();
         // localStorage.removeItem('ticketIdSelected');
@@ -202,11 +204,12 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
         apiUrl = '/api/v1/tickets/cancel';
 
         toast.success('The ticket has been successfully cancelled');
+        localStorage.removeItem('availableTicketIdSelected');
       }
       
       
     } catch (error) {
-      toast.error('Error handling this ticket');
+      toast.error('Error handling this ticket', { containerId: 'available-tickets-toast' });
       console.error('Error handling ticket:', error);
       onTicketCardUpdate(); // Notify parent component to refresh TicketCard
       handleCloseModal();

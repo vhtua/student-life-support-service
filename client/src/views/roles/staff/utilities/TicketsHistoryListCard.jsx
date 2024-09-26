@@ -237,13 +237,13 @@ const TicketsHistoryListCard = ({ onTicketCardUpdate }) => {
           </IconButton>
         </Tooltip>
 
-        <Tooltip title="Handle">
+        {/* <Tooltip title="Handle">
           <IconButton
             onClick={() => handleOpenModal(row.original, 'handle')}
           >
             <BuildIcon />
           </IconButton>
-        </Tooltip>
+        </Tooltip> */}
 
         {/* <Tooltip title="Cancel">
           <IconButton

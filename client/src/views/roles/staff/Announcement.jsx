@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react';
-
-// material-ui
-import Grid from '@mui/material/Grid';
 import {
+  Grid,
   Box,
   IconButton,
-  Tooltip,
   Typography,
   Modal,
   Button,
+  TextField,
+  MenuItem,
+  Checkbox,
+  ListItemText,
 } from '@mui/material';
-import { IconReload } from '@tabler/icons-react';
-
-// project imports
-import MainCard from 'views/roles/student/ui-component/cards/MainCard';
+import { IconReload, IconX, IconCirclePlus } from '@tabler/icons-react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import axiosInstance from '../../../api/axiosInstance';
 import { gridSpacing } from 'store/constant';
 
-// Axios instance for API requests
-import axiosInstance from '../../../api/axiosInstance';  // Adjust the import path as needed
 
-import PublicTicketCard from './utilities/PublicTicketCard';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import AnnouncementCard from './utilities/AnnouncementCard';
 
 
@@ -28,15 +28,15 @@ const Announcement = () => {
   const [announcementCardUpdate, setAnnouncementCardUpdate] = useState(false);
   const [announcementData, setAnnouncementData] = useState([]);
 
+  const [openModal, setOpenModal] = useState(false);
+
   const handleAnnouncementCardUpdate = () => {
-    setAnnouncementCardUpdate((prevState) => !prevState); // Toggle the state to trigger a re-render
+    setAnnouncementCardUpdate((prevState) => !prevState);
   };
 
-  
   useEffect(() => {
     axiosInstance.get('/api/v1/announcement')
       .then((response) => {
-        console.log(response.data);
         setAnnouncementData(response.data);
       })
       .catch((error) => {
@@ -45,66 +45,141 @@ const Announcement = () => {
   }, [announcementCardUpdate]);
 
 
-  // Usage example
-  // const notification = {
-  //   title: "New Campus Cafeteria Opening on October 1st",
-  //   fullname: "Trần Văn Sinh",
-  //   created_date: "2024-09-21T07:15:13.000Z",
-  //   content: "Dear Resident,\r\nPlease be advised that maintenance work is scheduled in Dormitory Block A on September 25th, 2024, from 10:00 AM to 2:00 PM. Water and electricity will be temporarily unavailable during this time. We apologize for any inconvenience caused.\r\n\r\nBest regards,\r\nStudent Affairs Office"
-  // };
+  const handleSubmit = (values, { setSubmitting }) => {
+    // alert(JSON.stringify(values, null, 2));
+    axiosInstance.post('/api/v1/announcement', values)
+      .then((response) => {
+        toast.success(response.data.message, { containerId: 'staff-announcement' });
+        // alert(response.data.message);
+        handleAnnouncementCardUpdate();
+        setOpenModal(false);
+      })
+      .catch((error) => {
+        toast.error('There was an error sending the announcement', { containerId: 'staff-announcement' });
+        console.error(error);
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
+  };
+
+  const validationSchema = Yup.object({
+    title: Yup.string().required('Title is required'),
+    content: Yup.string().required('Content is required'),
+  });
 
   return (
-    // <MainCard title="Ticket List">
-      <Grid container spacing={gridSpacing}>
+    <Grid container spacing={gridSpacing}>
+      <ToastContainer containerId={'staff-announcement'}
+        position="bottom-right" 
+        autoClose={5000} 
+        hideProgressBar={false} 
+        newestOnTop={false} 
+        closeOnClick 
+        rtl={false} 
+        pauseOnFocusLoss 
+        draggable 
+        pauseOnHover 
+      />
 
-        <Grid item xs={12} sm={12}>
-         {/* Refresh button */}
-         <Button
-                variant="contained"
-                // color="success"
-                onClick={() => {
-                  handleAnnouncementCardUpdate(); // Toggle the state to trigger a re-render
-                  setAnnouncementData([]); // Clear data 
-                }}
-                sx={{ backgroundColor: '#5bbaea', mb: 2 }}
-          >
+      <Grid item xs={12} sm={12}>
+        <Button
+          variant="contained"
+          sx={{ backgroundColor: '#5bbaea', mb: 2 }}
+          onClick={() => {
+            handleAnnouncementCardUpdate();
+            setAnnouncementData([]);
+          }}
+        >
+          <IconReload />
+          <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
+            Refresh
+          </Typography>
+        </Button>
 
-                <IconReload />
-
-                <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
-                    Refresh
-                </Typography>
-
-          </Button>
-        </Grid>
-
-        
-        {/* // Iterate the number of tickets in the ticketData array and create a PublicTicketCard for each ticket */}
-        {/* {ticketData.map((ticket) => (
-          <Grid item xs={12} sm={4}>
-            <PublicTicketCard data={ticket} handleTicketCardUpdate={handleTicketCardUpdate} />
-          </Grid>
-        ))} */}
-
-
-
-        {/* <Grid item xs={12} sm={8}>
-          <NotificationCard notification={notification} />
-        </Grid> */}
-
-
-        {announcementData.map((eachAnnouncement) => (
-          <Grid item xs={12} sm={12}>
-            <AnnouncementCard announcement={eachAnnouncement} handleAnnouncementCardUpdate={announcementCardUpdate} />
-          </Grid>
-        ))}
-
-
-
+        <Button
+          variant="contained"
+          color='success'
+          sx={{ mb: 2, ml: 2 }}
+          onClick={() => setOpenModal(true)}
+        >
+          <IconCirclePlus />
+          <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
+            Create
+          </Typography>
+        </Button>
       </Grid>
 
-    // </MainCard>
+      {announcementData.map((eachAnnouncement) => (
+        <Grid item xs={12} sm={12} key={eachAnnouncement.id}>
+          <AnnouncementCard announcement={eachAnnouncement} handleAnnouncementCardUpdate={announcementCardUpdate} />
+        </Grid>
+      ))}
+
+      <Modal open={openModal} onClose={() => setOpenModal(false)}>
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 500, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+          <IconButton
+            aria-label="close"
+            onClick={() => setOpenModal(false)}
+            sx={{ position: 'absolute', right: 8, top: 8 }}
+          >
+            <IconX />
+          </IconButton>
+          <Typography variant="h3" component="h2" sx={{ mb: 2 }}>
+            Create An Announcement
+          </Typography>
+          <Formik
+            initialValues={{ title: '', content: '' }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ isSubmitting, setFieldValue, values, errors, touched }) => (
+              <Form>
+                <Field
+                  as={TextField}
+                  name="title"
+                  label="Title"
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  multiline
+                  rows={2}
+                  error={touched.title && Boolean(errors.title)}
+                  helperText={<ErrorMessage name="title" />}
+                />
+                <Field
+                  as={TextField}
+                  name="content"
+                  label="Content"
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  multiline
+                  rows={12}
+                  error={touched.content && Boolean(errors.content)}
+                  helperText={<ErrorMessage name="content" />}
+                />
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{ mt: 2,
+                    backgroundColor: '#f7984c', // Custom default color
+                    '&:hover': {
+                        backgroundColor: '#f58427', // Custom hover color
+                    },
+                   }}
+                  fullWidth
+                  disabled={isSubmitting}
+                >
+                  Send
+                </Button>
+              </Form>
+            )}
+          </Formik>
+        </Box>
+      </Modal>
+    </Grid>
   );
-}
+};
 
 export default Announcement;
