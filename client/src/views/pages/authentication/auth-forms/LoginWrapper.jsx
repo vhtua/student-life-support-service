@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 // material-ui
 import Divider from '@mui/material/Divider';
@@ -16,11 +16,21 @@ import AuthLogin from './AuthLogin';
 import LoginLogo from 'views/roles/student/ui-component/LoginLogo';
 import AuthFooter from 'views/roles/student/ui-component/cards/AuthFooter';
 
+// For alert
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import validateUserRole from 'views/utilities/validateUserRole';
+import axios from 'axios';
 
 // ================================|| AUTH3 - LOGIN ||================================ //
 
 const Login = () => {
+  // get param for reset password
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const resetPasswordToken = searchParams.get('token') || null;
+
   // Get authentication status from Redux or localStorage
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated) || localStorage.getItem('accessToken');
   const roleName = isAuthenticated ? localStorage.getItem('roleName') : null;
@@ -29,9 +39,25 @@ const Login = () => {
 
   const downMD = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
+
+  // make an post request axios to reset password
+  if (resetPasswordToken) {
+    axios.patch('http://localhost:3000/auth/reset-password', {
+      token: resetPasswordToken,
+    }) 
+    .then(response => {
+      toast.success('Password reset successful');
+    })
+    .catch(error => {
+      toast.error('There was an error resetting the password');
+      console.error('There was an error resetting the password:', error);
+    });
+  }
+  // alert(resetPasswordToken);
+
   if (isAuthenticated) {
     return <Navigate to={baseRootUrl} replace />;
-  }
+  } 
 
   return (
     <AuthWrapper1>
@@ -68,8 +94,11 @@ const Login = () => {
                   </Grid>
                   <Grid item xs={12}>
                     <Grid item container direction="column" alignItems="center" xs={12}>
-                      <Typography component={Link} to="/pages/register/register3" variant="subtitle1" sx={{ textDecoration: 'none' }}>
+                      <Typography component={Link} to="" variant="subtitle1" sx={{ textDecoration: 'none' }}>
                         Don&apos;t have an account?
+                      </Typography>
+                      <Typography component={Link} to="" variant="subtitle1" sx={{ textDecoration: 'none' }}>
+                        Please contact the administrator
                       </Typography>
                     </Grid>
                   </Grid>
@@ -82,6 +111,18 @@ const Login = () => {
           <AuthFooter />
         </Grid>
       </Grid>
+
+          <ToastContainer containerId="login-toast-container"
+                position="bottom-right" 
+                autoClose={5000} 
+                hideProgressBar={false} 
+                newestOnTop={false} 
+                closeOnClick 
+                rtl={false} 
+                pauseOnFocusLoss 
+                draggable 
+                pauseOnHover 
+                />
     </AuthWrapper1>
   );
 };

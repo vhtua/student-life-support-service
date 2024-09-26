@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -173,7 +174,8 @@ const AuthLogin = ({ ...others }) => {
                 label="Remember me"
               />
               <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
-                Forgot Password?
+
+                <Link to="/reset-password" aria-label="logo">Forgot Password?</Link>
               </Typography>
             </Stack>
             {errors.submit && (
