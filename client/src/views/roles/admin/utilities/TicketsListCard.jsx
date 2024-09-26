@@ -17,6 +17,7 @@ import { Visibility } from '@mui/icons-material';
 import BuildIcon from '@mui/icons-material/Build';
 import CloseIcon from '@mui/icons-material/Close';
 import CancelIcon from '@mui/icons-material/Cancel';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { IconReload } from '@tabler/icons-react';
 
 import axiosInstance from 'api/axiosInstance';
@@ -43,17 +44,16 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
   useEffect(() => {
     const fetchTickets = async () => {
       try {
-        const username = localStorage.getItem('username');
-        const apiUrl = `/api/v1/tickets/pending`;
+        const apiUrl = `/api/v1/tickets/all`;
 
         const response = await axiosInstance.get(apiUrl);
         console.log('Tickets:', response.data);
-        // localStorage.removeItem('ticketIdSelected');
+        localStorage.removeItem('ticketIdSelected');
         setData(response.data);
       } catch (error) {
         console.error('Error fetching tickets:', error);
         if (error.status === 404) {
-          localStorage.remove('handlingTicketIdSelected');
+          localStorage.remove('ticketIdSelected');
         }
       }
     };
@@ -155,6 +155,11 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
         size: 100,
         Cell: ({ cell }) => cell.getValue() ? new Date(cell.getValue()).toLocaleString() : 'N/A',
       },
+      {
+        accessorKey: 'rating_score',
+        header: 'Rating',
+        size: 50,
+      },
     ],
     []
   );
@@ -181,16 +186,14 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
       let apiUrl = '';
       
       
-      if (modalType === 'handle') {
-        apiUrl = '/api/v1/tickets/in-progress';
+      if (modalType === 'delete') {
+        apiUrl = `/api/v1/tickets/${selectedTicket.ticket_id}`;
         
-        const response = await axiosInstance.post(apiUrl, { 
-          ticket_id: selectedTicket.ticket_id,
-        });
-        localStorage.removeItem('availableTicketIdSelected');
-        toast.success('The ticket has been successfully added to your ticket handling list', { containerId: 'available-tickets-toast' });
+        const response = await axiosInstance.delete(apiUrl);
         
-        console.log('Handle action', response.data);
+        toast.success('The ticket has been successfully deleted', { containerId: 'admin-tickets-toast' });
+        localStorage.removeItem('ticketIdSelected');
+        console.log('Delete action', response.data);
 
         onTicketCardUpdate(); // Notify parent component to refresh TicketCard
         handleCloseModal();
@@ -200,17 +203,12 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
         handleRefresh();
         
 
-      } else if (modalType === 'cancel') {
-        apiUrl = '/api/v1/tickets/cancel';
-
-        toast.success('The ticket has been successfully cancelled');
-        localStorage.removeItem('availableTicketIdSelected');
       }
       
       
     } catch (error) {
-      toast.error('Error handling this ticket', { containerId: 'available-tickets-toast' });
-      console.error('Error handling ticket:', error);
+      toast.error('Error deleting this ticket', { containerId: 'admin-tickets-toast' });
+      console.error('Error deleting ticket:', error);
       onTicketCardUpdate(); // Notify parent component to refresh TicketCard
       handleCloseModal();
     }
@@ -232,7 +230,7 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
           <IconButton
             onClick={() => {
               console.log('View action', row.original);
-              localStorage.setItem('availableTicketIdSelected', row.original.ticket_id);
+              localStorage.setItem('ticketIdSelected', row.original.ticket_id);
 
               onTicketCardUpdate(); // Notify parent component to refresh TicketCard
             }}
@@ -241,11 +239,11 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
           </IconButton>
         </Tooltip>
 
-        <Tooltip title="Handle">
+        <Tooltip title="Delete">
           <IconButton
-            onClick={() => handleOpenModal(row.original, 'handle')}
+            onClick={() => handleOpenModal(row.original, 'delete')}
           >
-            <BuildIcon />
+            <DeleteIcon />
           </IconButton>
         </Tooltip>
 
@@ -267,7 +265,7 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
 
   return (
     <Box>
-        <ToastContainer containerId={"available-tickets-toast"}
+        <ToastContainer containerId={"admin-tickets-toast"}
         position="bottom-right" 
         autoClose={5000} 
         hideProgressBar={false} 
@@ -309,7 +307,7 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
             </IconButton>
             
             <Typography id="modal-title" variant="h4" component="h2">
-              {modalType === 'handle' ? 'Are you sure you want to handle this ticket?' : 'Are you sure you want to cancel this ticket?'}
+              {modalType === 'delete' ? 'Are you sure you want to delete this ticket?' : 'Are you sure you want to cancel this ticket?'}
             </Typography>
 
             <Typography id="modal-title" variant="body1" component="h2" sx={{ mt: 1}}>

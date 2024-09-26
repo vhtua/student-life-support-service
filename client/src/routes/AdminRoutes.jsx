@@ -10,7 +10,7 @@ const DashboardDefault = Loadable(lazy(() => import('views/roles/admin/homepage'
 const Profile = Loadable(lazy(() => import('views/roles/admin/Profile')));
 const EditProfile = Loadable(lazy(() => import('views/roles/admin/EditProfile')));
 const ChangePassword = Loadable(lazy(() => import('views/roles/admin/ChangePassword')));
-const AvailableTickets = Loadable(lazy(() => import('views/roles/admin/AvailableTickets')));
+const TicketsManagement = Loadable(lazy(() => import('views/roles/admin/TicketsManagement')));
 const CreateTicket = Loadable(lazy(() => import('views/roles/admin/CreateTicket')));
 const TicketHistory = Loadable(lazy(() => import('views/roles/admin/TicketHistory')));
 const Newsfeed = Loadable(lazy(() => import('views/roles/admin/Newsfeed')));
@@ -127,7 +127,7 @@ const AdminRoutes = {
         path: 'tickets',
         element: (
           <AdminProtectedRoutes>
-            <MessageWrapper />
+            <TicketsManagement />
           </AdminProtectedRoutes>
         )
     },

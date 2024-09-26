@@ -19,7 +19,7 @@ const TicketCard = ({ ticketCardUpdate }) => {
 
     useEffect(() => {
         const userName = localStorage.getItem('username');
-        const ticketIdSelected = localStorage.getItem('availableTicketIdSelected');
+        const ticketIdSelected = localStorage.getItem('ticketIdSelected');
 
         console.log('Ticket ID selected:', ticketIdSelected);
 
@@ -31,7 +31,7 @@ const TicketCard = ({ ticketCardUpdate }) => {
             return;
         }
 
-        const apiUrl = `/api/v1/tickets/pending/${ticketIdSelected}`;
+        const apiUrl = `/api/v1/tickets/all/${ticketIdSelected}`;
 
         axiosInstance.get(apiUrl)
             .then(response => {
