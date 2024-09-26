@@ -419,6 +419,7 @@ const getClosedTickets = async (req, res) => {
             return res.status(404).json({ message: 'Tickets not found' });
         }
 
+        console.log(rows);
         return res.status(200).json( rows );
     } catch (error) {
         logger.error(error);

@@ -23,6 +23,7 @@ import notificationRoutes from './routes/notification_routes.js';
 import messageRoutes from './routes/message_route.js';
 import announcementRoutes from './routes/announcement_route.js';
 import feedbackRoutes from './routes/feedback_route.js';
+import roleRoutes from './routes/role_route.js';
 
 // Import samples
 import books from './utils/books.js';
@@ -43,14 +44,15 @@ app.use(cors(WebConfig.corsOptions));
 // ==============================|| Routes ||============================== //
 // Support GET, POST, PUT (update all attr), PATCH (update some parts), DELETE
 app.use("/auth", authRoutes);                     // 5 apis: login, logout, refresh, verify, verify refresh token
-app.use("/api/v1/users", userRoutes);             // 5 apis
+app.use("/api/v1/users", userRoutes);             // 5 apis     
 app.use("/api/v1/tickets", ticketRoutes);         // 7 apis
 app.use("/api/v1/attachments", attachmentRoutes); // 1 api
 app.use("/api/v1/rating", ratingRoutes);          // 2 apis
 app.use("/api/v1/messages", messageRoutes);
+app.use("/api/v1/roles", roleRoutes);       // 1 api
 app.use("/api/v1/notification", notificationRoutes); 
 app.use("/api/v1/announcement", announcementRoutes);        
-app.use("/api/v1/feedback", feedbackRoutes);        
+app.use("/api/v1/feedback", feedbackRoutes);            
 
 
 

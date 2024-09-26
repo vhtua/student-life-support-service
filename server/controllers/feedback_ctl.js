@@ -32,16 +32,17 @@ const sendFeedback = async (req, res) => {
 
         // Decode the token to extract user information
         const user = jwt.decode(accessToken);
-        const userId = user ? user.userId : null;
-        if (!userId) return res.status(401).json({message: 'Cannot identify the user'});
+        const user_id = user ? user.user_id : null;
+        if (!user_id) return res.status(401).json({message: 'Cannot identify the user'});
 
 
         const title = req.body.title;
         const content = req.body.content;
+        const rating_score = req.body.rating_score;
         const created_date = req.body.created_date;
 
         // Retrieve data from the database
-        await pool.query(feedbackQueries.sendFeedback, [userId, title, content, created_date]);
+        await pool.query(feedbackQueries.sendFeedback, [user_id, title, content, rating_score, created_date]);
        
         return res.status(200).json({ message: 'Successfully send the feedback' });
     } catch (error) {

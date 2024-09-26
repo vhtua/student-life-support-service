@@ -15,6 +15,7 @@ import logger from '../middleware/logger.js';
 import { json } from 'express';
 import fs from 'fs';
 import path from 'path';
+import { title } from 'process';
 
 
 dotenv.config();
@@ -49,5 +50,59 @@ const getNotificationsList = async (req, res) => {
 };
 
 
+const createNotification = async (req, res) => {
+    try {
+        const authHeader = req.headers['authorization'];
+        const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
 
-export default { getNotificationsList };
+        // Decode the token to extract user information
+        const user = jwt.decode(accessToken);
+        const roleName = user ? user.role_name : null;
+        if (!roleName) return res.status(401).json({message: 'Cannot identify the role name'});
+        const userId = user ? user.user_id : null;
+        if (!userId) return res.status(401).json({message: 'Cannot identify the user'});
+
+        console.log(req.body.title);    
+        console.log(req.body.recipients);
+        console.log(req.body.content);
+
+
+        const sender_id = userId;
+        const title = req.body.title;
+        const content = req.body.content;
+        const recipients = req.body.recipients;
+        const created_date = new Date().toISOString();
+
+        // search self-role id
+        const { rows: selfRole } = await pool.query('SELECT id FROM "Role" WHERE role_name = $1', [roleName]);
+        if (selfRole.length === 0) {
+            return res.status(404).json({ message: 'Role not found' });
+        }
+        const role_id = selfRole[0].id;
+
+        await pool.query('BEGIN');
+
+        // Insert data into the database
+        const { rows } = await pool.query(notiQueries.createNotification, [title, content, sender_id, created_date]);
+        
+
+        // Insert audience data of the notification
+        await pool.query(notiQueries.insertNotificationAudience, [rows[0].id, role_id]); // Self-role
+        for (let i = 0; i < recipients.length; i++) {
+            const role_id = recipients[i];
+            await pool.query(notiQueries.insertNotificationAudience, [rows[0].id, role_id]);
+        }
+
+        await pool.query('COMMIT');
+
+        return res.status(200).json({ message: 'Notification created' });
+    } catch (error) {
+        await pool.query('ROLLBACK');
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
+
+export default { getNotificationsList, createNotification };

@@ -9,5 +9,7 @@ const notificationRouter = Router();
 
 notificationRouter.get("/", authenticateToken(constants.allRoleName), notificationController.getNotificationsList);
 
+notificationRouter.post("/", authenticateToken([constants.staffRoleName, constants.adminRoleName]), notificationController.createNotification);
+
 
 export default notificationRouter;

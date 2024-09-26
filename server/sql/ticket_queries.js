@@ -360,7 +360,7 @@ FROM "Ticket" AS t
 	INNER JOIN "Dorm" AS d ON u.dorm_id = d.id
 WHERE 
 	t.id = $1 AND 
-	u.id = $2;
+	u.id <> $2;
 `;
 
 
@@ -385,5 +385,6 @@ export default {
 	assignStaffToMessage,
 	getInProgressTickets,
 	getInProgressTicketDetailsByTicketId,
-	getClosedTickets
+	getClosedTickets,
+	getClosedTicketDetails
 }; 

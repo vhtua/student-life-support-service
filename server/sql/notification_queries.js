@@ -9,4 +9,17 @@ ORDER BY n.created_date DESC;
 `;
 
 
-export default { getNotificationsList }; 
+const createNotification = `
+INSERT INTO "Notification" (title, content, sender_id, created_date)
+VALUES ($1, $2, $3, $4)
+RETURNING *;
+`;
+
+
+const insertNotificationAudience = `
+INSERT INTO "Notification_Audience" (notification_id, role_id)
+VALUES ($1, $2);
+`;
+
+
+export default { getNotificationsList, createNotification, insertNotificationAudience }; 
