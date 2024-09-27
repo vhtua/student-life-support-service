@@ -329,11 +329,11 @@ const UsersListCard = ({ onUserCardUpdate }) => {
     muiTableContainerProps: { sx: { maxHeight: '800px' } },
     renderRowActions: ({ row }) => (
       <Box sx={{ display: 'flex', gap: '0.5rem' }}>
-        <Tooltip title="Edit Dorm">
+        <Tooltip title="Edit Personal Details">
           <IconButton
-            onClick={() => handleOpenModal(row.original, 'editDorm')}
+            onClick={() => handleOpenModal(row.original, 'editPersonalDetails')}
           >
-            <ApartmentIcon />
+            <Visibility />
           </IconButton>
         </Tooltip>
 
@@ -345,6 +345,16 @@ const UsersListCard = ({ onUserCardUpdate }) => {
           </IconButton>
         </Tooltip>
 
+
+        <Tooltip title="Edit Dorm">
+          <IconButton
+            onClick={() => handleOpenModal(row.original, 'editDorm')}
+          >
+            <ApartmentIcon />
+          </IconButton>
+        </Tooltip>
+
+
         <Tooltip title="Delete">
           <IconButton
             onClick={() => handleOpenModal(row.original, 'delete')}
@@ -353,13 +363,7 @@ const UsersListCard = ({ onUserCardUpdate }) => {
           </IconButton>
         </Tooltip>
 
-        <Tooltip title="Edit Personal Details">
-          <IconButton
-            onClick={() => handleOpenModal(row.original, 'editPersonalDetails')}
-          >
-            <Visibility />
-          </IconButton>
-        </Tooltip>
+        
       </Box>
     ),
     muiTableBodyRowProps: ({ rowIndex }) => ({
