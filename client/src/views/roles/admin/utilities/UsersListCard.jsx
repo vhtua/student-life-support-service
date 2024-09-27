@@ -4,6 +4,7 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
 } from 'material-react-table';
+import CircularProgress from '@mui/material/CircularProgress';
 import Autocomplete from '@mui/material/Autocomplete';
 import Modal from '@mui/material/Modal';
 import {
@@ -57,6 +58,7 @@ const UsersListCard = ({ onUserCardUpdate }) => {
   const [dormAreas, setDormAreas] = useState([]);
   const [dormRooms, setDormRooms] = useState([]);
   const [roles, setRoles] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleRefresh = () => {
     setRefresh((prevState) => !prevState); // Toggle the state to trigger a re-render
@@ -65,16 +67,19 @@ const UsersListCard = ({ onUserCardUpdate }) => {
 
 
   const handleCreateUser = async (values) => {
+    setLoading(true);
     try {
-      alert(JSON.stringify(values, null, 2));
+      // alert(JSON.stringify(values, null, 2));
       const apiUrl = '/api/v1/users';
       await axiosInstance.post(apiUrl, values);
-      toast.success('The user has been successfully created', { containerId: 'admin-users-toast' });
-      onUserCardUpdate(); // Notify parent component to refresh UserCard
+      toast.success('The user has been successfully created', { containerId: 'admin-users-mng-toast' });
+      // onUserCardUpdate(); // Notify parent component to refresh UserCard
       handleCloseModal();
     } catch (error) {
-      toast.error('Error creating user', { containerId: 'admin-users-toast' });
+      toast.error('Error creating user', { containerId: 'admin-users-mng-toast' });
       console.error('Error creating user:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -228,12 +233,13 @@ const UsersListCard = ({ onUserCardUpdate }) => {
   };
 
   const handleConfirm = async () => {
+    setLoading(true);
     try {
       if (modalType === 'delete') {
         const apiUrl = `/api/v1/users/${selectedUser.user_id}`;
         await axiosInstance.delete(apiUrl);
         toast.success('The user has been successfully deleted', { containerId: 'admin-users-mng-toast' });
-        onUserCardUpdate(); // Notify parent component to refresh UserCard
+        // onUserCardUpdate(); // Notify parent component to refresh UserCard
         handleCloseModal();
         handleRefresh();
       }
@@ -242,11 +248,14 @@ const UsersListCard = ({ onUserCardUpdate }) => {
       console.error('Error deleting user:', error);
       onUserCardUpdate(); // Notify parent component to refresh UserCard
       handleCloseModal();
+    } finally {
+      setLoading(false);
     }
   };
 
 
   const handleEditSubmit = async (values) => {
+    setLoading(true);
 
     try {
       if (modalType === 'editDorm') {
@@ -258,7 +267,7 @@ const UsersListCard = ({ onUserCardUpdate }) => {
         handleRefresh();
 
       } else if (modalType === 'editRole') {
-        alert(JSON.stringify(values, null, 2));
+        
         const apiUrl = `/api/v1/users/role/${selectedUser.user_id}`;
         await axiosInstance.patch(apiUrl, values);
         toast.success('The user role has been successfully updated', { containerId: 'admin-users-mng-toast' });
@@ -270,17 +279,19 @@ const UsersListCard = ({ onUserCardUpdate }) => {
       console.error('Error updating user:', error);
       onUserCardUpdate(); // Notify parent component to refresh UserCard
       handleCloseModal();
+    } finally {
+      setLoading(false);  
     }
     
   };
 
   const handlePersonalDetailsSubmit = async (values) => {
-    alert(JSON.stringify(values, null, 2));
+    setLoading(true);
     try {
-      const apiUrl = `/api/v1/user/personal-details/${selectedUser.user_id}`;
+      const apiUrl = `/api/v1/users/${selectedUser.user_id}`;
       await axiosInstance.patch(apiUrl, values);
       toast.success('The personal details have been successfully updated', { containerId: 'admin-users-mng-toast' });
-      onUserCardUpdate(); // Notify parent component to refresh UserCard
+      // onUserCardUpdate(); // Notify parent component to refresh UserCard
       handleCloseModal();
       handleRefresh();
     } catch (error) {
@@ -288,6 +299,8 @@ const UsersListCard = ({ onUserCardUpdate }) => {
       console.error('Error updating personal details:', error);
       onUserCardUpdate(); // Notify parent component to refresh UserCard
       handleCloseModal();
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -350,6 +363,23 @@ const UsersListCard = ({ onUserCardUpdate }) => {
 
   return (
     <Box>
+
+    <Modal
+        open={loading}
+        closeAfterTransition
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+          }}
+        >
+          <CircularProgress sx={{ color: 'orange' }} />
+        </Box>
+      </Modal>
+
       <ToastContainer containerId={"admin-users-mng-toast"}
         position="bottom-right"
         autoClose={5000}
@@ -395,7 +425,7 @@ const UsersListCard = ({ onUserCardUpdate }) => {
           aria-describedby="modal-description"
         >
       
-      <Box sx={{ ...modalStyle, maxHeight: '90vh', overflowY: 'auto' }}>
+      <Box sx={{ ...modalStyle, maxHeight: '90vh', overflowY: 'auto', width: '400px' }}>
   <IconButton
     sx={{ position: 'absolute', top: 8, right: 8 }}
     onClick={handleCloseModal}
@@ -433,8 +463,19 @@ const UsersListCard = ({ onUserCardUpdate }) => {
         <Typography id="modal-title" variant="h4" component="h2">
           Create User
         </Typography>
-        <Grid container spacing={2}>
-        <Grid item xs={6}>
+
+        <Field
+            as={TextField}
+            label="Full Name"
+            name="fullname"
+            value={values.fullname}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            error={touched.fullname && Boolean(errors.fullname)}
+            helperText={touched.fullname && errors.fullname}
+          />  
+
           <Field
             as={TextField}
             label="Username"
@@ -446,124 +487,116 @@ const UsersListCard = ({ onUserCardUpdate }) => {
             error={touched.username && Boolean(errors.username)}
             helperText={touched.username && errors.username}
           />
-        </Grid>
-        <Grid item xs={6}>
+
           <Field
             as={TextField}
-            label="Full Name"
-            name="fullname"
-            value={values.fullname}
+            label="Email"
+            name="email"
+            value={values.email}
             onChange={handleChange}
             fullWidth
             margin="normal"
-            error={touched.fullname && Boolean(errors.fullname)}
-            helperText={touched.fullname && errors.fullname}
+            error={touched.email && Boolean(errors.email)}
+            helperText={touched.email && errors.email}
           />
+        <Grid container spacing={2}>
+        <Grid item xs={6}>
+            <Field
+            as={TextField}
+            select
+            label="Gender"
+            name="gender"
+            value={values.gender}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            error={touched.gender && Boolean(errors.gender)}
+            helperText={touched.gender && errors.gender}
+          >
+            <MenuItem value="Male">Male</MenuItem>
+            <MenuItem value="Female">Female</MenuItem>
+          </Field>
+          
+        </Grid>
+        <Grid item xs={6}>
+            <Field
+            as={TextField}
+            select
+            label="Role"
+            name="role_name"
+            value={values.role_name}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            error={touched.role_name && Boolean(errors.role_name)}
+            helperText={touched.role_name && errors.role_name}
+          >
+            {roles.map((role) => (
+              <MenuItem key={role.role_id} value={role.role_name}>
+                {role.role_name}
+              </MenuItem>
+            ))}
+          </Field>
+
         </Grid>
       </Grid>
-      <Field
-        as={TextField}
-        label="Email"
-        name="email"
-        value={values.email}
-        onChange={handleChange}
-        fullWidth
-        margin="normal"
-        error={touched.email && Boolean(errors.email)}
-        helperText={touched.email && errors.email}
-      />
-      <Field
-        as={TextField}
-        select
-        label="Role"
-        name="role_name"
-        value={values.role_name}
-        onChange={handleChange}
-        fullWidth
-        margin="normal"
-        error={touched.role_name && Boolean(errors.role_name)}
-        helperText={touched.role_name && errors.role_name}
-      >
-        {roles.map((role) => (
-          <MenuItem key={role.role_id} value={role.role_name}>
-            {role.role_name}
-          </MenuItem>
-        ))}
-      </Field>
-      <Field
-        as={TextField}
-        select
-        label="Gender"
-        name="gender"
-        value={values.gender}
-        onChange={handleChange}
-        fullWidth
-        margin="normal"
-        error={touched.gender && Boolean(errors.gender)}
-        helperText={touched.gender && errors.gender}
-      >
-        <MenuItem value="Male">Male</MenuItem>
-        <MenuItem value="Female">Female</MenuItem>
-      </Field>
-      <Field
-        as={TextField}
-        label="Program"
-        name="program"
-        value={values.program}
-        onChange={handleChange}
-        fullWidth
-        margin="normal"
-        error={touched.program && Boolean(errors.program)}
-        helperText={touched.program && errors.program}
-      />
-      <Field
-        as={TextField}
-        select
-        label="Dorm Area"
-        name="dorm_area"
-        value={values.dorm_area}
-        onChange={async (e) => {
-          handleChange(e);
-          const area = e.target.value;
-          setFieldValue('dorm_area', area);
-          setFieldValue('dorm_room', ''); // Reset dorm room
-          await fetchDormRooms(area);
-        }}
-        fullWidth
-        margin="normal"
-        error={touched.dorm_area && Boolean(errors.dorm_area)}
-        helperText={touched.dorm_area && errors.dorm_area}
-      >
-        {dormAreas.map((area) => (
-          <MenuItem key={area.dorm_area} value={area.dorm_area}>
-            {area.dorm_area}
-          </MenuItem>
-        ))}
-      </Field>
-      <Field name="dorm_room">
-        {({ field, form }) => (
-          <Autocomplete
-            {...field}
-            options={dormRooms.map((room) => room.dorm_room)}
-            getOptionLabel={(option) => option}
-            value={field.value}
-            onChange={(event, newValue) => {
-              form.setFieldValue(field.name, newValue);
-            }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Dorm Room"
-                margin="normal"
-                fullWidth
-                disabled={!form.values.dorm_area}
-                error={touched.dorm_room && Boolean(errors.dorm_room)}
-                helperText={touched.dorm_room && errors.dorm_room}
-              />
-            )}
-          />
-        )}
-      </Field>
+
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <Field
+          as={TextField}
+          select
+          label="Dorm Area"
+          name="dorm_area"
+          value={values.dorm_area}
+          onChange={async (e) => {
+            handleChange(e);
+            const area = e.target.value;
+            setFieldValue('dorm_area', area);
+            setFieldValue('dorm_room', ''); // Reset dorm room
+            await fetchDormRooms(area);
+          }}
+          fullWidth
+          margin="normal"
+          error={touched.dorm_area && Boolean(errors.dorm_area)}
+          helperText={touched.dorm_area && errors.dorm_area}
+        >
+          {dormAreas.map((area) => (
+            <MenuItem key={area.dorm_area} value={area.dorm_area}>
+              {area.dorm_area}
+            </MenuItem>
+          ))}
+        </Field>
+        </Grid>
+
+        <Grid item xs={6}>
+          <Field name="dorm_room">
+          {({ field, form }) => (
+            <Autocomplete
+              {...field}
+              options={dormRooms.map((room) => room.dorm_room)}
+              getOptionLabel={(option) => option}
+              value={field.value}
+              onChange={(event, newValue) => {
+                form.setFieldValue(field.name, newValue);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Dorm Room"
+                  margin="normal"
+                  fullWidth
+                  disabled={!form.values.dorm_area}
+                  error={touched.dorm_room && Boolean(errors.dorm_room)}
+                  helperText={touched.dorm_room && errors.dorm_room}
+                />
+              )}
+            />
+          )}
+          </Field>
+        </Grid>
+      </Grid>
+
       <Field
         as={TextField}
         label="Phone Number"
@@ -574,6 +607,17 @@ const UsersListCard = ({ onUserCardUpdate }) => {
         margin="normal"
         error={touched.phone_number && Boolean(errors.phone_number)}
         helperText={touched.phone_number && errors.phone_number}
+      />
+      <Field
+        as={TextField}
+        label="Program"
+        name="program"
+        value={values.program}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+        error={touched.program && Boolean(errors.program)}
+        helperText={touched.program && errors.program}
       />
       <Field
         as={TextField}
@@ -613,7 +657,14 @@ const UsersListCard = ({ onUserCardUpdate }) => {
         helperText={touched.date_of_birth && errors.date_of_birth}
       />
         <Box sx={{ mt: 4, display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-          <Button type="submit" variant="contained" color="primary">
+          <Button type="submit" variant="contained" color="primary"
+          sx={{
+            backgroundColor: '#f7984c', // Custom default color
+            '&:hover': {
+                backgroundColor: '#f58427', // Custom hover color
+            },
+           }}
+           >
             Save
           </Button>
           <Button variant="outlined" onClick={handleCloseModal}>
@@ -909,7 +960,14 @@ const UsersListCard = ({ onUserCardUpdate }) => {
                       }}
                     />
                     <Box sx={{ mt: 4, display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-                      <Button type="submit" variant="contained" color="primary">
+                      <Button type="submit" variant="contained" color="primary"
+                      sx={{
+                        backgroundColor: '#f7984c', // Custom default color
+                        '&:hover': {
+                            backgroundColor: '#f58427', // Custom hover color
+                        },
+                       }}
+                       >
                         Save
                       </Button>
                       <Button variant="outlined" onClick={handleCloseModal}>
