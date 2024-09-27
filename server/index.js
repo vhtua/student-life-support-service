@@ -25,6 +25,7 @@ import announcementRoutes from './routes/announcement_route.js';
 import feedbackRoutes from './routes/feedback_route.js';
 import roleRoutes from './routes/role_route.js';
 import logsRoutes from './routes/logs_route.js';
+import reportRoutes from './routes/report_route.js';
 
 // Import samples
 import books from './utils/books.js';
@@ -53,6 +54,7 @@ app.use("/api/v1/notification", notificationRoutes);
 app.use("/api/v1/announcement", announcementRoutes);        
 app.use("/api/v1/feedback", feedbackRoutes);       
 app.use("/api/v1/logs", logsRoutes);     
+app.use("/api/v1/reports", reportRoutes);
 
 
 
