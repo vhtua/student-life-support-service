@@ -75,6 +75,48 @@ WHERE id = $1;
 `;
 
 
+const editUser = `
+UPDATE "User"
+SET 
+    fullname = $2, 
+    gender = $3, 
+    program = $4, 
+    phone_number = $5,
+    intake = $6,
+    place_of_birth = $7,
+    date_of_birth = $8
+WHERE id = $1;
+`;
+
+
+
+const createUser = `
+INSERT INTO "User" 
+    (username, 
+    fullname, 
+    email,
+    password, 
+    role_id, 
+    gender, 
+    program, 
+    dorm_id, 
+    phone_number, 
+    intake, 
+    place_of_birth, 
+    date_of_birth,
+    created_date)
+VALUES 
+    ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, NOW());
+`;
+
+
+
+const deleteUser = `    
+DELETE FROM "User"
+WHERE id = $1;
+`;
+
+
 export default { 
     getUsersList, 
     getUserByUserName, 
@@ -83,5 +125,8 @@ export default {
     getDorm,
     changeDormByUserId,
     getRoleId,
-    changeRoleByUserId
+    changeRoleByUserId,
+    editUser,
+    createUser,
+    deleteUser
 }; 

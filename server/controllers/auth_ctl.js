@@ -515,7 +515,7 @@ const getResetPassword = async (req, res) => {
                                     Reset Password
                                 </a>
                             </div>
-                            <p>If the button above doesn’t work, copy and paste the URL below into your browser:</p>
+                            <p>If the button above doesn't work, copy and paste the URL below into your browser:</p>
                             <p style="word-break: break-word;">
                                 <a href="${resetPasswordLink}" style="color: #f58427;">${resetPasswordLink}</a>
 
@@ -524,7 +524,7 @@ const getResetPassword = async (req, res) => {
                                 <p> <strong><pre>${password}</pre></strong> </p>
                             </div>
 
-                            <p>If you didn’t request a password reset, please ignore this email or contact support if you have questions.</p>
+                            <p>If you didn't request a password reset, please ignore this email or contact support if you have questions.</p>
                             
                             
                             <p>Best regards,</p>

@@ -1,6 +1,8 @@
 // For authorization
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import path from 'path';
 import cookieParser from 'cookie-parser';
 import Redis from '../config/redis.js';
 
@@ -13,6 +15,10 @@ import passwordTool from "../utils/password_tools.js";
 // Logger
 import logger from '../middleware/logger.js';
 import { json } from 'express';
+import user_queries from '../sql/user_queries.js';
+
+// middleware
+import mailer from '../middleware/mailer.js';
 
 
 dotenv.config();
@@ -182,27 +188,119 @@ const editRole = async (req, res) => {
 }
 
 
+
+const editUser = async (req, res) => {
+    try {
+        const user_id = req.params.user_id;
+        const { fullname, gender, program, phone_number, intake, place_of_birth, date_of_birth } = req.body;
+
+        await pool.query("BEGIN");
+        const result = await pool.query(queries.editUser, [user_id, fullname, gender, program, phone_number, intake, place_of_birth, date_of_birth]);
+        
+        console.log(result);
+        logger.info(`user id: ${user_id} profile has been edited`);
+
+        await pool.query("COMMIT");
+        return res.status(200).json({ message: 'User profile was edited successfully' });
+    } catch (error) {
+        await pool.query("ROLLBACK");
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
+
+
 const createUser = async (req, res) => {
     try {
-        const authHeader = req.headers['authorization'];
-        const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
+        const { username, fullname, email, role_id, gender, program, dorm_area, dorm_room, phone_number, intake, place_of_birth, date_of_birth } = req.body;
 
-        // Decode the token to extract user information
-        const user = jwt.decode(accessToken);
-        const userName = user ? user.username : null;
-        if (!userName) return res.status(401).json({message: 'Cannot identify the admin username'});
+        // Find the dorm_id
+        const dormIdResult = await pool.query(queries.getDorm, [dorm_area, dorm_room]);
+        const dorm_id = dormIdResult.rows[0].dorm_id;
 
-        const { username, password, fullname, phone_number, role_id, dorm_id } = req.body;
-
+        // generate a new password for new user 
+        const password = passwordTool.generateRandomPassword();
         const hashedPassword = await passwordTool.hashPassword(password);
 
         await pool.query("BEGIN");
+        const result = await pool.query(queries.createUser, [username, fullname, email, hashedPassword, role_id, gender, program, dorm_id, phone_number, intake, place_of_birth, date_of_birth]);
 
-        const result = await pool.query(authQueries.createUser, [username, hashedPassword, fullname, phone_number, role_id, dorm_id]);
         console.log(result);
-        logger.info(`username: ${userName} created a new user`);
+        logger.info(`username: ${username} has been created.`);
 
         await pool.query("COMMIT");
+
+        // Send an email to the new user
+        const loginPageURL = process.env.FRONT_END_LOGIN_PAGE_URL;
+        const mailOptions = {
+            from: {
+                name: 'VGU Student Life Support Service',
+                address: process.env.SYS_EMAIL
+            },
+            to: [email],
+            subject: 'Your account has been created',
+            // text: 'This is a title',
+            html: `
+                <div style="font-family: Arial, sans-serif; color: #333; padding: 20px;">
+        <table width="100%" style="max-width: 600px; margin: 0 auto; border: 1px solid #ddd; border-radius: 10px;">
+            <tr>
+                <td style="text-align: center; background-color: #f7f7f7; padding: 20px 0;">
+                    <h2 style="color: #444;">VGU Student Life Support Service</h2>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 20px;">
+                    <h3 style="color: #444;">Guten Tag ${fullname},</h3>
+
+                    <p>Welcome to VGU Student Life Support Service, you just have been registered with this account:</p>
+
+                    <table style="border: 1px solid black; border-collapse: collapse;">
+                        <tr>
+                            <th style="padding: 10px; text-align: left; border: 1px solid black;
+          border-collapse: collapse;">Username</th>
+                            <td style="padding: 10px; text-align: left; border: 1px solid black; border-collapse: collapse;">${username}</td>
+                        </tr>
+
+                        <tr>
+                            <th style="padding: 10px;
+          text-align: left; border: 1px solid black;
+          border-collapse: collapse;">Password</th>
+                            <td style="padding: 10px;
+          text-align: left; border: 1px solid black;
+          border-collapse: collapse;"><pre>${password}</pre></td>
+                        </tr>
+                    </table>
+
+                    <p>Click the login button below to log into the system with the above credentials</p>
+
+                    <div style="text-align: center; margin: 30px 0;">
+                        <a href="${loginPageURL}" style="background-color: #f58427; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                            Login
+                        </a>
+                    </div>
+                    <p>For security reasons, we recommend you to change your password immediately after login. Please contact support if you have questions.</p>
+                    <p>Have a nice day! 💕</p>
+
+                    <br>
+                    
+                    <p>Best regards,</p>
+                    <p>VGU Student Life Support Service</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="background-color: #f7f7f7; text-align: center; padding: 10px;">
+                    <small style="color: #888;">© 2024 VGU Student Life Support Service</small>
+                </td>
+            </tr>
+        </table>
+    </div>
+            `
+        }
+
+        await mailer.sendMail(mailer.transporter, mailOptions);
+
         return res.status(201).json({ message: 'User created successfully' });
 
     } catch (error) {
@@ -213,4 +311,27 @@ const createUser = async (req, res) => {
 };
 
 
-export default { getUsersList, getUserByUserName, changePassword, editPhoneNumber, editDorm, editRole };
+
+
+const deleteUser = async (req, res) => {
+    try {
+        const user_id = req.params.user_id;
+
+        await pool.query("BEGIN");
+        const result = await pool.query(queries.deleteUser, [user_id]);
+        console.log(result);    
+        logger.info(`user_id has been deleted`);
+
+        await pool.query("COMMIT");
+        return res.status(200).json({ message: 'User was deleted successfully' });
+
+    } catch (error) {
+        await pool.query("ROLLBACK");
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
+
+export default { getUsersList, getUserByUserName, changePassword, editPhoneNumber, editDorm, editRole, createUser, deleteUser, editUser };
