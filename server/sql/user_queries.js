@@ -18,7 +18,7 @@ SELECT
 FROM  "User" AS u 
     INNER JOIN "Role" AS r ON u.role_id = r.id
     INNER JOIN "Dorm" AS d ON u.dorm_id = d.id
-WHERE role_name <> 'Admin';
+-- WHERE role_name <> 'Admin';
 `;
 
 

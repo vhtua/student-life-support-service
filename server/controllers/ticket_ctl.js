@@ -11,10 +11,11 @@ import authQueries from "../sql/auth_queries.js";
 import passwordTool from "../utils/password_tools.js";
 
 // Logger
-import logger from '../middleware/logger.js';
+import logger, { writeLogToDB, event_type } from '../middleware/logger.js';
 import { json } from 'express';
 import fs from 'fs';
 import path from 'path';
+import { log } from 'console';
 
 
 dotenv.config();
@@ -168,6 +169,9 @@ const createTicket = async (req, res) => {
       const user = jwt.decode(accessToken);
       const userName = user ? user.username : null;
       const user_id = user ? user.user_id : null;
+
+      writeLogToDB(user_id, event_type.critical, `User is creating a ticket`, new Date());
+
       if (!userName) return res.status(401).json({ message: 'Cannot identify the username' });
         
         
@@ -201,6 +205,10 @@ const createTicket = async (req, res) => {
       }
   
       await pool.query('COMMIT');
+
+      logger.info(`User ${user_id} has created a ticket`);
+      writeLogToDB(user_id, event_type.critical, `User has created a ticket`);
+
       return res.status(200).json({ message: 'Successfully creating the ticket' });
     } catch (error) {
       console.error(error);
@@ -283,12 +291,21 @@ const updateTicketStatus = async (req, res) => {
         
         const ticketId = req.body.ticket_id;
         const ticketStatusId = req.body.ticket_status_id;
+
+
+        logger.info(`User ${user_id} is updating the ticket status`);
+        writeLogToDB(user_id, event_type.critical, `User is updating the ticket status`);
+
   
         await pool.query('BEGIN');
   
         await pool.query(ticketQueries.updateTicketStatus, [ticketId, ticketStatusId]);
   
         await pool.query('COMMIT');
+
+        logger.info(`User ${user_id} has updated the ticket status`);
+        writeLogToDB(user_id, event_type.critical, `User has updated the ticket status`);
+
         return res.status(200).json({ message: 'Successfully updating the ticket status' });
     } catch (error) {
         console.error(error);
@@ -308,6 +325,9 @@ const assignStaffToTicket = async (req, res) => {
         const user_id = user ? user.user_id : null;
         if (!user_id) return res.status(401).json({ message: 'Cannot identify the user' });
 
+        logger.info(`User ${user_id} is assigning to the ticket`);
+        writeLogToDB(user_id, event_type.critical, `User is assigning to the ticket`, new Date());
+
         const ticketId = req.body.ticket_id;
 
         await pool.query('BEGIN');
@@ -320,6 +340,9 @@ const assignStaffToTicket = async (req, res) => {
         await pool.query(ticketQueries.assignStaffToMessage, [ticketId, user_id, created_date]);
 
         await pool.query('COMMIT');
+
+        logger.info(`User ${user_id} has assigned to the ticket`);
+        writeLogToDB(user_id, event_type.critical, `User has been assigned to the ticket`, new Date());
 
         return res.status(200).json({ message: 'Successfully assigning the staff to the ticket' });
 
@@ -399,6 +422,10 @@ const cancelTicket = async (req, res) => {
 
         const ticket_id = req.body.ticket_id;
 
+        logger.info(`User ${user_id} is cancelling the ticket`);
+        writeLogToDB(user_id, event_type.critical, `User is cancelling the ticket`, new Date());
+
+
         await pool.query('BEGIN');
         await pool.query(ticketQueries.updateTicketStatus, [ticket_id, 4]);  // 4 == cancelled
         const ended_date = new Date().toISOString();
@@ -406,6 +433,9 @@ const cancelTicket = async (req, res) => {
 
 
         await pool.query('COMMIT');
+
+        logger.info(`User ${user_id} has cancelled the ticket`);
+        writeLogToDB(user_id, event_type.critical, `User has cancelled the ticket`, new Date());
 
         return res.status(200).json({ message: 'Successfully cancelling the ticket' });
 
@@ -426,6 +456,7 @@ const doneTicket = async (req, res) => {
         const user_id = user ? user.user_id : null;
         if (!user_id) return res.status(401).json({ message: 'Cannot identify the user' });
 
+
         const ticket_id = req.body.ticket_id;
 
         await pool.query('BEGIN');
@@ -435,6 +466,9 @@ const doneTicket = async (req, res) => {
         await pool.query(ticketQueries.updateTicketEndedDate, [ticket_id, ended_date]);
 
         await pool.query('COMMIT');
+
+        logger.info(`User ${user_id} has done the ticket`);
+        writeLogToDB(user_id, event_type.critical, `User has done the ticket #${ticket_id}`, new Date());
 
         return res.status(200).json({ message: 'Successfully done the ticket' });
     } catch (error) {
@@ -503,12 +537,24 @@ const getClosedTicketDetails = async (req, res) => {
 
 
 const deleteTicket = async (req, res) => {
+    const authHeader = req.headers['authorization'];
+    const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
+
+    // Decode the token to extract user information
+    const user = jwt.decode(accessToken);
+
     try {
         const ticketId = req.params.ticket_id;
+
+        logger.info(`User ${user.user_id} is deleting the ticket`);
+        writeLogToDB(user.user_id, event_type.critical, `User is deleting the ticket`, new Date());
 
         await pool.query('BEGIN');
         await pool.query(ticketQueries.deleteTicket, [ticketId]);
         await pool.query('COMMIT');
+
+        logger.info(`User ${user.user_id} has deleted the ticket`);
+        writeLogToDB(user.user_id, event_type.critical, `User has deleted the ticket`, new Date());
 
         return res.status(200).json({ message: 'Successfully deleting the ticket' });
     } catch (error) {

@@ -11,7 +11,7 @@ import authQueries from "../sql/auth_queries.js";
 import passwordTool from "../utils/password_tools.js";
 
 // Logger
-import logger from '../middleware/logger.js';
+import logger, { writeLogToDB, event_type } from '../middleware/logger.js';
 import { json } from 'express';
 import fs from 'fs';
 import path from 'path';
@@ -73,8 +73,17 @@ const getDormRoomByArea = async (req, res) => {
 
 
 const createDorm = async (req, res) => {
+    const authHeader = req.headers['authorization'];
+    const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
+    
+    // Decode the token to extract user information
+    const user = jwt.decode(accessToken);
+
     try {
         const { dorm_area, dorm_room } = req.body;
+
+        logger.info(`User ${user.user_id} is creating dorm ${dorm_area}-${dorm_room}`);
+        writeLogToDB(user.user_id, event_type.critical, `User is creating dorm ${dorm_area}-${dorm_room}`, new Date());
 
         // Check if dorm already exists
         const { rows } = await pool.query(dormQueries.getDormRoomByArea, [dorm_area]);
@@ -92,11 +101,13 @@ const createDorm = async (req, res) => {
         await pool.query('COMMIT');
 
         logger.info(`Dorm ${dorm_area}-${dorm_room} created`);
+        writeLogToDB(user.user_id, event_type.critical, `Dorm ${dorm_area}-${dorm_room} was created`, new Date());
 
         return res.status(201).json({ message: 'Dorm created' });
     } catch (error) {
         await pool.query('ROLLBACK');
         logger.error(error);
+        writeLogToDB(user.user_id, event_type.error, `Failed to create dorm ${dorm_area}-${dorm_room}`);
         return res.status(500).json({ message: 'Server error' });
     }
 };
@@ -104,12 +115,18 @@ const createDorm = async (req, res) => {
 
 
 const deleteDorm = async (req, res) => {
+    const authHeader = req.headers['authorization'];
+    const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
+
+    // Decode the token to extract user information
+    const user = jwt.decode(accessToken);
 
     try {
         const dorm_area = req.params.area;
         const dorm_room = req.params.room;
 
         console.log("Delete dorm", dorm_area, dorm_room);
+        writeLogToDB(user.user_id, event_type.critical, `User is deleting dorm ${dorm_area}-${dorm_room}`, new Date());
 
         // Check if dorm exists
         const { rows } = await pool.query(dormQueries.getDormRoomByArea, [dorm_area]);
@@ -132,11 +149,13 @@ const deleteDorm = async (req, res) => {
         await pool.query('COMMIT');
 
         logger.info(`Dorm ${dorm_area}-${dorm_room} deleted`);
+        writeLogToDB(user.user_id, event_type.critical, `Dorm ${dorm_area}-${dorm_room} was deleted`, new Date());
 
         return res.status(200).json({ message: 'Dorm deleted' });
     } catch (error) {
         await pool.query('ROLLBACK');
         logger.error(error);
+        writeLogToDB(user.user_id, event_type.error, `Failed to delete dorm ${dorm_area}-${dorm_room}`);
         return res.status(500).json({ message: 'Server error' });
     }
 };

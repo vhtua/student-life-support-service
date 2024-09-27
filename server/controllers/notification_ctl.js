@@ -11,7 +11,7 @@ import notiQueries from "../sql/notification_queries.js";
 import passwordTool from "../utils/password_tools.js";
 
 // Logger
-import logger from '../middleware/logger.js';
+import logger, { writeLogToDB, event_type } from '../middleware/logger.js';
 import { json } from 'express';
 import fs from 'fs';
 import path from 'path';
@@ -62,9 +62,9 @@ const createNotification = async (req, res) => {
         const userId = user ? user.user_id : null;
         if (!userId) return res.status(401).json({message: 'Cannot identify the user'});
 
-        console.log(req.body.title);    
-        console.log(req.body.recipients);
-        console.log(req.body.content);
+
+        logger.info(`User ${userId} is creating a notification`);
+        writeLogToDB(userId, event_type.critical, 'User is creating a notification', new Date());
 
 
         const sender_id = userId;
@@ -94,6 +94,9 @@ const createNotification = async (req, res) => {
         }
 
         await pool.query('COMMIT');
+
+        logger.info(`User ${userId} has created a notification`);
+        writeLogToDB(userId, event_type.critical, 'User has created a notification', new Date());
 
         return res.status(200).json({ message: 'Notification created' });
     } catch (error) {

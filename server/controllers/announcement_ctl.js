@@ -10,10 +10,11 @@ import announcementQueries from "../sql/announcement_queries.js";
 import passwordTool from "../utils/password_tools.js";
 
 // Logger
-import logger from '../middleware/logger.js';
+import logger, { writeLogToDB, event_type } from '../middleware/logger.js';
 import { json } from 'express';
 import fs from 'fs';
 import path from 'path';
+import { log } from 'console';
 
 
 dotenv.config();
@@ -54,7 +55,8 @@ const createAnnouncement = async (req, res) => {
         const user_id = user ? user.user_id : null;
         if (!user_id) return res.status(401).json({message: 'Cannot identify the user'});
 
-        console.log(req.body);
+        logger.info(`User ${user_id} is creating an announcement`);
+        writeLogToDB(user_id, event_type.critical, 'User is creating an announcement', new Date());
 
         const sender_id = user_id;
         const title = req.body.title;
@@ -67,6 +69,9 @@ const createAnnouncement = async (req, res) => {
         const { rows } = await pool.query(announcementQueries.createAnnouncement, [title, content, sender_id, created_date]);
         
         await pool.query('COMMIT');
+
+        logger.info(`User ${user_id} has created an announcement`);
+        writeLogToDB(user_id, event_type.critical, 'User has created an announcement', new Date());
 
         return res.status(200).json({ message: 'Announcement created' });
     } catch (error) {

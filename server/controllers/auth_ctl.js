@@ -13,7 +13,7 @@ import queries from "../sql/auth_queries.js";
 import passwordTool from "../utils/password_tools.js"
 
 // Logger
-import logger from '../middleware/logger.js';
+import logger, { writeLogToDB, event_type } from '../middleware/logger.js';
 import mailer from '../middleware/mailer.js';
 
 
@@ -96,8 +96,10 @@ const authenticateUser = async (req, res) => {
                 const isAuthenticated = await passwordTool.verifyPassword(String(password), dbRetrievedPassword);
                 
                 if (!isAuthenticated) {
-                    res.status(403).json({ message: 'Invalid username or password' });
+                    writeLogToDB(results.rows[0].id, event_type.security, `Username ${username} logged in failed due to wrong credentials information`, new Date());
                     logger.error(`username: ${username} logged in failed due to wrong credentials information`);
+                    res.status(403).json({ message: 'Invalid username or password' });
+                    
                 } else {
                     // Authorization
 
@@ -133,6 +135,7 @@ const authenticateUser = async (req, res) => {
                     
 
                     logger.info(`username: ${username} logged into the system`);
+                    writeLogToDB(user_id, event_type.security, `Username ${username} logged in successfully`, new Date());
                     // Send access token in response
                     res.json({ ...user, accessToken });
                 }
@@ -185,12 +188,16 @@ const logOutUser = async (req, res) => {
     if (!refreshToken) {
       res.send('Logout successful');
     } else {
-      try {
-          await Redis.redisClient.del(`refreshToken:${refreshToken}`);
-          res.clearCookie('refreshToken'); // Clear the refresh token cookie
-          res.send('Logout successful');
+        const user = jwt.decode(refreshToken);
+        try {
+            await Redis.redisClient.del(`refreshToken:${refreshToken}`);
+            res.clearCookie('refreshToken'); // Clear the refresh token cookie
+
+            logger.info(`username: ${user.username} logged out`);   
+            res.send('Logout successful');
         } catch (err) {
-          res.status(500).send('Error logging out');
+            logger.error(err.message);
+            res.status(500).send('Error logging out');
         }
     }
 }

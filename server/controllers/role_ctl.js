@@ -11,7 +11,7 @@ import authQueries from "../sql/auth_queries.js";
 import passwordTool from "../utils/password_tools.js";
 
 // Logger
-import logger from '../middleware/logger.js';
+import logger, { writeLogToDB, event_type } from '../middleware/logger.js';
 import { json } from 'express';
 import fs from 'fs';
 import path from 'path';
@@ -28,11 +28,17 @@ const getRoles = async (req, res) => {
         const user_id = user ? user.user_id : null;
         if (!user_id) return res.status(401).json({ message: 'Cannot identify the user' });
 
+        logger.info(`User ${user_id} is getting all roles`);
+        writeLogToDB(user_id, event_type.info, 'User is getting all roles', new Date());
+
         const { rows } = await pool.query(roleQueries.getRoles);
         if (rows.length === 0) {
             return res.status(404).json({ message: 'Ticket not found' });
         }
 
+        logger.info(`User ${user_id} successfully get all roles`);
+        writeLogToDB(user_id, event_type.info, 'User successfully get all roles', new Date());
+        
         return res.status(200).json( rows );
     } catch (error) {
         logger.error(error);

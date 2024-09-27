@@ -10,10 +10,11 @@ import feedbackQueries from "../sql/feedback_queries.js";
 import passwordTool from "../utils/password_tools.js";
 
 // Logger
-import logger from '../middleware/logger.js';
+import logger, { writeLogToDB, event_type } from '../middleware/logger.js';
 import { json } from 'express';
 import fs from 'fs';
 import path from 'path';
+import { log } from 'console';
 
 
 dotenv.config();
@@ -35,17 +36,26 @@ const sendFeedback = async (req, res) => {
         const user_id = user ? user.user_id : null;
         if (!user_id) return res.status(401).json({message: 'Cannot identify the user'});
 
+        logger.info(`User ${user_id} is sending a feedback`);
+        writeLogToDB(user_id, event_type.critical, 'User is sending a feedback');
+
 
         const title = req.body.title;
         const content = req.body.content;
         const rating_score = req.body.rating_score;
         const created_date = req.body.created_date;
 
-        // Retrieve data from the database
+        
+        await pool.query("BEGIN");
         await pool.query(feedbackQueries.sendFeedback, [user_id, title, content, rating_score, created_date]);
+        await pool.query("COMMIT");
+
+        logger.info(`User ${user_id} successfully send the feedback`);
+        writeLogToDB(user_id, event_type.critical, 'User successfully send the feedback');
        
         return res.status(200).json({ message: 'Successfully send the feedback' });
     } catch (error) {
+        await pool.query("ROLLBACK");
         logger.error(error);
         return res.status(500).json({ message: 'Server error' });
     }

@@ -1,6 +1,7 @@
 import winston from 'winston';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import pool from "../config/db.js"
 
 
 const levels = { 
@@ -77,6 +78,31 @@ const logger = winston.createLogger({
     })
   ],
 });
+
+
+export const event_type = {
+  info: 1,
+  error: 3,
+  critical: 4,
+  security: 5,
+  audit: 6
+}
+
+export const writeLogToDB = async (user_id, event_id, description, timestamp) => {
+    try {
+        await pool.query('BEGIN');
+        await pool.query(
+            'INSERT INTO "Log" (user_id, event_id, description, timestamp) VALUES ($1, $2, $3, $4)',
+            [user_id, event_id, description, timestamp]
+        );
+        await pool.query('COMMIT');
+        logger.info('Log written to database');
+    } catch (error) {
+        await pool.query('ROLLBACK');
+        logger.error(error);
+    }
+};
+
 
 
 export default logger;
