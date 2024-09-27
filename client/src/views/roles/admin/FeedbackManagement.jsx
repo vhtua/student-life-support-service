@@ -10,14 +10,10 @@ import { gridSpacing } from 'store/constant';
 // Axios instance for API requests
 import axiosInstance from '../../../api/axiosInstance';  // Adjust the import path as needed
 
-import TicketsListCard from './utilities/TicketsListCard';
-import TicketCard from './utilities/TicketCard';
-import CreateTicketCard from './utilities/CreateTicketCard';
-import FeedbackCard from './utilities/FeedbackCard';
+import FeedbackTableCard from './utilities/FeedbackTableCard';
 
 
-
-const Feedback = () => {
+const FeedbackManagement = () => {
   const [ticketCardUpdate, setTicketCardUpdate] = useState(false);
 
   const handleTicketCardUpdate = () => {
@@ -28,8 +24,8 @@ const Feedback = () => {
     // <MainCard title="Ticket List">
       <Grid container spacing={gridSpacing}>
 
-        <Grid item xs={12} sm={8}>
-          <FeedbackCard/>
+        <Grid item xs={12} sm={12}>
+          <FeedbackTableCard/>
         </Grid>
 
 
@@ -39,4 +35,4 @@ const Feedback = () => {
   );
 }
 
-export default Feedback;
+export default FeedbackManagement;

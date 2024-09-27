@@ -291,7 +291,7 @@ const LogsTableCard = () => {
         }}>
             <IconTrash />
           <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
-            Remove all logs
+            Clean all logs
           </Typography>
         </Button>
 

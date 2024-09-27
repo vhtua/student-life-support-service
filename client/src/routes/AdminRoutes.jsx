@@ -11,16 +11,17 @@ const TicketsManagement = Loadable(lazy(() => import('views/roles/admin/TicketsM
 const UsersManagement = Loadable(lazy(() => import('views/roles/admin/UsersManagement')));
 const DormsManagement = Loadable(lazy(() => import('views/roles/admin/DormsManagement')));
 const LogsManagement = Loadable(lazy(() => import('views/roles/admin/LogsManagement')));
+const FeedbackManagement = Loadable(lazy(() => import('views/roles/admin/FeedbackManagement')));
 const Notification = Loadable(lazy(() => import('views/roles/admin/Notification')));
 const Announcement = Loadable(lazy(() => import('views/roles/admin/Announcement')));
 const EditProfile = Loadable(lazy(() => import('views/roles/admin/EditProfile')));
 const ChangePassword = Loadable(lazy(() => import('views/roles/admin/ChangePassword')));
 const Newsfeed = Loadable(lazy(() => import('views/roles/admin/Newsfeed')));
-
+const Report = Loadable(lazy(() => import('views/roles/admin/Report')));
 
 const Profile = Loadable(lazy(() => import('views/roles/admin/Profile')));
 const Message = Loadable(lazy(() => import('views/roles/admin/Message')));
-const Feedback = Loadable(lazy(() => import('views/roles/admin/Feedback')));
+
 
 
 // utilities routing
@@ -153,7 +154,7 @@ const AdminRoutes = {
       path: 'feedback',
       element: (
                 <AdminProtectedRoutes>
-                    <Feedback />
+                    <FeedbackManagement />
                 </AdminProtectedRoutes>
                 )
                 
@@ -161,7 +162,7 @@ const AdminRoutes = {
     {
         path: 'report',
         element: (<AdminProtectedRoutes>
-                      <Announcement />
+                      <Report />
                   </AdminProtectedRoutes>
                   )
     },
