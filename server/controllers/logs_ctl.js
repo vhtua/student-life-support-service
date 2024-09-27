@@ -48,4 +48,58 @@ const getLogs = async (req, res) => {
 
 
 
-export default { getLogs };
+const deleteLogs = async (req, res) => {
+    try {
+        const authHeader = req.headers['authorization'];
+        const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
+
+        // Decode the token to extract user information
+        const user = jwt.decode(accessToken);
+        const user_id = user ? user.user_id : null;
+        if (!user_id) return res.status(401).json({ message: 'Cannot identify the username' });
+
+        await pool.query('BEGIN');
+        await pool.query('DELETE FROM "Log"');
+        await pool.query('COMMIT');
+
+        logger.info(`User ${user_id} is deleting all logs`);
+
+        return res.status(200).json({ message: 'Logs deleted' });
+    } catch (error) {
+        await pool.query('ROLLBACK');
+        console.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+}
+
+
+
+const deleteSpecificLog = async (req, res) => {
+    try {
+        const authHeader = req.headers['authorization'];
+        const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
+
+        // Decode the token to extract user information
+        const user = jwt.decode(accessToken);
+        const user_id = user ? user.user_id : null;
+        if (!user_id) return res.status(401).json({ message: 'Cannot identify the username' });
+
+        const log_id = req.params.log_id;
+
+        await pool.query('BEGIN');
+        await pool.query('DELETE FROM "Log" WHERE id = $1', [log_id]);
+        await pool.query('COMMIT');
+
+        logger.info(`User ${user_id} is deleting log ${log_id}`);
+
+        return res.status(200).json({ message: 'Log deleted' });
+    } catch (error) {
+        await pool.query('ROLLBACK');
+        console.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+}
+
+
+
+export default { getLogs, deleteLogs, deleteSpecificLog };

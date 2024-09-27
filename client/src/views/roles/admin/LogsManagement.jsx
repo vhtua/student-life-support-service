@@ -10,7 +10,7 @@ import { gridSpacing } from 'store/constant';
 // Axios instance for API requests
 import axiosInstance from '../../../api/axiosInstance';  // Adjust the import path as needed
 
-import DormsTable from './utilities/DormsManagementCard';
+import LogsTableCard from './utilities/LogsTableCard';
 
 
 
@@ -25,8 +25,8 @@ const LogsManagement = () => {
     // <MainCard title="Ticket List">
       <Grid container spacing={gridSpacing}>
 
-        <Grid item xs={12} sm={8}>
-          <DormsTable/>
+        <Grid item xs={12} sm={12}>
+          <LogsTableCard/>
         </Grid>
 
 

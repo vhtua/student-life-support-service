@@ -65,25 +65,6 @@ const DormsTable = () => {
         header: 'Dorm Room',
         size: 100,
       },
-      {
-        accessorKey: 'actions',
-        header: 'Actions',
-        size: 100,
-        Cell: ({ row }) => (
-          <Box sx={{ display: 'flex', gap: '0.5rem' }}>
-            <Tooltip title="Delete">
-              <IconButton
-                onClick={() => {
-                  setSelectedDorm(row.original);
-                  setOpen(true);
-                }}
-              >
-                <Delete />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        ),
-      },
     ],
     []
   );
@@ -95,8 +76,6 @@ const DormsTable = () => {
 
   const handleDelete = async () => {
     try {
-        // Perform delete action here
-        //   alert(`Deleting dorm ${selectedDorm?.dorm_area} - ${selectedDorm?.dorm_room}`);
         const url = `/api/v1/dorms/${selectedDorm?.dorm_area}/${selectedDorm?.dorm_room}`;
         await axiosInstance.delete(url);
         toast.success('Dorm deleted successfully');
@@ -110,14 +89,12 @@ const DormsTable = () => {
 
   const handleCreateDorm = async (values, { setSubmitting }) => {
     try {
-        // alert(JSON.stringify(values, null, 2));
       await axiosInstance.post('/api/v1/dorms', values);
       toast.success('Dorm created successfully');
       setOpenCreateModal(false);
       handleRefresh();
     } catch (error) {
       console.error('Error creating dorm:', error);
-      console.log(error.response?.data?.message);
       toast.error(`Failed to create dorm: ${error.response?.data?.message}`);
     } finally {
       setSubmitting(false);
@@ -133,12 +110,39 @@ const DormsTable = () => {
   const table = useMaterialReactTable({
     columns,
     data,
+    enableStickyHeader: true,
+    enableStickyFooter: true,
     initialState: { pagination: { pageSize: 50 } },
     enablePagination: true,
     muiTablePaginationProps: {
       rowsPerPageOptions: [50],
     },
     muiTableContainerProps: { sx: { maxHeight: '600px' } },
+    enableRowActions: true,
+    positionActionsColumn: 'last',
+    renderRowActions: ({ row }) => (
+      <Box sx={{ display: 'flex', gap: '0.5rem' }}>
+        {/* <Tooltip title="View">
+          <IconButton
+            onClick={() => {
+              console.log('View action', row.original);
+            }}
+          >
+            <Visibility />
+          </IconButton>
+        </Tooltip> */}
+        <Tooltip title="Delete">
+          <IconButton
+            onClick={() => {
+              setSelectedDorm(row.original);
+              setOpen(true);
+            }}
+          >
+            <Delete />
+          </IconButton>
+        </Tooltip>
+      </Box>
+    ),
   });
 
   return (
@@ -248,7 +252,6 @@ const DormsTable = () => {
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4 }}>
                   <Button type="submit" variant="contained" color="primary" 
                   disabled={isSubmitting} 
-                //   sx={{ mr: 2 }}
                   sx={{
                     mr: 2,
                     backgroundColor: '#f7984c', // Custom default color

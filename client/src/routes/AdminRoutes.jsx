@@ -122,7 +122,7 @@ const AdminRoutes = {
         path: 'logs',
         element: (
           <AdminProtectedRoutes>
-            <MessageWrapper />
+            <LogsManagement />
           </AdminProtectedRoutes>
         )
       },

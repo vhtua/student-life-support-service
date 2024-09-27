@@ -10,5 +10,8 @@ const logsRouter = Router();
 
 logsRouter.get("/", authenticateToken([constants.adminRoleName]), logController.getLogs);
 
+logsRouter.delete("/", authenticateToken([constants.adminRoleName]), logController.deleteLogs);
+logsRouter.delete("/:log_id", authenticateToken([constants.adminRoleName]), logController.deleteSpecificLog);
+
 
 export default logsRouter;
