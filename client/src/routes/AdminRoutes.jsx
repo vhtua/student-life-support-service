@@ -9,6 +9,7 @@ import Loadable from 'views/roles/admin/ui-component/Loadable';
 const DashboardDefault = Loadable(lazy(() => import('views/roles/admin/homepage')));
 const TicketsManagement = Loadable(lazy(() => import('views/roles/admin/TicketsManagement')));
 const UsersManagement = Loadable(lazy(() => import('views/roles/admin/UsersManagement')));
+const DormsManagement = Loadable(lazy(() => import('views/roles/admin/DormsManagement')));
 const Notification = Loadable(lazy(() => import('views/roles/admin/Notification')));
 const Announcement = Loadable(lazy(() => import('views/roles/admin/Announcement')));
 const EditProfile = Loadable(lazy(() => import('views/roles/admin/EditProfile')));
@@ -116,7 +117,7 @@ const AdminRoutes = {
         path: 'dormitory',
         element: (
           <AdminProtectedRoutes>
-            <MessageWrapper />
+            <DormsManagement />
           </AdminProtectedRoutes>
         )
     },
