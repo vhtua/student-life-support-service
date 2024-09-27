@@ -108,7 +108,7 @@ const changePassword = async (req, res) => {
 };
 
 
-const editProfile = async (req, res) => {
+const editPhoneNumber = async (req, res) => {
     try {
         const authHeader = req.headers['authorization'];
         const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
@@ -133,5 +133,84 @@ const editProfile = async (req, res) => {
 };
 
 
+const editDorm = async (req, res) => {
+    try {
+        const user_id = req.params.user_id;
+        const dorm_area = String(req.body.dorm_area);
+        const dorm_room = String(req.body.dorm_room);
 
-export default { getUsersList, getUserByUserName, changePassword, editProfile };
+        const dormIdResult = await pool.query(queries.getDorm, [dorm_area, dorm_room]);
+        const dorm_id = dormIdResult.rows[0].dorm_id;
+
+        await pool.query("BEGIN");
+        const result = await pool.query(queries.changeDormByUserId, [user_id, dorm_id]);
+        console.log(result);    
+        logger.info(`user_id has been changed the dorm`);
+
+        await pool.query("COMMIT");
+        return res.status(200).json({ message: 'User dorm was changed successfully' });
+
+    } catch (error) {
+        await pool.query("ROLLBACK");
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+}
+
+
+const editRole = async (req, res) => {
+    try {
+        const user_id = req.params.user_id;
+        const role_id = req.body.role_id;
+
+        // const roleResult = await pool.query(queries.getRoleId, [role_name]);
+        // const role_id = roleResult.rows[0].role_id;
+
+        await pool.query("BEGIN");
+        const result = await pool.query(queries.changeRoleByUserId, [user_id, role_id]);
+        console.log(result);    
+        logger.info(`user_id has been changed the role`);
+
+        await pool.query("COMMIT");
+        return res.status(200).json({ message: 'User role was changed successfully' });
+
+    } catch (error) {
+        await pool.query("ROLLBACK");
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+}
+
+
+const createUser = async (req, res) => {
+    try {
+        const authHeader = req.headers['authorization'];
+        const accessToken = authHeader && authHeader.split(' ')[1]; // Get the access token from the header request
+
+        // Decode the token to extract user information
+        const user = jwt.decode(accessToken);
+        const userName = user ? user.username : null;
+        if (!userName) return res.status(401).json({message: 'Cannot identify the admin username'});
+
+        const { username, password, fullname, phone_number, role_id, dorm_id } = req.body;
+
+        const hashedPassword = await passwordTool.hashPassword(password);
+
+        await pool.query("BEGIN");
+
+        const result = await pool.query(authQueries.createUser, [username, hashedPassword, fullname, phone_number, role_id, dorm_id]);
+        console.log(result);
+        logger.info(`username: ${userName} created a new user`);
+
+        await pool.query("COMMIT");
+        return res.status(201).json({ message: 'User created successfully' });
+
+    } catch (error) {
+        await pool.query("ROLLBACK");
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
+export default { getUsersList, getUserByUserName, changePassword, editPhoneNumber, editDorm, editRole };

@@ -15,7 +15,7 @@ import constants from './config/constants.js';
 // Import routes
 import authRoutes from './routes/auth_route.js'
 import userRoutes from './routes/user_route.js'
-import studentRoutes from './routes/student_route.js';
+import dormRoutes from './routes/dorm_route.js';
 import ticketRoutes from './routes/ticket_route.js';
 import attachmentRoutes from './routes/attachment_route.js';
 import ratingRoutes from './routes/rating_routes.js';
@@ -39,17 +39,15 @@ app.use(cookieParser()); // Enable cookie parsing
 app.use(cors(WebConfig.corsOptions));
 
 
-
-
 // ==============================|| Routes ||============================== //
-// Support GET, POST, PUT (update all attr), PATCH (update some parts), DELETE
-app.use("/auth", authRoutes);                     // 5 apis: login, logout, refresh, verify, verify refresh token
-app.use("/api/v1/users", userRoutes);             // 5 apis     
-app.use("/api/v1/tickets", ticketRoutes);         // 7 apis
-app.use("/api/v1/attachments", attachmentRoutes); // 1 api
-app.use("/api/v1/rating", ratingRoutes);          // 2 apis
+app.use("/auth", authRoutes);                     
+app.use("/api/v1/users", userRoutes);                  
+app.use("/api/v1/dorms", dormRoutes)
+app.use("/api/v1/tickets", ticketRoutes);        
+app.use("/api/v1/attachments", attachmentRoutes); 
+app.use("/api/v1/rating", ratingRoutes);          
 app.use("/api/v1/messages", messageRoutes);
-app.use("/api/v1/roles", roleRoutes);       // 1 api
+app.use("/api/v1/roles", roleRoutes);       
 app.use("/api/v1/notification", notificationRoutes); 
 app.use("/api/v1/announcement", announcementRoutes);        
 app.use("/api/v1/feedback", feedbackRoutes);            
@@ -63,9 +61,8 @@ app.head('/books', authenticateToken(constants.allRoleName), (req, res) => {
   res.set( {'Content-Type': 'application/json',
             'Content-Length': JSON.stringify(books).length
           });
-  res.status(200).end(); // end the response without sending the body
+  res.status(200).end();
 });
-
 
 
 // ==============================|| WEB SOCKET ||============================== //
