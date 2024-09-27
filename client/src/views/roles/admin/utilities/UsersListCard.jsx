@@ -1,65 +1,124 @@
 import { useMemo, useEffect, useState } from 'react';
-import axios from 'axios';
+import * as Yup from 'yup';
 import {
   MaterialReactTable,
   useMaterialReactTable,
 } from 'material-react-table';
+import Autocomplete from '@mui/material/Autocomplete';
 import Modal from '@mui/material/Modal';
 import {
   Box,
   IconButton,
   Tooltip,
   Typography,
-  Button
+  Button,
+  TextField,
+  MenuItem,
+  Grid
 } from '@mui/material';
+import { Formik, Form, Field } from 'formik';
 
 import { Visibility } from '@mui/icons-material';
 import BuildIcon from '@mui/icons-material/Build';
 import CloseIcon from '@mui/icons-material/Close';
-import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { IconReload } from '@tabler/icons-react';
+import { IconReload, IconCirclePlus } from '@tabler/icons-react';
+import PersonIcon from '@mui/icons-material/Person';
+import ApartmentIcon from '@mui/icons-material/Apartment';
 
 import axiosInstance from 'api/axiosInstance';
-import context from 'context';
 
 // For alert
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-// ==============================|| Tickets List Card ||============================== //
 
-const UsersListCard = ({ onTicketCardUpdate }) => {
+// Define the validation schema for Create User Formik
+const validationSchemaCreateUser = Yup.object().shape({
+  username: Yup.string().required('Username is required'),
+  fullname: Yup.string().required('Full Name is required'),
+  email: Yup.string().email('Invalid email').required('Email is required'),
+  role_name: Yup.string().required('Role is required'),
+  gender: Yup.string().required('Gender is required'),
+  program: Yup.string().required('Program is required'),
+  dorm_area: Yup.string().required('Dorm Area is required'),
+  dorm_room: Yup.string().required('Dorm Room is required'),
+  phone_number: Yup.string().required('Phone Number is required'),
+  intake: Yup.string().required('Intake is required'),
+  place_of_birth: Yup.string().required('Place of Birth is required'),
+  date_of_birth: Yup.date().required('Date of Birth is required'),
+});
+
+
+const UsersListCard = ({ onUserCardUpdate }) => {
   const [data, setData] = useState([]);
   const [isRefresh, setRefresh] = useState(false);
-
+  const [dormAreas, setDormAreas] = useState([]);
+  const [dormRooms, setDormRooms] = useState([]);
+  const [roles, setRoles] = useState([]);
 
   const handleRefresh = () => {
     setRefresh((prevState) => !prevState); // Toggle the state to trigger a re-render
+    setData([]); // Clear the data to show loading spinner
+  };
+
+
+  const handleCreateUser = async (values) => {
+    try {
+      alert(JSON.stringify(values, null, 2));
+      const apiUrl = '/api/v1/users';
+      await axiosInstance.post(apiUrl, values);
+      toast.success('The user has been successfully created', { containerId: 'admin-users-toast' });
+      onUserCardUpdate(); // Notify parent component to refresh UserCard
+      handleCloseModal();
+    } catch (error) {
+      toast.error('Error creating user', { containerId: 'admin-users-toast' });
+      console.error('Error creating user:', error);
+    }
   };
 
 
   // Fetch data from API
   useEffect(() => {
-    const fetchTickets = async () => {
+    const fetchUsers = async () => {
       try {
-        const apiUrl = `/api/v1/tickets/all`;
-
+        const apiUrl = `/api/v1/users/all`;
         const response = await axiosInstance.get(apiUrl);
-        console.log('Tickets:', response.data);
-        // localStorage.removeItem('ticketIdSelected');
         setData(response.data);
       } catch (error) {
-        console.error('Error fetching tickets:', error);
-        if (error.status === 404) {
-          // localStorage.remove('ticketIdSelected');
-        }
+        console.error('Error fetching users:', error);
       }
     };
 
-    fetchTickets();
+    fetchUsers();
   }, [isRefresh]);
+
+  useEffect(() => {
+    const fetchDropdownData = async () => {
+      try {
+        const [areasResponse, rolesResponse] = await Promise.all([
+          axiosInstance.get('/api/v1/dorms/areas'),
+          axiosInstance.get('/api/v1/roles'),
+        ]);
+        setDormAreas(areasResponse.data);
+        setRoles(rolesResponse.data);
+      } catch (error) {
+        console.error('Error fetching dropdown data:', error);
+      }
+    };
+
+    fetchDropdownData();
+  }, []);
+
+  const fetchDormRooms = async (area) => {
+    try {
+      const response = await axiosInstance.get(`/api/v1/dorms/rooms/${area}`);
+      setDormRooms(response.data);
+    } catch (error) {
+      console.error('Error fetching dorm rooms:', error);
+    }
+  };
 
   const modalStyle = {
     position: 'absolute',
@@ -77,71 +136,33 @@ const UsersListCard = ({ onTicketCardUpdate }) => {
   const columns = useMemo(
     () => [
       {
-        accessorKey: 'ticket_id',
-        header: 'Ticket ID',
+        accessorKey: 'user_id',
+        header: 'User ID',
         size: 30,
       },
       {
-        accessorKey: 'ticket_type_name',
-        header: 'Ticket Type',
+        accessorKey: 'username',
+        header: 'Username',
         size: 150,
-      },
-      {
-        accessorKey: 'subject',
-        header: 'Subject',
+      },{
+        accessorKey: 'fullname',
+        header: 'Full Name',
         size: 200,
       },
       {
-        accessorKey: 'audience_type',
-        header: 'Audience Type',
-        size: 50,
-        Cell: ({ cell }) => (
-          <Box
-              component="span"
-              sx={(theme) => ({
-              backgroundColor:
-              cell.getValue() === 'private'
-                  ? "#673ab7" // purple
-                  : "#2196f3",
-              borderRadius: '0.6rem',
-              color: '#fff',
-              maxWidth: '9ch',
-              p: '0.25rem',
-              })}
-          >
-              {cell.getValue()}
-          </Box>
-        )
+        accessorKey: 'email',
+        header: 'Email',
+        size: 200,
       },
       {
-        accessorKey: 'status',
-        header: 'Status',
+        accessorKey: 'role_name',
+        header: 'Role',
+        size: 100,
+      },
+      {
+        accessorKey: 'gender',
+        header: 'Gender',
         size: 50,
-        Cell: ({ cell }) => (
-          <Box
-            component="span"
-            sx={(theme) => ({
-              backgroundColor:
-                cell.getValue() === 'cancelled'
-                  ? theme.palette.error.dark // "#f5821f" cancelled - red
-                  : cell.getValue() === 'pending'
-                    ? theme.palette.warning.dark  // pending - yellow
-                    : cell.getValue() === 'in progress'
-                      ? theme.palette.info.dark     // in progress - blue 
-                      : theme.palette.success.dark, // done - green
-              borderRadius: '0.6rem',
-              color: '#fff',
-              maxWidth: '9ch',
-              p: '0.25rem',
-            })}
-          >
-            {cell.getValue()?.toLocaleString?.('en-US', {
-              style: 'currency',
-              currency: 'USD',
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-            })}
-          </Box>)
       },
       {
         accessorKey: 'created_date',
@@ -150,15 +171,40 @@ const UsersListCard = ({ onTicketCardUpdate }) => {
         Cell: ({ cell }) => new Date(cell.getValue()).toLocaleString(),
       },
       {
-        accessorKey: 'ended_date',
-        header: 'Ended Date',
-        size: 100,
-        Cell: ({ cell }) => cell.getValue() ? new Date(cell.getValue()).toLocaleString() : 'N/A',
+        accessorKey: 'program',
+        header: 'Program',
+        size: 150,
       },
       {
-        accessorKey: 'rating_score',
-        header: 'Rating',
+        accessorKey: 'area',
+        header: 'Area',
         size: 50,
+      },
+      {
+        accessorKey: 'room',
+        header: 'Room',
+        size: 50,
+      },
+      {
+        accessorKey: 'phone_number',
+        header: 'Phone Number',
+        size: 100,
+      },
+      {
+        accessorKey: 'intake',
+        header: 'Intake',
+        size: 50,
+      },
+      {
+        accessorKey: 'place_of_birth',
+        header: 'Place of Birth',
+        size: 150,
+      },
+      {
+        accessorKey: 'date_of_birth',
+        header: 'Date of Birth',
+        size: 100,
+        Cell: ({ cell }) => new Date(cell.getValue()).toLocaleDateString(),
       },
     ],
     []
@@ -166,52 +212,86 @@ const UsersListCard = ({ onTicketCardUpdate }) => {
 
   // Initialize the table
   const [openModal, setOpenModal] = useState(false);
-  const [selectedTicket, setSelectedTicket] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [modalType, setModalType] = useState('');
 
-  const handleOpenModal = (ticket, type) => {
-    setSelectedTicket(ticket);
+  const handleOpenModal = (user, type) => {
+    setSelectedUser(user);
     setModalType(type);
     setOpenModal(true);
   };
 
   const handleCloseModal = () => {
     setOpenModal(false);
-    setSelectedTicket(null);
+    setSelectedUser(null);
     setModalType('');
   };
 
   const handleConfirm = async () => {
     try {
-      let apiUrl = '';
-      
-      
       if (modalType === 'delete') {
-        apiUrl = `/api/v1/tickets/${selectedTicket.ticket_id}`;
-        
-        const response = await axiosInstance.delete(apiUrl);
-        
-        toast.success('The ticket has been successfully deleted', { containerId: 'admin-tickets-toast' });
-        // localStorage.removeItem('ticketIdSelected');
-        console.log('Delete action', response.data);
-
-        onTicketCardUpdate(); // Notify parent component to refresh TicketCard
+        const apiUrl = `/api/v1/users/${selectedUser.user_id}`;
+        await axiosInstance.delete(apiUrl);
+        toast.success('The user has been successfully deleted', { containerId: 'admin-users-mng-toast' });
+        onUserCardUpdate(); // Notify parent component to refresh UserCard
         handleCloseModal();
-        
-        // run the handle refresh function
         handleRefresh();
-        
-
       }
-      
-      
     } catch (error) {
-      toast.error('Error deleting this ticket', { containerId: 'admin-tickets-toast' });
-      console.error('Error deleting ticket:', error);
-      onTicketCardUpdate(); // Notify parent component to refresh TicketCard
+      toast.error('Error deleting this user', { containerId: 'admin-users-mng-toast' });
+      console.error('Error deleting user:', error);
+      onUserCardUpdate(); // Notify parent component to refresh UserCard
       handleCloseModal();
     }
   };
+
+
+  const handleEditSubmit = async (values) => {
+
+    try {
+      if (modalType === 'editDorm') {
+        const apiUrl = `/api/v1/users/dorm/${selectedUser.user_id}`;
+        await axiosInstance.patch(apiUrl, values);
+        toast.success('The user dorm has been successfully updated', { containerId: 'admin-users-mng-toast' });
+        // onUserCardUpdate(); // Notify parent component to refresh UserCard
+        handleCloseModal();
+        handleRefresh();
+
+      } else if (modalType === 'editRole') {
+        alert(JSON.stringify(values, null, 2));
+        const apiUrl = `/api/v1/users/role/${selectedUser.user_id}`;
+        await axiosInstance.patch(apiUrl, values);
+        toast.success('The user role has been successfully updated', { containerId: 'admin-users-mng-toast' });
+        handleCloseModal();
+        handleRefresh();
+      }
+    } catch (error) {
+      toast.error('Error updating this user', { containerId: 'admin-users-mng-toast' });
+      console.error('Error updating user:', error);
+      onUserCardUpdate(); // Notify parent component to refresh UserCard
+      handleCloseModal();
+    }
+    
+  };
+
+  const handlePersonalDetailsSubmit = async (values) => {
+    alert(JSON.stringify(values, null, 2));
+    try {
+      const apiUrl = `/api/v1/user/personal-details/${selectedUser.user_id}`;
+      await axiosInstance.patch(apiUrl, values);
+      toast.success('The personal details have been successfully updated', { containerId: 'admin-users-mng-toast' });
+      onUserCardUpdate(); // Notify parent component to refresh UserCard
+      handleCloseModal();
+      handleRefresh();
+    } catch (error) {
+      toast.error('Error updating personal details', { containerId: 'admin-users-mng-toast' });
+      console.error('Error updating personal details:', error);
+      onUserCardUpdate(); // Notify parent component to refresh UserCard
+      handleCloseModal();
+    }
+  };
+
+  
 
   const table = useMaterialReactTable({
     columns,
@@ -222,19 +302,25 @@ const UsersListCard = ({ onTicketCardUpdate }) => {
     enableStickyFooter: true,
     enablePagination: false,
     enableRowActions: true,
-    muiTableContainerProps: { sx: { maxHeight: '400px' } },
+    initialState: {
+      columnPinning: { right: ['mrt-row-actions'] },
+    },
+    muiTableContainerProps: { sx: { maxHeight: '800px' } },
     renderRowActions: ({ row }) => (
       <Box sx={{ display: 'flex', gap: '0.5rem' }}>
-        <Tooltip title="View">
+        <Tooltip title="Edit Dorm">
           <IconButton
-            onClick={() => {
-              console.log('View action', row.original);
-              // localStorage.setItem('ticketIdSelected', row.original.ticket_id);
-
-              onTicketCardUpdate(); // Notify parent component to refresh TicketCard
-            }}
+            onClick={() => handleOpenModal(row.original, 'editDorm')}
           >
-            <Visibility />
+            <ApartmentIcon />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title="Edit Role">
+          <IconButton
+            onClick={() => handleOpenModal(row.original, 'editRole')}
+          >
+            <PersonIcon />
           </IconButton>
         </Tooltip>
 
@@ -246,13 +332,13 @@ const UsersListCard = ({ onTicketCardUpdate }) => {
           </IconButton>
         </Tooltip>
 
-        {/* <Tooltip title="Cancel">
+        <Tooltip title="Edit Personal Details">
           <IconButton
-            onClick={() => handleOpenModal(row.original, 'cancel')}
+            onClick={() => handleOpenModal(row.original, 'editPersonalDetails')}
           >
-            <CancelIcon />
+            <Visibility />
           </IconButton>
-        </Tooltip> */}
+        </Tooltip>
       </Box>
     ),
     muiTableBodyRowProps: ({ rowIndex }) => ({
@@ -264,33 +350,284 @@ const UsersListCard = ({ onTicketCardUpdate }) => {
 
   return (
     <Box>
-        <ToastContainer containerId={"admin-tickets-toast"}
-        position="bottom-right" 
-        autoClose={5000} 
-        hideProgressBar={false} 
-        newestOnTop={false} 
-        closeOnClick 
-        rtl={false} 
-        pauseOnFocusLoss 
-        draggable 
-        pauseOnHover 
-        />
-          <Button
-          variant="contained"
-          // color="success"
-          onClick={
-            handleRefresh // Toggle the state to trigger a re-render
-          }
-          sx={{ backgroundColor: '#5bbaea', mb: 2 }}
-          >
-          <IconReload />
-          <Typography variant="body1" fontWeight="bold" sx={{  ml: 1 }}>
-            Refresh
+      <ToastContainer containerId={"admin-users-mng-toast"}
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      <Button
+        variant="contained"
+        onClick={handleRefresh}
+        sx={{ backgroundColor: '#5bbaea', mb: 2 }}
+      >
+        <IconReload />
+        <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
+          Refresh
         </Typography>
-        </Button>
+      </Button>
+
+      <Button
+        variant="contained"
+        onClick={() => handleOpenModal(null, 'createUser')}
+        color='success'
+        sx={{ mb: 2, ml: 1 }}
+      >
+        <IconCirclePlus />
+        <Typography variant="body1" fontWeight="bold" sx={{ ml: 1 }}>
+          Create a new user
+        </Typography>
+      </Button>
 
       <MaterialReactTable table={table} />
-      {openModal && selectedTicket && (
+
+      {/* Handle modals */}
+      {openModal && modalType === 'createUser' && (
+        <Modal
+          open={openModal}
+          onClose={handleCloseModal}
+          aria-labelledby="modal-title"
+          aria-describedby="modal-description"
+        >
+      
+      <Box sx={{ ...modalStyle, maxHeight: '90vh', overflowY: 'auto' }}>
+  <IconButton
+    sx={{ position: 'absolute', top: 8, right: 8 }}
+    onClick={handleCloseModal}
+  >
+    <CloseIcon />
+  </IconButton>
+
+  {/* Create User Formik */}
+  <Formik
+    initialValues={{
+      username: '',
+      fullname: '',
+      email: '',
+      role_id: '',
+      role_name: '',
+      gender: '',
+      program: '',
+      dorm_area: '',
+      dorm_room: '',
+      phone_number: '',
+      intake: '',
+      place_of_birth: '',
+      date_of_birth: '', // Format date for input
+    }}
+    // onSubmit={handleCreateUser}
+    validationSchema={validationSchemaCreateUser}
+    onSubmit={(values) => {
+      const selectedRole = roles.find(role => role.role_name === values.role_name);
+      const role_id = selectedRole ? selectedRole.role_id : null;
+      handleCreateUser({ ...values, role_id });
+    }}
+  >
+    {({ values, handleChange, setFieldValue, errors, touched }) => (
+      <Form>
+        <Typography id="modal-title" variant="h4" component="h2">
+          Create User
+        </Typography>
+        <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <Field
+            as={TextField}
+            label="Username"
+            name="username"
+            value={values.username}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            error={touched.username && Boolean(errors.username)}
+            helperText={touched.username && errors.username}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <Field
+            as={TextField}
+            label="Full Name"
+            name="fullname"
+            value={values.fullname}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            error={touched.fullname && Boolean(errors.fullname)}
+            helperText={touched.fullname && errors.fullname}
+          />
+        </Grid>
+      </Grid>
+      <Field
+        as={TextField}
+        label="Email"
+        name="email"
+        value={values.email}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+        error={touched.email && Boolean(errors.email)}
+        helperText={touched.email && errors.email}
+      />
+      <Field
+        as={TextField}
+        select
+        label="Role"
+        name="role_name"
+        value={values.role_name}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+        error={touched.role_name && Boolean(errors.role_name)}
+        helperText={touched.role_name && errors.role_name}
+      >
+        {roles.map((role) => (
+          <MenuItem key={role.role_id} value={role.role_name}>
+            {role.role_name}
+          </MenuItem>
+        ))}
+      </Field>
+      <Field
+        as={TextField}
+        select
+        label="Gender"
+        name="gender"
+        value={values.gender}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+        error={touched.gender && Boolean(errors.gender)}
+        helperText={touched.gender && errors.gender}
+      >
+        <MenuItem value="Male">Male</MenuItem>
+        <MenuItem value="Female">Female</MenuItem>
+      </Field>
+      <Field
+        as={TextField}
+        label="Program"
+        name="program"
+        value={values.program}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+        error={touched.program && Boolean(errors.program)}
+        helperText={touched.program && errors.program}
+      />
+      <Field
+        as={TextField}
+        select
+        label="Dorm Area"
+        name="dorm_area"
+        value={values.dorm_area}
+        onChange={async (e) => {
+          handleChange(e);
+          const area = e.target.value;
+          setFieldValue('dorm_area', area);
+          setFieldValue('dorm_room', ''); // Reset dorm room
+          await fetchDormRooms(area);
+        }}
+        fullWidth
+        margin="normal"
+        error={touched.dorm_area && Boolean(errors.dorm_area)}
+        helperText={touched.dorm_area && errors.dorm_area}
+      >
+        {dormAreas.map((area) => (
+          <MenuItem key={area.dorm_area} value={area.dorm_area}>
+            {area.dorm_area}
+          </MenuItem>
+        ))}
+      </Field>
+      <Field name="dorm_room">
+        {({ field, form }) => (
+          <Autocomplete
+            {...field}
+            options={dormRooms.map((room) => room.dorm_room)}
+            getOptionLabel={(option) => option}
+            value={field.value}
+            onChange={(event, newValue) => {
+              form.setFieldValue(field.name, newValue);
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Dorm Room"
+                margin="normal"
+                fullWidth
+                disabled={!form.values.dorm_area}
+                error={touched.dorm_room && Boolean(errors.dorm_room)}
+                helperText={touched.dorm_room && errors.dorm_room}
+              />
+            )}
+          />
+        )}
+      </Field>
+      <Field
+        as={TextField}
+        label="Phone Number"
+        name="phone_number"
+        value={values.phone_number}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+        error={touched.phone_number && Boolean(errors.phone_number)}
+        helperText={touched.phone_number && errors.phone_number}
+      />
+      <Field
+        as={TextField}
+        label="Intake"
+        name="intake"
+        value={values.intake}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+        error={touched.intake && Boolean(errors.intake)}
+        helperText={touched.intake && errors.intake}
+      />
+      <Field
+        as={TextField}
+        label="Place of Birth"
+        name="place_of_birth"
+        value={values.place_of_birth}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+        error={touched.place_of_birth && Boolean(errors.place_of_birth)}
+        helperText={touched.place_of_birth && errors.place_of_birth}
+      />
+      <Field
+        as={TextField}
+        type="date"
+        label="Date of Birth"
+        name="date_of_birth"
+        value={values.date_of_birth}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+        InputLabelProps={{
+          shrink: true,
+        }}
+        error={touched.date_of_birth && Boolean(errors.date_of_birth)}
+        helperText={touched.date_of_birth && errors.date_of_birth}
+      />
+        <Box sx={{ mt: 4, display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+          <Button type="submit" variant="contained" color="primary">
+            Save
+          </Button>
+          <Button variant="outlined" onClick={handleCloseModal}>
+            Cancel
+          </Button>
+        </Box>
+      </Form>
+    )}
+  </Formik>
+</Box>
+        </Modal>
+      )}
+
+      {openModal && selectedUser && (
         <Modal
           open={openModal}
           onClose={handleCloseModal}
@@ -304,46 +641,289 @@ const UsersListCard = ({ onTicketCardUpdate }) => {
             >
               <CloseIcon />
             </IconButton>
-            
-            <Typography id="modal-title" variant="h4" component="h2">
-              {modalType === 'delete' ? 'Are you sure you want to delete this ticket?' : 'Are you sure you want to cancel this ticket?'}
-            </Typography>
 
-            <Typography id="modal-title" variant="body1" component="h2" sx={{ mt: 1}}>
-              Ticket #{selectedTicket.ticket_id}
-            </Typography>
-
-            <Typography id="modal-title" variant="body1" component="h2" sx={{ mt: 1}}>
-              Subject: {selectedTicket.subject}
-            </Typography>
-
-            <Typography id="modal-title" variant="body1" component="h2" sx={{ mt: 1}}>
-              Student: {selectedTicket.fullname}. ID: {selectedTicket.username}
-            </Typography>
-
-            <Box sx={{ mt: 4, display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-              <Button variant="contained" color="primary" onClick={handleConfirm}
-              sx={{
-                backgroundColor: '#f7984c', // Custom default color
-                '&:hover': {
-                    backgroundColor: '#f58427', // Custom hover color
-                },
-              }}
+            {modalType === 'delete' ? (
+              <>
+                <Typography id="modal-title" variant="h4" component="h2">
+                  Are you sure you want to delete this user?
+                </Typography>
+                <Typography id="modal-title" variant="body1" component="h2" sx={{ mt: 1 }}>
+                  User #{selectedUser.user_id}
+                </Typography>
+                <Typography id="modal-title" variant="body1" component="h2" sx={{ mt: 1 }}>
+                  Full Name: {selectedUser.fullname}
+                </Typography>
+                <Box sx={{ mt: 4, display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+                  <Button variant="contained" color="primary" onClick={handleConfirm}
+                    sx={{
+                      backgroundColor: '#f7984c', // Custom default color
+                      '&:hover': {
+                        backgroundColor: '#f58427', // Custom hover color
+                      },
+                    }}
+                  >
+                    OK
+                  </Button>
+                  <Button variant="outlined" onClick={handleCloseModal}>
+                    Cancel
+                  </Button>
+                </Box>
+              </>
+            ) : modalType === 'editDorm' ? (
+              <Formik
+                initialValues={{
+                  dorm_area: '',
+                  dorm_room: '',
+                }}
+                onSubmit={handleEditSubmit}
               >
-                OK
-              </Button>
-              <Button variant="outlined" onClick={handleCloseModal}>
-                Cancel
-              </Button>
-            </Box>
+                {({ values, handleChange, setFieldValue }) => (
+                  <Form>
+                    <Typography id="modal-title" variant="h4" component="h2">
+                      Edit Dorm
+                    </Typography>
+                    <Field
+                      as={TextField}
+                      select
+                      label="Dorm Area"
+                      name="dorm_area"
+                      value={values.dorm_area}
+                      onChange={async (e) => {
+                        handleChange(e);
+                        const area = e.target.value;
+                        setFieldValue('dorm_area', area);
+                        setFieldValue('dorm_room', ''); // Reset dorm room
+                        await fetchDormRooms(area);
+                      }}
+                      fullWidth
+                      margin="normal"
+                    >
+                      {dormAreas.map((area) => (
+                        <MenuItem key={area.dorm_area} value={area.dorm_area}>
+                          {area.dorm_area}
+                        </MenuItem>
+                      ))}
+                    </Field>
+
+                    {/* <Field
+                      as={TextField}
+                      select
+                      label="Dorm Room"
+                      name="dorm_room"
+                      value={values.dorm_room}
+                      onChange={handleChange}
+                      fullWidth
+                      margin="normal"
+                      disabled={!values.dorm_area}
+                    >
+                      {dormRooms.map((room) => (
+                        <MenuItem key={room.dorm_room} value={room.dorm_room}>
+                          {room.dorm_room}
+                        </MenuItem>
+                      ))}
+                    </Field>
+                    */}
+                        <Field
+                          name="dorm_room"
+                        >
+                          {({ field, form }) => (
+                            <Autocomplete
+                              {...field}
+                              options={dormRooms.map((room) => room.dorm_room)}
+                              getOptionLabel={(option) => option}
+                              value={field.value}
+                              onChange={(event, newValue) => {
+                                form.setFieldValue(field.name, newValue);
+                              }}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  label="Dorm Room"
+                                  margin="normal"
+                                  fullWidth
+                                  disabled={!form.values.dorm_area}
+                                />
+                              )}
+                            />
+                          )}
+                        </Field>
+
+                    <Box sx={{ mt: 4, display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+                      <Button type="submit" variant="contained" color="primary"
+                      sx={{
+                        backgroundColor: '#f7984c', // Custom default color
+                        '&:hover': {
+                            backgroundColor: '#f58427', // Custom hover color
+                        },
+                       }}>
+                        Save
+                      </Button>
+                      <Button variant="outlined" onClick={handleCloseModal}>
+                        Cancel
+                      </Button>
+                    </Box>
+                  </Form>
+                )}
+              </Formik>
+            ) : modalType === 'editRole' ? (
+              <Formik
+                initialValues={{
+                  role_name: selectedUser.role_name,
+                }}
+                // onSubmit={
+                //   handleEditSubmit
+                // }
+
+                onSubmit={(values) => {
+                  const selectedRole = roles.find(role => role.role_name === values.role_name);
+                  const role_id = selectedRole ? selectedRole.role_id : null;
+                  handleEditSubmit({ role_id });
+                }}
+              >
+                {({ values, handleChange }) => (
+                 <Form>
+                 <Typography id="modal-title" variant="h4" component="h2">
+                   Edit Role
+                 </Typography>
+                 <Field
+                   as={TextField}
+                   select
+                   label="Role"
+                   name="role_name"
+                   value={values.role_name}
+                   onChange={handleChange}
+                   fullWidth
+                   margin="normal"
+                 >
+                   {roles.map((role) => (
+                     <MenuItem key={role.role_id} value={role.role_name}>
+                       {role.role_name} {/* Access role_name to display it as the label */}
+                     </MenuItem>
+                   ))}
+                 </Field>
+                 <Box sx={{ mt: 4, display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+                   <Button type="submit" variant="contained" color="primary"
+                   sx={{
+                    backgroundColor: '#f7984c', // Custom default color
+                    '&:hover': {
+                        backgroundColor: '#f58427', // Custom hover color
+                    },
+                   }}>
+                     Save
+                   </Button>
+                   <Button variant="outlined" onClick={handleCloseModal}>
+                     Cancel
+                   </Button>
+                 </Box>
+               </Form>
+               
+                )}
+              </Formik>
+            ) : (
+              <Formik
+                initialValues={{
+                  fullname: selectedUser.fullname,
+                  gender: selectedUser.gender,
+                  program: selectedUser.program,
+                  phone_number: selectedUser.phone_number,
+                  intake: selectedUser.intake,
+                  place_of_birth: selectedUser.place_of_birth,
+                  date_of_birth: selectedUser.date_of_birth.split('T')[0], // Format date for input
+                }}
+                onSubmit={handlePersonalDetailsSubmit}
+              >
+                {({ values, handleChange }) => (
+                  <Form>
+                    <Typography id="modal-title" variant="h4" component="h2">
+                      Edit Personal Details
+                    </Typography>
+                    <Field
+                      as={TextField}
+                      label="Full Name"
+                      name="fullname"
+                      value={values.fullname}
+                      onChange={handleChange}
+                      fullWidth
+                      margin="normal"
+                    />
+                    <Field
+                      as={TextField}
+                      select
+                      label="Gender"
+                      name="gender"
+                      value={values.gender}
+                      onChange={handleChange}
+                      fullWidth
+                      margin="normal"
+                    >
+                      <MenuItem value="Male">Male</MenuItem>
+                      <MenuItem value="Female">Female</MenuItem>
+                    </Field>
+                    <Field
+                      as={TextField}
+                      label="Program"
+                      name="program"
+                      value={values.program}
+                      onChange={handleChange}
+                      fullWidth
+                      margin="normal"
+                    />
+                    <Field
+                      as={TextField}
+                      label="Phone Number"
+                      name="phone_number"
+                      value={values.phone_number}
+                      onChange={handleChange}
+                      fullWidth
+                      margin="normal"
+                    />
+                    <Field
+                      as={TextField}
+                      label="Intake"
+                      name="intake"
+                      value={values.intake}
+                      onChange={handleChange}
+                      fullWidth
+                      margin="normal"
+                    />
+                    <Field
+                      as={TextField}
+                      label="Place of Birth"
+                      name="place_of_birth"
+                      value={values.place_of_birth}
+                      onChange={handleChange}
+                      fullWidth
+                      margin="normal"
+                    />
+                    <Field
+                      as={TextField}
+                      type="date"
+                      label="Date of Birth"
+                      name="date_of_birth"
+                      value={values.date_of_birth}
+                      onChange={handleChange}
+                      fullWidth
+                      margin="normal"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                    <Box sx={{ mt: 4, display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+                      <Button type="submit" variant="contained" color="primary">
+                        Save
+                      </Button>
+                      <Button variant="outlined" onClick={handleCloseModal}>
+                        Cancel
+                      </Button>
+                    </Box>
+                  </Form>
+                )}
+              </Formik>
+            )}
           </Box>
         </Modal>
       )}
-
-
-
     </Box>
-    
   );
 };
 

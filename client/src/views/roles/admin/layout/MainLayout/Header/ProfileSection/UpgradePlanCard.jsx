@@ -47,7 +47,7 @@ const UpgradePlanCard = () => {
       <CardContent>
         <Grid container direction="column" spacing={2}>
           <Grid item>
-            <Typography variant="h4">How our system perform</Typography>
+            <Typography variant="h4">How our system performs</Typography>
           </Grid>
           <Grid item>
             <Typography variant="subtitle2" color={'grey.900'} sx={{ opacity: 0.6 }}>
@@ -57,7 +57,7 @@ const UpgradePlanCard = () => {
           </Grid>
           <Grid item>
             <Stack direction="row">
-              <Link sx={{ textDecoration: 'none' }} href="/staff/tickets/available-tickets" target="_self">
+              <Link sx={{ textDecoration: 'none' }} href="/admin/report" target="_self">
                 <AnimateButton>
                   <Button variant="contained" color="warning" sx={{ boxShadow: 'none' }}>
                     View reports

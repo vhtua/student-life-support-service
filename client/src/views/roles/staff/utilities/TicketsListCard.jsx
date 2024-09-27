@@ -36,6 +36,7 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
 
   const handleRefresh = () => {
     setRefresh((prevState) => !prevState); // Toggle the state to trigger a re-render
+    setData([]); // Clear the data to show the loading spinner
   };
 
 
@@ -225,7 +226,10 @@ const TicketsListCard = ({ onTicketCardUpdate }) => {
     enableStickyFooter: true,
     enablePagination: false,
     enableRowActions: true,
-    muiTableContainerProps: { sx: { maxHeight: '400px' } },
+    initialState: {
+      columnPinning: { right: ['mrt-row-actions'] },
+    },
+    muiTableContainerProps: { sx: { maxHeight: '800px' } },
     renderRowActions: ({ row }) => (
       <Box sx={{ display: 'flex', gap: '0.5rem' }}>
         <Tooltip title="View">

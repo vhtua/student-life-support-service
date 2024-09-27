@@ -173,7 +173,10 @@ const TicketRateCard = ({ onTicketCardUpdate }) => {
         enableStickyFooter: true,
         enablePagination: false,
         enableRowActions: true,
-        muiTableContainerProps: { sx: { maxHeight: '400px' } },
+        initialState: {
+            columnPinning: { right: ['rating_score', 'mrt-row-actions'] },
+          },
+        muiTableContainerProps: { sx: { maxHeight: '800px' } },
         renderRowActions: ({ row }) => (
             <Box sx={{ display: 'flex', gap: '0.5rem' }}>
                 <Tooltip title="Rate">
