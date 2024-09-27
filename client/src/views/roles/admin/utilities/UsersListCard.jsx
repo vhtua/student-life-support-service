@@ -236,13 +236,16 @@ const UsersListCard = ({ onUserCardUpdate }) => {
   const handleConfirm = async () => {
     setLoading(true);
     try {
-      if (modalType === 'delete') {
+      if (modalType === 'delete' && selectedUser.role_id !== 1) {
         const apiUrl = `/api/v1/users/${selectedUser.user_id}`;
         await axiosInstance.delete(apiUrl);
         toast.success('The user has been successfully deleted', { containerId: 'admin-users-mng-toast' });
         // onUserCardUpdate(); // Notify parent component to refresh UserCard
         handleCloseModal();
         handleRefresh();
+      } else if (modalType === 'delete' && selectedUser.role_id === 1) {
+        toast.error('Cannot delete an Admin user', { containerId: 'admin-users-mng-toast' });
+        // handleCloseModal();
       }
     } catch (error) {
       toast.error('Error deleting this user', { containerId: 'admin-users-mng-toast' });
@@ -268,12 +271,16 @@ const UsersListCard = ({ onUserCardUpdate }) => {
         handleRefresh();
 
       } else if (modalType === 'editRole') {
-        
-        const apiUrl = `/api/v1/users/role/${selectedUser.user_id}`;
-        await axiosInstance.patch(apiUrl, values);
-        toast.success('The user role has been successfully updated', { containerId: 'admin-users-mng-toast' });
-        handleCloseModal();
-        handleRefresh();
+        // alert(JSON.stringify(values, null, 2));
+        if (values.role_id !== 1 && selectedUser.role_id === 1) {
+          toast.error('Cannot change from Admin to other role', { containerId: 'admin-users-mng-toast' });
+        } else {
+          const apiUrl = `/api/v1/users/role/${selectedUser.user_id}`;
+          await axiosInstance.patch(apiUrl, values);
+          toast.success('The user role has been successfully updated', { containerId: 'admin-users-mng-toast' });
+          handleCloseModal();
+          handleRefresh();
+        }
       }
     } catch (error) {
       toast.error('Error updating this user', { containerId: 'admin-users-mng-toast' });

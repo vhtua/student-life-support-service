@@ -10,6 +10,7 @@ const DashboardDefault = Loadable(lazy(() => import('views/roles/admin/homepage'
 const TicketsManagement = Loadable(lazy(() => import('views/roles/admin/TicketsManagement')));
 const UsersManagement = Loadable(lazy(() => import('views/roles/admin/UsersManagement')));
 const DormsManagement = Loadable(lazy(() => import('views/roles/admin/DormsManagement')));
+const LogsManagement = Loadable(lazy(() => import('views/roles/admin/LogsManagement')));
 const Notification = Loadable(lazy(() => import('views/roles/admin/Notification')));
 const Announcement = Loadable(lazy(() => import('views/roles/admin/Announcement')));
 const EditProfile = Loadable(lazy(() => import('views/roles/admin/EditProfile')));
@@ -18,13 +19,9 @@ const Newsfeed = Loadable(lazy(() => import('views/roles/admin/Newsfeed')));
 
 
 const Profile = Loadable(lazy(() => import('views/roles/admin/Profile')));
-const CreateTicket = Loadable(lazy(() => import('views/roles/admin/CreateTicket')));
-const TicketHistory = Loadable(lazy(() => import('views/roles/admin/TicketHistory')));
-
 const Message = Loadable(lazy(() => import('views/roles/admin/Message')));
-
 const Feedback = Loadable(lazy(() => import('views/roles/admin/Feedback')));
-const TicketsHandling = Loadable(lazy(() => import('views/roles/admin/TicketsHandling')));
+
 
 // utilities routing
 // const UtilsTypography = Loadable(lazy(() => import('views/roles/student/utilities/Typography')));
