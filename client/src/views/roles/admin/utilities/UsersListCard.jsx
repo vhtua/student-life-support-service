@@ -80,6 +80,7 @@ const UsersListCard = ({ onUserCardUpdate }) => {
       console.error('Error creating user:', error);
     } finally {
       setLoading(false);
+      handleRefresh();
     }
   };
 
