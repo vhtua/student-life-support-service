@@ -25,6 +25,26 @@ const REFRESH_TOKEN_EXPIRED_IN = Number(process.env.EXPIRED_BEARER_REFRESH_TOKEN
 
 
 
+const getAllDorms = async (req, res) => {
+    try {
+        console.log("Get all dorms");
+        // Find list of dorm areas
+        const { rows } = await pool.query(dormQueries.getDormArea);
+        const dormAreas = rows;
+
+        // Find list of dorm rooms for each dorm area
+        const dorms = [];
+        for (const area of dormAreas) {
+            const { rows } = await pool.query(dormQueries.getDormRoomByArea, [area.dorm_area]);
+            dorms.push({ dorm_area: area.dorm_area, rooms: rows });
+        }
+        return res.status(200).json(dorms);
+    } catch (error) {
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
 
 
 const getDormArea = async (req, res) => {
@@ -51,7 +71,82 @@ const getDormRoomByArea = async (req, res) => {
 }
 
 
+
+const createDorm = async (req, res) => {
+    try {
+        const { dorm_area, dorm_room } = req.body;
+
+        // Check if dorm already exists
+        const { rows } = await pool.query(dormQueries.getDormRoomByArea, [dorm_area]);
+        for (const row of rows) {
+            if (row.dorm_room === dorm_room) {
+                return res.status(400).json({ message: 'Dorm already exists' });
+            }
+        }
+
+        // Create new dorm
+        await pool.query('BEGIN');
+
+        await pool.query(dormQueries.createDorm, [dorm_area, dorm_room]);
+
+        await pool.query('COMMIT');
+
+        logger.info(`Dorm ${dorm_area}-${dorm_room} created`);
+
+        return res.status(201).json({ message: 'Dorm created' });
+    } catch (error) {
+        await pool.query('ROLLBACK');
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
+
+const deleteDorm = async (req, res) => {
+
+    try {
+        const dorm_area = req.params.area;
+        const dorm_room = req.params.room;
+
+        console.log("Delete dorm", dorm_area, dorm_room);
+
+        // Check if dorm exists
+        const { rows } = await pool.query(dormQueries.getDormRoomByArea, [dorm_area]);
+        let found = false;
+        for (const row of rows) {
+            if (row.dorm_room === dorm_room) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            return res.status(400).json({ message: 'Dorm not found' });
+        }
+
+        // Delete dorm
+        await pool.query('BEGIN');
+
+        await pool.query(dormQueries.deleteDorm, [dorm_area, dorm_room]);
+
+        await pool.query('COMMIT');
+
+        logger.info(`Dorm ${dorm_area}-${dorm_room} deleted`);
+
+        return res.status(200).json({ message: 'Dorm deleted' });
+    } catch (error) {
+        await pool.query('ROLLBACK');
+        logger.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
+
 export default { 
+    getAllDorms,
     getDormArea,
-    getDormRoomByArea
+    getDormRoomByArea,
+    createDorm,
+    deleteDorm
 };

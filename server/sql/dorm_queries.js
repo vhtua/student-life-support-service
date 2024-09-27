@@ -21,4 +21,14 @@ ORDER BY dorm_room ASC;
 
 
 
-export default { getDormArea, getDormRoomByArea };
+const createDorm = `
+INSERT INTO "Dorm" (area, room) VALUES ($1, $2);
+`;
+
+
+const deleteDorm = `
+DELETE FROM "Dorm" WHERE area = $1 AND room = $2;
+`;
+
+
+export default { getDormArea, getDormRoomByArea, createDorm, deleteDorm };
