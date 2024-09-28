@@ -36,7 +36,7 @@ const getFeedbacks = async (req, res) => {
         if (!user_id) return res.status(401).json({message: 'Cannot identify the user'});
 
         logger.info(`User ${user_id} is getting all feedbacks`, new Date());
-        writeLogToDB(user_id, event_type.critical, 'User is getting all feedbacks');
+        writeLogToDB(user_id, event_type.critical, 'User is getting all feedbacks', new Date());
 
         const feedbacks = await pool.query(feedbackQueries.getAllFeedbacks);
         return res.status(200).json(feedbacks.rows);
@@ -59,7 +59,7 @@ const getFeedbackById = async (req, res) => {
 
         const feedback_id = req.params.feedback_id;
         logger.info(`User ${user_id} is getting the feedback with id ${feedback_id}`, new Date());
-        writeLogToDB(user_id, event_type.critical, `User is getting the feedback with id ${feedback_id}`);
+        writeLogToDB(user_id, event_type.critical, `User is getting the feedback with id ${feedback_id}`, new Date());
 
         const feedback = await pool.query(feedbackQueries.getFeedbackById, [feedback_id]);
         return res.status(200).json(feedback.rows[0]);
