@@ -14,7 +14,7 @@ const AutoComplete = ({ value, handleSelect, inputRef }) => {
 //     { name: 'Settings/Change Password', url: '/settings/change-password' },
 //   ];
 
-    const features = context.studentAppFeature;
+    const features = context.adminAppFeature;
 
   // Filter features based on user input
   const filteredFeatures = features.filter((feature) =>

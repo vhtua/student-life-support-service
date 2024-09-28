@@ -17,6 +17,39 @@ const studentAppFeature = [
     { name: 'Announcement', url: '/announcement' },
     { name: 'Settings/Edit Profile', url: '/settings/edit-profile' },
     { name: 'Settings/Change Password', url: '/settings/change-password' },
+    { name: 'Feedback', url: '/feedback' },
+]
+
+
+const staffAppFeature = [
+    { name: 'Homepage', url: '/homepage' },
+    { name: 'Profile', url: '/profile' },
+    { name: 'Tickets/Available tickets', url: '/tickets/available-tickets' },
+    { name: 'Tickets/Tickets Handling', url: '/tickets/tickets-handling' },
+    { name: 'Tickets/History', url: '/tickets/history' },
+    { name: 'Message', url: '/message' },
+    { name: 'Newsfeed', url: '/newsfeed' },
+    { name: 'Notification', url: '/notification' },
+    { name: 'Announcement', url: '/announcement' },
+    { name: 'Settings/Edit Profile', url: '/settings/edit-profile' },
+    { name: 'Settings/Change Password', url: '/settings/change-password' },
+    { name: 'Feedback', url: '/feedback' },
+]
+
+const adminAppFeature = [
+    { name: 'Homepage', url: '/homepage' },
+    { name: 'Profile', url: '/profile' },
+    { name: 'Management/Tickets', url: '/tickets' },
+    { name: 'Management/Users', url: '/users' },
+    { name: 'Management/Dormitory', url: '/dormitory' },
+    { name: 'Management/Logs', url: '/logs' },
+    { name: 'Management/Feedback', url: '/feedback' },
+    { name: 'Newsfeed', url: '/newsfeed' },
+    { name: 'Report', url: '/report' },
+    { name: 'Notification', url: '/notification' },
+    { name: 'Announcement', url: '/announcement' },
+    { name: 'Settings/Edit Profile', url: '/settings/edit-profile' },
+    { name: 'Settings/Change Password', url: '/settings/change-password' },
 ]
 
 
@@ -86,6 +119,8 @@ export default  {
                     studentRoleName,
                     staffRoleName,
                     studentAppFeature,
+                    staffAppFeature,
+                    adminAppFeature,
                     appRoute,
                     googleCaptchaSiteKey,
                     serverBaseUrl,
