@@ -5,9 +5,16 @@ const staffRoleName = ["Dorm Staff", "Student Affairs"];
 const allRoleName = [...adminRoleName, ...studentRoleName, ...staffRoleName];
 
 
-const appFeature = [
+const studentAppFeature = [
     { name: 'Homepage', url: '/homepage' },
     { name: 'Profile', url: '/profile' },
+    { name: 'Tickets/My Tickets', url: '/tickets/my-tickets' },
+    { name: 'Tickets/Create a ticket', url: '/tickets/create-ticket' },
+    { name: 'Tickets/Rate tickets', url: '/tickets/rate-ticket' },
+    { name: 'Message', url: '/message' },
+    { name: 'Newsfeed', url: '/newsfeed' },
+    { name: 'Notification', url: '/notification' },
+    { name: 'Announcement', url: '/announcement' },
     { name: 'Settings/Edit Profile', url: '/settings/edit-profile' },
     { name: 'Settings/Change Password', url: '/settings/change-password' },
 ]
@@ -78,7 +85,7 @@ export default  {
                     adminRoleName,
                     studentRoleName,
                     staffRoleName,
-                    appFeature,
+                    studentAppFeature,
                     appRoute,
                     googleCaptchaSiteKey,
                     serverBaseUrl,

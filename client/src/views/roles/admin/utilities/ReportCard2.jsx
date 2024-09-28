@@ -129,7 +129,7 @@ const ReportCard2 = () => {
       const pieChartImage = pieChart.toBase64Image('image/png', 1.0);
 
       const doc = new jsPDF();
-      const title = `Ticket Report from ${startDate} to ${endDate}`;
+      const title = `Tickets Report from ${startDate} to ${endDate}`;
       // Set font size and style
       doc.setFontSize(12);
       doc.setFont('helvetica', 'bold');
