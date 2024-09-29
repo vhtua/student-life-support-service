@@ -475,7 +475,7 @@ const verifyRefreshToken = async (req, res) => {
 
 const getResetPassword = async (req, res) => {
     try {
-        const email = req.query.email;
+        const email = req.body.email;
 
         // check if the email exists in the database
         const existEmail = await pool.query(queries.getUserByEmail, [email]);

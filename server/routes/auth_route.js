@@ -6,7 +6,7 @@ import constants from "../config/constants.js";
 
 const authRouter = Router();
 
-authRouter.get("/reset-password", authController.getResetPassword); // /auth/reset-password
+authRouter.post("/reset-password", authController.getResetPassword); // /auth/reset-password
         
 authRouter.post("/login", authController.authenticateUser)                  // /auth/login
 authRouter.post("/logout", authController.logOutUser)                       // /auth/logout
