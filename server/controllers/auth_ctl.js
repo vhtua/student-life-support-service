@@ -550,7 +550,7 @@ const getResetPassword = async (req, res) => {
 
         await mailer.sendMail(mailer.transporter, mailOptions)
 
-        res.status(200).json({ message: 'Password reset successfully', token: newAccessToken });
+        res.status(200).json({ message: 'Password reset successfully'});
     } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' });
     }
