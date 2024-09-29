@@ -17,7 +17,7 @@ const ForgotPassword = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setIsButtonDisabled(true);
-    axios.get(`http://localhost:3000/auth/reset-password?email=${email}`)
+    axios.post(`http://localhost:3000/auth/reset-password`, { email: email })
       .then(response => {
         toast.success('Password reset link sent to your email', { containerId: "reset-password-toast" });
       })
