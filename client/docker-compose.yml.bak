@@ -1,6 +1,6 @@
 services:
 
-  sample:
+  client:
     container_name: vgusls_frontend
     build:
       context: .

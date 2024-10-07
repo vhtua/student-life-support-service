@@ -207,7 +207,7 @@ const createTicket = async (req, res) => {
       await pool.query('COMMIT');
 
       logger.info(`User ${user_id} has created a ticket`);
-      writeLogToDB(user_id, event_type.critical, `User has created a ticket`);
+      writeLogToDB(user_id, event_type.critical, `User has created a ticket`, new Date());
 
       return res.status(200).json({ message: 'Successfully creating the ticket' });
     } catch (error) {

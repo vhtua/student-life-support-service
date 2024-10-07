@@ -721,7 +721,6 @@ ALTER TABLE ONLY public."User" ALTER COLUMN id SET DEFAULT nextval('public."User
 
 COPY public."Announcement" (id, sender_id, content, created_date, title) FROM stdin;
 1	19	Announcement: Scheduled Maintenance for A Service\n\nDear Students,\n\nPlease be informed that A Service will undergo scheduled maintenance on:\n\nDate: 30.09.2024\nTime: from 10:00 to 14:00 \n\nDuring this time, the service will be temporarily unavailable as we perform essential updates and improvements. We apologize for any inconvenience this may cause and appreciate your understanding.\n\nShould you have any questions or concerns, please feel free to contact the admin team.\n\nThank you for your cooperation.\n\nBest regards,\nVGU SLS ADMIN TEAM	2024-09-21 03:30:08+07	Scheduled Maintenance for the Service
-6	19	Hi everyone	2024-09-27 00:34:39.397+07	This is an announcement from admin
 \.
 
 
@@ -738,6 +737,8 @@ COPY public."Attachment" (id, attachment_name, url, created_date, ticket_id, att
 63	images (1).jpg	http://localhost:3000/api/v1/attachments/27092024-$2a$10$r.uqe8kD6ZkAVUHbdhJfecME.Dlt4ADFf1mw16Sw25BlRORD.O6.jpg	2024-09-27 06:47:13.237+07	68	image/jpeg
 64	Thief-Steals-Laptop--Sends-Apology-Email-To-Owner1200_635f9013b9f42.jpeg	http://localhost:3000/api/v1/attachments/27092024-$2a$10$nyksaY8SrfirWqqnQS.vrOCnKK.gMguYltBeCVqUN3s4n40IWlAK2.jpeg	2024-09-27 06:47:43.6+07	69	image/jpeg
 65	221205091646-winter-cold-stock.jpg	http://localhost:3000/api/v1/attachments/27092024-$2a$10$FB7Oab3gwbWFHU5Hnmt8e.7ebpyoqASWelLgxe4wB3K3D3OnLR.Z2.jpg	2024-09-27 22:40:32.547+07	70	image/jpeg
+66	s24-ultra6-black.png	http://localhost:3000/api/v1/attachments/30092024-$2a$10$Bsac8eRgiKqQCF6g4ooF.2S6BptnSG9Kk0PU4jILx6gmNAZIzai.png	2024-09-30 11:35:50.58+07	71	image/png
+67	s24-ultra6-black.png	http://localhost:3000/api/v1/attachments/30092024-$2a$10$veiFYQau.2oI1cs0bx.rVubehvlqwzYQ.2TzbnAIlhogR0GhV2PcG.png	2024-09-30 19:17:56.568+07	72	image/png
 14	z5749231140673_65fca20e9bdb4509ef509e6e68c3ed4f.jpg	http://localhost:3000/api/v1/attachments/z5749231140673_65fca20e9bdb4509ef509e6e68c3ed4f.jpg	2024-09-23 22:46:57.466+07	34	image/jpeg
 15	5812146838664.mp4	http://localhost:3000/api/v1/attachments/5812146838664.mp4	2024-09-23 22:46:57.466+07	34	video/mp4
 16	crying_emoji.png	http://localhost:3000/api/v1/attachments/crying_emoji.png	2024-09-24 02:54:40.96+07	35	image/png
@@ -2476,6 +2477,16 @@ COPY public."Log" (id, user_id, event_id, description, "timestamp") FROM stdin;
 572	19	1	Username 10003 is being retrieved	2024-09-29 00:20:53.68+07
 574	19	1	Username 10003 is being retrieved	2024-09-29 00:20:53.691+07
 577	19	1	Username 10003 has been retrieved	2024-09-29 00:20:54.08+07
+579	1	5	Username 17965 logged in successfully	2024-09-30 01:48:47.146+07
+580	1	1	Username 17965 is being retrieved	2024-09-30 01:48:47.56+07
+584	4	1	Username 18812 has been retrieved	2024-09-30 01:50:17.647+07
+588	4	5	Username 18812 logged in successfully	2024-09-30 01:51:27.195+07
+589	4	1	Username 18812 is being retrieved	2024-09-30 01:51:27.599+07
+594	4	1	Username 18812 has been retrieved	2024-09-30 01:58:47.787+07
+595	4	5	Username 18812 logged in successfully	2024-09-30 01:58:49.598+07
+596	4	1	Username 18812 is being retrieved	2024-09-30 01:58:50.057+07
+598	13	5	Username 10001 logged in successfully	2024-09-30 02:01:22.496+07
+599	13	1	Username 10001 is being retrieved	2024-09-30 02:01:22.885+07
 284	19	1	User successfully get all roles	2024-09-28 01:18:12.686+07
 288	19	1	User successfully get all roles	2024-09-28 01:18:57.226+07
 292	19	1	Username 10003 has been retrieved	2024-09-28 02:27:09.247+07
@@ -2557,6 +2568,21 @@ COPY public."Log" (id, user_id, event_id, description, "timestamp") FROM stdin;
 569	19	1	User is getting all roles	2024-09-29 00:20:52.811+07
 575	19	1	Username 10003 has been retrieved	2024-09-29 00:20:53.692+07
 576	19	1	Username 10003 is being retrieved	2024-09-29 00:20:54.078+07
+581	1	1	Username 17965 has been retrieved	2024-09-30 01:48:47.626+07
+585	4	5	Username 18812 logged in successfully	2024-09-30 01:50:48.955+07
+586	4	1	Username 18812 is being retrieved	2024-09-30 01:50:49.565+07
+590	4	1	Username 18812 has been retrieved	2024-09-30 01:51:27.649+07
+597	4	1	Username 18812 has been retrieved	2024-09-30 01:58:50.062+07
+600	13	1	Username 10001 has been retrieved	2024-09-30 02:01:22.934+07
+601	16	5	Username 10002 logged in successfully	2024-09-30 02:01:29.282+07
+602	16	1	Username 10002 is being retrieved	2024-09-30 02:01:29.582+07
+603	16	1	Username 10002 has been retrieved	2024-09-30 02:01:29.585+07
+604	16	1	Username 10002 is being retrieved	2024-09-30 02:01:45.037+07
+605	16	1	Username 10002 has been retrieved	2024-09-30 02:01:45.085+07
+606	16	1	Username 10002 is being retrieved	2024-09-30 02:01:45.089+07
+607	16	1	Username 10002 has been retrieved	2024-09-30 02:01:45.131+07
+608	16	1	Username 10002 is being retrieved	2024-09-30 03:26:33.475+07
+609	16	1	Username 10002 has been retrieved	2024-09-30 03:26:33.515+07
 285	19	1	User is getting all roles	2024-09-28 01:18:43.19+07
 289	19	5	Username 10003 logged in successfully	2024-09-28 01:43:33.66+07
 296	19	1	Username 10003 has been retrieved	2024-09-28 02:27:11.268+07
@@ -2630,6 +2656,8 @@ COPY public."Log" (id, user_id, event_id, description, "timestamp") FROM stdin;
 570	19	4	All users have been retrieved	2024-09-29 00:20:52.812+07
 573	19	1	Username 10003 has been retrieved	2024-09-29 00:20:53.684+07
 578	19	5	Username 10003 logged in failed due to wrong credentials information	2024-09-29 00:27:37.304+07
+582	4	5	Username 18812 logged in successfully	2024-09-30 01:50:17.031+07
+583	4	1	Username 18812 is being retrieved	2024-09-30 01:50:17.606+07
 1	19	1	User 10003 has been retrieved	2024-09-27 21:12:36.124+07
 2	19	1	Username 10003 is being retrieved	2024-09-27 21:39:43.259+07
 3	19	1	Username 10003 has been retrieved	2024-09-27 21:39:43.294+07
@@ -2646,6 +2674,10 @@ COPY public."Log" (id, user_id, event_id, description, "timestamp") FROM stdin;
 15	19	1	User has changed the password	2024-09-27 21:45:07.247+07
 16	19	1	Username 10003 is changing the phone number	2024-09-27 21:46:28.304+07
 17	19	1	Username 10003 has changed the phone number	2024-09-27 21:46:28.337+07
+587	4	1	Username 18812 has been retrieved	2024-09-30 01:50:49.622+07
+591	4	5	Username 18812 logged in failed due to wrong credentials information	2024-09-30 01:58:40.484+07
+592	4	5	Username 18812 logged in successfully	2024-09-30 01:58:47.35+07
+593	4	1	Username 18812 is being retrieved	2024-09-30 01:58:47.741+07
 18	19	1	User is changing the password	2024-09-27 21:50:51.601+07
 19	19	3	User has entered the wrong current password	2024-09-27 21:50:51.71+07
 20	19	1	User is changing the password	2024-09-27 21:50:57.553+07
@@ -2839,6 +2871,7 @@ COPY public."Log" (id, user_id, event_id, description, "timestamp") FROM stdin;
 212	19	1	User successfully get all roles	2024-09-27 23:49:46.143+07
 213	19	1	All users are being retrieved	2024-09-27 23:51:42.224+07
 215	19	1	User is getting all roles	2024-09-27 23:51:42.23+07
+645	4	4	User has created a ticket	\N
 214	19	4	All users have been retrieved	2024-09-27 23:51:42.285+07
 216	19	1	User successfully get all roles	2024-09-27 23:51:42.3+07
 218	19	1	User is getting all roles	2024-09-27 23:51:50.111+07
@@ -2937,6 +2970,177 @@ COPY public."Log" (id, user_id, event_id, description, "timestamp") FROM stdin;
 435	1	1	Username 17965 is being retrieved	2024-09-28 14:08:37.455+07
 438	1	1	Username 17965 has been retrieved	2024-09-28 14:08:39.15+07
 442	13	5	Username 10001 logged in successfully	2024-09-28 14:18:56.165+07
+610	16	1	Username 10002 is being retrieved	2024-09-30 03:26:33.518+07
+611	16	1	Username 10002 has been retrieved	2024-09-30 03:26:33.552+07
+612	19	5	Username 10003 logged in successfully	2024-09-30 03:57:50.292+07
+613	19	5	Username 10003 logged in successfully	2024-09-30 05:24:47.165+07
+614	19	5	Username 10003 logged in successfully	2024-09-30 05:25:22.687+07
+615	19	5	Username 10003 logged in successfully	2024-09-30 05:37:24.407+07
+616	19	1	Username 10003 is being retrieved	2024-09-30 05:37:24.784+07
+617	19	1	Username 10003 has been retrieved	2024-09-30 05:37:24.837+07
+618	19	1	All users are being retrieved	2024-09-30 05:38:41.869+07
+619	19	4	All users have been retrieved	2024-09-30 05:38:41.941+07
+620	19	1	User is getting all roles	2024-09-30 05:38:41.874+07
+621	19	1	User successfully get all roles	2024-09-30 05:38:41.951+07
+622	19	4	User is getting all feedbacks	2024-09-30 05:38:46.522+07
+623	19	4	User is getting all feedbacks	2024-09-30 05:38:47.792+07
+624	19	5	Username 10003 logged in successfully	2024-09-30 05:41:17.282+07
+625	19	5	Username 10003 logged in successfully	2024-09-30 05:48:56.363+07
+626	19	1	Username 10003 is being retrieved	2024-09-30 05:49:04.831+07
+627	19	1	Username 10003 has been retrieved	2024-09-30 05:49:04.865+07
+628	19	1	Username 10003 is being retrieved	2024-09-30 06:39:39.322+07
+629	19	1	Username 10003 has been retrieved	2024-09-30 06:39:39.375+07
+630	4	5	Username 18812 logged in failed due to wrong credentials information	2024-09-30 06:40:03.57+07
+631	19	1	Username 10003 is being retrieved	2024-09-30 06:55:08.721+07
+632	19	1	Username 10003 has been retrieved	2024-09-30 06:55:08.861+07
+633	4	5	Username 18812 logged in successfully	2024-09-30 11:09:19.008+07
+634	4	1	Username 18812 is being retrieved	2024-09-30 11:09:19.472+07
+635	4	1	Username 18812 has been retrieved	2024-09-30 11:09:19.523+07
+636	4	1	Username 18812 is being retrieved	2024-09-30 11:30:10.168+07
+637	4	1	Username 18812 has been retrieved	2024-09-30 11:30:10.207+07
+638	4	1	Username 18812 is being retrieved	2024-09-30 11:30:10.209+07
+639	4	1	Username 18812 has been retrieved	2024-09-30 11:30:10.256+07
+640	4	1	Username 18812 is being retrieved	2024-09-30 11:30:22.218+07
+641	4	1	Username 18812 has been retrieved	2024-09-30 11:30:22.275+07
+642	4	1	Username 18812 is being retrieved	2024-09-30 11:30:22.28+07
+643	4	1	Username 18812 has been retrieved	2024-09-30 11:30:22.332+07
+644	4	4	User is creating a ticket	2024-09-30 11:35:50.676+07
+646	4	1	Username 18812 is being retrieved	2024-09-30 11:49:17.266+07
+647	4	1	Username 18812 has been retrieved	2024-09-30 11:49:17.273+07
+648	4	1	Username 18812 is being retrieved	2024-09-30 12:00:59.398+07
+649	4	1	Username 18812 has been retrieved	2024-09-30 12:00:59.544+07
+650	13	5	Username 10001 logged in successfully	2024-09-30 12:10:19.448+07
+651	13	1	Username 10001 is being retrieved	2024-09-30 12:10:19.807+07
+652	13	1	Username 10001 has been retrieved	2024-09-30 12:10:19.859+07
+653	13	4	User is assigning to the ticket	2024-09-30 12:15:58.776+07
+654	13	4	User has been assigned to the ticket	2024-09-30 12:15:58.827+07
+655	13	1	User is getting all roles	2024-09-30 13:31:32.491+07
+656	13	1	User successfully get all roles	2024-09-30 13:31:32.537+07
+657	13	1	User is getting all roles	2024-09-30 13:31:36.505+07
+658	13	1	User successfully get all roles	2024-09-30 13:31:36.508+07
+659	13	1	User is getting all roles	2024-09-30 13:31:38.828+07
+660	13	1	User successfully get all roles	2024-09-30 13:31:38.831+07
+661	19	5	Username 10003 logged in successfully	2024-09-30 13:39:32.189+07
+662	19	1	Username 10003 is being retrieved	2024-09-30 13:39:32.579+07
+663	19	1	Username 10003 has been retrieved	2024-09-30 13:39:32.624+07
+664	19	1	All users are being retrieved	2024-09-30 13:42:48.752+07
+665	19	4	All users have been retrieved	2024-09-30 13:42:48.828+07
+666	19	1	User is getting all roles	2024-09-30 13:42:48.759+07
+667	19	1	User successfully get all roles	2024-09-30 13:42:48.837+07
+668	19	1	All users are being retrieved	2024-09-30 13:43:07.063+07
+669	19	4	All users have been retrieved	2024-09-30 13:43:07.074+07
+670	19	1	User is getting all roles	2024-09-30 13:43:07.069+07
+671	19	1	User successfully get all roles	2024-09-30 13:43:07.147+07
+672	19	4	User is getting all feedbacks	2024-09-30 13:47:15.788+07
+673	19	1	User is getting all roles	2024-09-30 13:48:31.57+07
+674	19	1	User successfully get all roles	2024-09-30 13:48:31.626+07
+675	19	1	Username 10003 is being retrieved	2024-09-30 14:55:51.656+07
+676	19	1	Username 10003 has been retrieved	2024-09-30 14:55:51.705+07
+677	19	1	Username 10003 is being retrieved	2024-09-30 14:55:51.92+07
+678	19	1	Username 10003 has been retrieved	2024-09-30 14:55:51.926+07
+679	19	1	Username 10003 is being retrieved	2024-09-30 14:58:16.904+07
+680	19	1	Username 10003 has been retrieved	2024-09-30 14:58:16.938+07
+681	4	5	Username 18812 logged in successfully	2024-09-30 14:58:33.444+07
+682	4	1	Username 18812 is being retrieved	2024-09-30 14:58:33.765+07
+683	4	1	Username 18812 has been retrieved	2024-09-30 14:58:33.803+07
+684	4	1	Username 18812 is being retrieved	2024-09-30 14:58:38.005+07
+685	4	1	Username 18812 has been retrieved	2024-09-30 14:58:38.01+07
+686	4	1	Username 18812 is being retrieved	2024-09-30 14:58:38.014+07
+687	4	1	Username 18812 has been retrieved	2024-09-30 14:58:38.057+07
+688	4	1	Username 18812 is being retrieved	2024-09-30 14:59:07.448+07
+689	4	1	Username 18812 has been retrieved	2024-09-30 14:59:07.491+07
+690	4	1	Username 18812 is being retrieved	2024-09-30 14:59:07.493+07
+691	4	1	Username 18812 has been retrieved	2024-09-30 14:59:07.539+07
+692	4	1	Username 18812 is being retrieved	2024-09-30 15:08:58.796+07
+693	4	1	Username 18812 has been retrieved	2024-09-30 15:08:58.836+07
+694	4	1	Username 18812 is being retrieved	2024-09-30 15:08:58.839+07
+695	4	1	Username 18812 has been retrieved	2024-09-30 15:08:58.883+07
+696	4	1	Username 18812 is being retrieved	2024-09-30 15:10:07.835+07
+697	4	1	Username 18812 has been retrieved	2024-09-30 15:10:07.84+07
+698	4	1	Username 18812 is being retrieved	2024-09-30 15:10:07.844+07
+699	4	1	Username 18812 has been retrieved	2024-09-30 15:10:07.887+07
+700	4	1	Username 18812 is being retrieved	2024-09-30 15:10:39.155+07
+701	4	1	Username 18812 has been retrieved	2024-09-30 15:10:39.199+07
+702	4	1	Username 18812 is being retrieved	2024-09-30 15:10:44.556+07
+703	4	1	Username 18812 has been retrieved	2024-09-30 15:10:44.564+07
+704	4	1	Username 18812 is being retrieved	2024-09-30 15:10:44.569+07
+705	4	1	Username 18812 has been retrieved	2024-09-30 15:10:44.617+07
+706	19	5	Username 10003 logged in successfully	2024-09-30 15:49:12.337+07
+707	19	1	Username 10003 is being retrieved	2024-09-30 15:49:12.72+07
+708	19	1	Username 10003 has been retrieved	2024-09-30 15:49:12.762+07
+709	19	5	Username 10003 logged in successfully	2024-09-30 18:40:20.619+07
+710	4	5	Username 18812 logged in successfully	2024-09-30 18:50:54.804+07
+711	4	1	Username 18812 is being retrieved	2024-09-30 18:50:55.176+07
+712	4	1	Username 18812 has been retrieved	2024-09-30 18:50:55.323+07
+713	13	5	Username 10001 logged in successfully	2024-09-30 18:59:11.501+07
+714	1	5	Username 17965 logged in successfully	2024-09-30 19:15:16.315+07
+715	1	1	Username 17965 is being retrieved	2024-09-30 19:15:16.982+07
+716	1	1	Username 17965 has been retrieved	2024-09-30 19:15:17.057+07
+717	1	1	Username 17965 is being retrieved	2024-09-30 19:15:20.78+07
+718	1	1	Username 17965 has been retrieved	2024-09-30 19:15:20.789+07
+719	1	1	Username 17965 is being retrieved	2024-09-30 19:15:20.794+07
+720	1	1	Username 17965 has been retrieved	2024-09-30 19:15:20.86+07
+721	1	1	Username 17965 is being retrieved	2024-09-30 19:15:24.18+07
+722	1	1	Username 17965 has been retrieved	2024-09-30 19:15:24.184+07
+723	1	1	Username 17965 is being retrieved	2024-09-30 19:15:45.335+07
+724	1	1	Username 17965 has been retrieved	2024-09-30 19:15:45.403+07
+725	1	1	Username 17965 is being retrieved	2024-09-30 19:15:45.414+07
+726	1	1	Username 17965 has been retrieved	2024-09-30 19:15:45.493+07
+727	1	4	User is creating a ticket	2024-09-30 19:17:56.753+07
+728	1	4	User has created a ticket	\N
+729	19	5	Username 10003 logged in successfully	2024-09-30 19:19:51.185+07
+730	19	1	Username 10003 is being retrieved	2024-09-30 19:19:52.004+07
+731	19	1	Username 10003 has been retrieved	2024-09-30 19:19:52.111+07
+732	13	5	Username 10001 logged in successfully	2024-09-30 19:20:32.209+07
+733	13	1	Username 10001 is being retrieved	2024-09-30 19:20:32.774+07
+734	13	1	Username 10001 has been retrieved	2024-09-30 19:20:32.857+07
+735	13	4	User is assigning to the ticket	2024-09-30 19:21:01.205+07
+736	13	4	User has been assigned to the ticket	2024-09-30 19:21:01.301+07
+737	1	5	Username 17965 logged in successfully	2024-09-30 19:25:44.101+07
+738	1	1	Username 17965 is being retrieved	2024-09-30 19:25:45.438+07
+739	1	1	Username 17965 has been retrieved	2024-09-30 19:25:45.534+07
+740	13	4	User has done the ticket #72	2024-09-30 19:26:52.373+07
+741	1	4	User is rating a ticket #72	2024-09-30 19:27:32.066+07
+742	1	4	User has rated the ticket #72	2024-09-30 19:27:32.155+07
+743	1	1	Username 17965 is being retrieved	2024-09-30 19:28:08.072+07
+744	1	1	Username 17965 has been retrieved	2024-09-30 19:28:08.141+07
+745	19	5	Username 10003 logged in successfully	2024-09-30 19:28:46.833+07
+746	19	1	Username 10003 is being retrieved	2024-09-30 19:28:47.89+07
+747	19	1	Username 10003 has been retrieved	2024-09-30 19:28:47.982+07
+748	19	1	Username 10003 is being retrieved	2024-09-30 19:28:49.6+07
+749	19	1	Username 10003 has been retrieved	2024-09-30 19:28:49.613+07
+750	19	1	Username 10003 is being retrieved	2024-09-30 19:28:49.625+07
+751	19	1	Username 10003 has been retrieved	2024-09-30 19:28:49.706+07
+752	19	1	All users are being retrieved	2024-09-30 19:29:07.968+07
+753	19	4	All users have been retrieved	2024-09-30 19:29:08.078+07
+754	19	1	User successfully get all roles	2024-09-30 19:29:08.086+07
+755	19	1	User is getting all roles	2024-09-30 19:29:07.978+07
+756	19	1	User is editing user id #4 profile	2024-09-30 19:29:26.742+07
+757	19	4	User has edited user id #4 profile	2024-09-30 19:29:26.869+07
+758	19	1	All users are being retrieved	2024-09-30 19:29:27.141+07
+759	19	4	All users have been retrieved	2024-09-30 19:29:27.15+07
+760	19	4	Username Tuan Anh has been created	2024-09-30 19:30:43.113+07
+761	19	4	An email has been sent to vhtuananh020402@gmail.com	2024-09-30 19:30:46.87+07
+762	19	1	All users are being retrieved	2024-09-30 19:30:46.978+07
+763	19	4	All users have been retrieved	2024-09-30 19:30:47.048+07
+764	30	5	Username Tuan Anh logged in successfully	2024-09-30 19:31:32.56+07
+765	30	1	Username Tuan Anh is being retrieved	2024-09-30 19:31:33.56+07
+766	30	1	Username Tuan Anh has been retrieved	2024-09-30 19:31:33.635+07
+767	19	5	Username 10003 logged in successfully	2024-09-30 19:32:40.6+07
+768	19	1	Username 10003 is being retrieved	2024-09-30 19:32:41.482+07
+769	19	1	Username 10003 has been retrieved	2024-09-30 19:32:41.552+07
+770	19	1	All users are being retrieved	2024-09-30 19:32:43.063+07
+771	19	4	All users have been retrieved	2024-09-30 19:32:43.077+07
+772	19	1	User successfully get all roles	2024-09-30 19:32:43.164+07
+773	19	1	User is getting all roles	2024-09-30 19:32:43.074+07
+774	19	4	User is getting all feedbacks	2024-09-30 19:34:24.753+07
+775	19	1	Username 10003 is being retrieved	2024-09-30 19:36:01.535+07
+776	19	1	Username 10003 has been retrieved	2024-09-30 19:36:01.622+07
+777	4	5	Username 18812 logged in successfully	2024-10-01 06:03:28.492+07
+778	19	5	Username 10003 logged in successfully	2024-10-01 06:51:41.729+07
+779	13	5	Username 10001 logged in successfully	2024-10-01 11:21:26.598+07
+780	13	1	Username 10001 is being retrieved	2024-10-01 11:21:26.961+07
+781	13	1	Username 10001 has been retrieved	2024-10-01 11:21:27.015+07
 \.
 
 
@@ -2981,6 +3185,12 @@ COPY public."Message" (id, ticket_id, sender_id, message_details, created_date) 
 401	70	13	I have just been assigned to this ticket	2024-09-27 22:41:19.091+07
 402	70	13	I saw your incident, don't worry, I am here to help	2024-09-27 22:47:48.512+07
 403	70	1	Thnk you so much	2024-09-27 22:47:58.678+07
+404	71	4	I have just created this ticket	2024-09-30 11:35:50.58+07
+405	71	13	I have just been assigned to this ticket	2024-09-30 12:15:58.825+07
+406	72	1	I have just created this ticket	2024-09-30 19:17:56.568+07
+407	72	13	I have just been assigned to this ticket	2024-09-30 19:21:01.295+07
+408	72	13	Ban co the mo ta ro hon ve van de nay duoc khong	2024-09-30 19:26:07.664+07
+409	72	1	van de cua toi la	2024-09-30 19:26:17.025+07
 60	61	4	I have just created this ticket	2024-09-25 23:17:37.501+07
 66	61	16	I have just been assigned to this ticket	2024-09-26 00:14:18.179+07
 \.
@@ -2994,7 +3204,6 @@ COPY public."Notification" (id, sender_id, content, created_date, title) FROM st
 2	16	Dear Resident,\r\nPlease be advised that maintenance work is scheduled in Dormitory Block A on September 25th, 2024, from 10:00 AM to 2:00 PM. Water and electricity will be temporarily unavailable during this time. We apologize for any inconvenience caused.\r\n\r\nBest regards,\r\nStudent Affairs Office	2024-09-21 14:15:13+07	New Campus Cafeteria Opening on October 1st
 5	16	Dear Students,\r\n\r\nWe are glad to announce Call for application for tuition fee reduction for domestic students in academic year 2024/25 (attached file) published at https://vgu.edu.vn/vi/chinh-sach-giam-hoc-phi\r\nThis policy applies for Vietnamese students only.\r\n\r\nIf you have any question, please don’t hesitate to contact and submit your application documents to Ms Le Thi Hanh, Deputy head of Academic and Student Affairs Department (ASA) by 31/10/2024 (Tel: +84-274 222 0990, Ext. 70132) or meet her in person at room 218, ASA, Academic Building, 2nd floor, Vanh Dai 4 Street, Quarter 4, Thoi Hoa Ward, Ben Cat City, Binh Duong Province.\r\n\r\nFor the students in the campus in Ho Chi Minh City, feel free to have your Faculty Assistant to pass your applications to Ms Hanh.  \r\nOnly hard copies of application documents are accepted.\r\n\r\n\r\nBest Regards,\r\nStudent Affairs Team	2024-09-24 04:13:31+07	Call for application for tuition fee reduction for domestic students in academic year 2024/25
 10	16	Dear Students,\r\n\r\n\r\nWe hope this message finds you well. We are pleased to inform you that, in observance of Vietnamese National Day, you will have a 4-day holiday this year, from Saturday, August 31, 2024, to Tuesday, September 3, 2024. This break includes the official National Day holiday as well as the regular weekend days.\r\n\r\n\r\nPlease take this time to rest and enjoy the holiday. Classes and university operations will resume as usual on Wednesday, September 4, 2024.\r\n\r\n\r\nWe wish you a pleasant and restful break.\r\n\r\nBest Regards,\r\n\r\nStudent Affairs Team	2024-08-20 04:14:12+07	Public Holiday - Vietnamese National Day Announcement (02.09.2024)
-19	19	I hope you are well	2024-09-27 00:35:14.62+07	Hi students
 \.
 
 
@@ -3008,8 +3217,6 @@ COPY public."Notification_Audience" (notification_id, role_id) FROM stdin;
 2	2
 5	4
 10	4
-19	1
-19	4
 \.
 
 
@@ -3022,6 +3229,7 @@ COPY public."Rating" (ticket_id, rating_score, created_date, id) FROM stdin;
 62	5	2024-09-27 00:36:17.221+07	23
 39	4	2024-09-27 00:36:23.754+07	24
 70	4	2024-09-27 22:51:13.278+07	25
+72	4	2024-09-30 19:27:32.018+07	26
 \.
 
 
@@ -3046,14 +3254,16 @@ COPY public."Ticket" (id, ticket_type_id, content, audience_type_id, ticket_stat
 34	4	I LOST MY ITEMS	2	3	2024-09-23 22:46:57.466+07	2024-09-26 17:58:44.429+07	I lost my room key
 35	2	In the morning, while we are studying...\r\nA stranger person stepped into the class and suddenly ... :(	2	3	2024-09-24 02:54:40.96+07	2024-09-26 18:00:31.153+07	Some one has fought the lectuer
 37	1	Last few days, the weather was so abnormal. At 10 AM this morning, when I tried studying ...	1	4	2024-09-24 21:23:07.067+07	2024-09-27 06:42:08.31+07	I have caught a cold
-67	2	qweqweqwe	2	2	2024-09-27 06:46:04.288+07	\N	qweqwe
 69	4	I lost my items	2	3	2024-09-27 06:47:43.6+07	2024-09-27 06:48:23.086+07	Lost again
 61	4	Did any of you see my ID Card?	2	3	2024-09-25 23:17:37.501+07	2024-09-28 03:07:57+07	I just lost my identity card
+67	1	Plesae come to my dorm room and fix the AC, it was so cold that make me cold :(	2	2	2024-09-27 06:46:04.288+07	\N	I just caught a cold
+71	4	At 10 AM this morning, I lost my phone while studying at the library. The phone model is Samsung S24 Ultra Black Phantom. If anyone sees my phone, please contact me. Thank you very much	2	2	2024-09-30 11:35:50.58+07	\N	I lost my phone
 39	6	As a student residing in the dormitory, I would like to report an issue with the door of my room. The door seems to be broken as it no longer closes properly, making it difficult to secure the room. The lock is jammed, and the hinges appear to be loose, causing the door to make a loud noise whenever it is moved. This has become a significant inconvenience, as it not only compromises privacy but also poses a security risk. I kindly request immediate maintenance assistance to resolve this problem.	1	3	2024-09-25 21:33:04.195+07	2024-09-26 18:02:53.87+07	Broken Door in Dormitory Room
-68	1	erwgbvwrtghrh  htrthwrtw	2	1	2024-09-27 06:47:13.237+07	\N	234234
 62	2	I just saw 2 students fighting each other	2	3	2024-09-26 17:08:42.687+07	2024-09-26 17:14:54.584+07	Students fight at dorm
 38	7	I was in my dorm one evening, working on an assignment when this guy knocked on my door. He looked like any other student—wearing a hoodie, carrying a backpack—so I didn’t think much of it. He introduced himself as someone who lived down the hall, said he had a class project coming up and was having trouble with his laptop. He asked if he could quickly use mine to check some notes from our school's online platform since his computer had apparently crashed. He seemed friendly, and in a dorm setting, you naturally want to trust the people around you.\r\n\r\nSo, I let him in. He sat at my desk, opened my laptop, and started typing. It seemed innocent enough at first, but he kept getting distracted, asking me questions like, 'Do you have Wi-Fi issues here too?' or 'Do you mind grabbing me a drink?' Trying to be helpful, I stepped out for a second to get some water. When I came back, he acted like everything was fine and quickly handed my laptop back, saying, 'Thanks, man! Really appreciate it!'\r\n\r\nA few days later, I noticed strange activity on my accounts. My emails were missing, social media had unauthorized logins, and even my bank account had transactions I didn’t make. That’s when I realized what had happened—he had used that brief moment with my laptop to install something or access my files. I felt sick to my stomach, angry that I’d trusted him and violated that sense of safety in my own dorm.	2	3	2024-09-25 00:24:02.043+07	2024-09-26 17:59:31.142+07	A guy scams my laptop
 70	3	Some one do sth wrong to me	2	3	2024-09-27 22:40:32.547+07	2024-09-27 22:48:05.864+07	Please help me
+68	1	Yesterday, 2 male students at Dorm D1 had a conflict. At first they blamed each other, but after a while, they started a fight.	2	1	2024-09-27 06:47:13.237+07	\N	2 students had a fight at dorm
+72	4	details	2	3	2024-09-30 19:17:56.568+07	2024-09-30 19:26:52.362+07	I lost my phone
 \.
 
 
@@ -3130,10 +3340,11 @@ COPY public."Ticket_Type" (id, ticket_type_name, priority) FROM stdin;
 --
 
 COPY public."User" (id, username, fullname, email, role_id, password, gender, created_date, program, dorm_id, phone_number, intake, place_of_birth, date_of_birth) FROM stdin;
+4	18812	Vũ Hoàng Tuấn Anh	18812@student.vgu.edu.vn	4	$2b$12$sSoc30jnIZ.KC.L2Jnq0X.ep9nhcFlPd10eByTcLPI.u/dLQFFZqy	Male	2024-09-18 16:40:50+07	Computer Science and Engineering	606	0123456789	2020	Tỉnh Thái Bình	2002-04-01
+30	Tuan Anh	Frankfurt University	vhtuananh020402@gmail.com	2	$2a$10$gEM6kM6dDvgU7WGMOtU.Luqh3rRJ5jtLtEkFk0pcNLCD1WQNdzTeC	Male	2024-09-30 19:30:43.08131+07	Computer Science	1	0848462556	2020	Tỉnh Thái Bình	2024-09-25
 16	10002	Trần Văn Sinh	10002@staff.vgu.edu.vn	3	$2b$12$sSoc30jnIZ.KC.L2Jnq0X.ep9nhcFlPd10eByTcLPI.u/dLQFFZqy	Male	2024-09-18 23:44:28+07	\N	1	0981782621	\N	Tỉnh Thái Bình	1980-06-22
 8	10000	Trần Thị Hương	10000@student.vgu.edu.vn	4	$2b$12$sSoc30jnIZ.KC.L2Jnq0X.ep9nhcFlPd10eByTcLPI.u/dLQFFZqy	Female	2024-09-18 17:43:25+07	Business Administration	1355	0123912300	2022	TP Hồ Chí Minh	2004-09-18
 1	17965	Bá Nguyễn Quốc Anh	17965@student.vgu.edu.vn	4	$2b$12$sSoc30jnIZ.KC.L2Jnq0X.ep9nhcFlPd10eByTcLPI.u/dLQFFZqy	Male	2024-09-18 16:40:49+07	Computer Science	124	0987654123	2020	TP Hồ Chí Minh	2002-03-08
-4	18812	Vũ Hoàng Tuấn Anh	18812@student.vgu.edu.vn	4	$2b$12$sSoc30jnIZ.KC.L2Jnq0X.ep9nhcFlPd10eByTcLPI.u/dLQFFZqy	Male	2024-09-18 16:40:50+07	Computer Science	606	0123456789	2020	Tỉnh Thái Bình	2002-04-20
 13	10001	Nguyễn Nguyên Vũ	10001@staff.vgu.edu.vn	2	$2b$12$sSoc30jnIZ.KC.L2Jnq0X.ep9nhcFlPd10eByTcLPI.u/dLQFFZqy	Male	2024-09-18 17:47:59+07		1	09912331441		TP Thủ Dầu Một	1992-10-20
 19	10003	Phan Thị Hà	10003@admin.vgu.edu.vn	1	$2b$12$sSoc30jnIZ.KC.L2Jnq0X.ep9nhcFlPd10eByTcLPI.u/dLQFFZqy	Female	2024-09-18 23:46:31+07	\N	1	0933310103	\N	Tỉnh Thái Bình	1982-08-12
 \.
@@ -3164,6 +3375,10 @@ COPY public."User_Ticket" (user_id, ticket_id) FROM stdin;
 16	69
 1	70
 13	70
+4	71
+13	71
+1	72
+13	72
 13	38
 4	39
 4	61
@@ -3181,7 +3396,7 @@ SELECT pg_catalog.setval('public."Announcement_id_seq"', 8, true);
 -- Name: Attachment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Attachment_id_seq"', 65, true);
+SELECT pg_catalog.setval('public."Attachment_id_seq"', 67, true);
 
 
 --
@@ -3216,7 +3431,7 @@ SELECT pg_catalog.setval('public."Feedback_id_seq"', 7, true);
 -- Name: Log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Log_id_seq"', 578, true);
+SELECT pg_catalog.setval('public."Log_id_seq"', 781, true);
 
 
 --
@@ -3230,7 +3445,7 @@ SELECT pg_catalog.setval('public."Notification_id_seq"', 22, true);
 -- Name: Rating_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Rating_id_seq"', 25, true);
+SELECT pg_catalog.setval('public."Rating_id_seq"', 26, true);
 
 
 --
@@ -3244,7 +3459,7 @@ SELECT pg_catalog.setval('public."Role_id_seq"', 5, true);
 -- Name: Ticket_Comment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Ticket_Comment_id_seq"', 403, true);
+SELECT pg_catalog.setval('public."Ticket_Comment_id_seq"', 409, true);
 
 
 --
@@ -3265,14 +3480,14 @@ SELECT pg_catalog.setval('public."Ticket_Type_id_seq"', 9, true);
 -- Name: Ticket_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Ticket_id_seq"', 70, true);
+SELECT pg_catalog.setval('public."Ticket_id_seq"', 72, true);
 
 
 --
 -- Name: User_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."User_id_seq"', 29, true);
+SELECT pg_catalog.setval('public."User_id_seq"', 30, true);
 
 
 --
