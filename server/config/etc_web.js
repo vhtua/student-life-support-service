@@ -1,3 +1,5 @@
+import YAML from "yaml";
+import fs from 'fs';
 // editable text configurations for web server
 
 // Allow CORS from http://localhost:3210
@@ -8,4 +10,14 @@ const corsOptions = {
 };
 
 
-export default { corsOptions };
+// API Documentation
+const apiDocFile = fs.readFileSync('./docs/api_docs.yaml', 'utf8');
+const swaggerDocument = YAML.parse(apiDocFile)
+const swaggerOptions = {
+  // customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: "VGU Student Life Support Service API Documentation",
+  // customfavIcon: "/assets/favicon.ico"
+};
+
+
+export default { corsOptions, swaggerDocument, swaggerOptions };
