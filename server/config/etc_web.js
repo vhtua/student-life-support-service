@@ -15,7 +15,7 @@ const apiDocFile = fs.readFileSync('./docs/api_docs.yaml', 'utf8');
 const swaggerDocument = YAML.parse(apiDocFile)
 const swaggerOptions = {
   // customCss: '.swagger-ui .topbar { display: none }',
-  customSiteTitle: "VGU Student Life Support Service API Documentation",
+  customSiteTitle: "VGU SLS API Documentation",
   // customfavIcon: "/assets/favicon.ico"
 };
 
