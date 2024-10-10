@@ -5,6 +5,11 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import cors from "cors";
 
+// Swagger UI for API documentation
+import swaggerUi from 'swagger-ui-express';
+import YAML from "yaml";
+import fs from 'fs';
+
 // Import configurations
 import authenticateToken from './middleware/authenticateToken.js';
 import Redis from './config/redis.js';
@@ -35,10 +40,20 @@ import books from './utils/books.js';
 dotenv.config();
 const PORT = process.env.SERVER_PORT || 3000;
 
+// API Documentation
+const apiDocFile = fs.readFileSync('./docs/api_docs.yaml', 'utf8');
+const swaggerDocument = YAML.parse(apiDocFile)
+const swaggerOptions = {
+  // customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: "VGU Student Life Support Service API Documentation",
+  // customfavIcon: "/assets/favicon.ico"
+};
+
+
 const app = express();
 app.use(express.json());
 app.use(cookieParser()); // Enable cookie parsing
-app.use(cors(WebConfig.corsOptions));
+app.use(cors(WebConfig.corsOptions)); // Enable CORS
 
 
 // ==============================|| Routes ||============================== //
@@ -55,10 +70,11 @@ app.use("/api/v1/announcement", announcementRoutes);
 app.use("/api/v1/feedback", feedbackRoutes);       
 app.use("/api/v1/logs", logsRoutes);     
 app.use("/api/v1/reports", reportRoutes);
-
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
 
 
 // API for testing successful authentication, authorization
+app.get('/', (req, res) => { res.json({service: "VGU Student Life Support Service Server"}); });
 app.get('/ping', authenticateToken(constants.allRoleName), (req, res) => { res.json({message: "pong"}); });
 app.get('/books', authenticateToken([constants.studentRoleName , constants.staffRoleName]), (req, res) => { res.json(books); });
 app.head('/books', authenticateToken(constants.allRoleName), (req, res) => { 
@@ -126,7 +142,6 @@ io.on('connection', (socket) => {
       console.log('A user disconnected from the conversation');
   });
 });
-
 
 
 // ==============================|| Main app ||============================== //
