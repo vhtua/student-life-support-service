@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index"
+    "start": "nodemon -L index"
   },
   "keywords": [],
   "author": "",
@@ -20,10 +20,12 @@
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.15",
-    "nodemon": "^3.1.4",
+    "nodemon": "^3.1.7",
     "pg": "^8.12.0",
     "redis": "^4.7.0",
     "socket.io": "^4.8.0",
-    "winston": "^3.14.2"
+    "swagger-ui-express": "^5.0.1",
+    "winston": "^3.14.2",
+    "yaml": "^2.5.1"
   }
 }

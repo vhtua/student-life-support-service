@@ -11,10 +11,13 @@ services:
       - server
     environment:
       - REACT_APP_API_URL=http://localhost:3210 # Adjust the API URL
+    # volumes:
+    #   - ./client:/app # Sync frontend code to the container 
 
   # Backend service
   server:
     container_name: server_container
+    # restart: always
     build:
       context: ./server
       dockerfile: Dockerfile
@@ -33,7 +36,7 @@ services:
       - REDIS_HOST=redis  # Redis service name in Docker
       - REDIS_PORT=6379   # Default Redis port
     volumes:
-      - ./server:/usr/src/app # Sync your backend code to the container
+      - ./server:/app # Sync backend code to the container
     # command: npm run start # Adjust the command to fit your app's start script
 
   # PostgreSQL database service
