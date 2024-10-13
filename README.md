@@ -14,8 +14,8 @@
 -->
 ![version](https://img.shields.io/badge/version-1.0.0-blue)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightblue.svg)](https://creativecommons.org/licenses/by/4.0/)
-[![GitHub issues closed](https://img.shields.io/github/issues-closed/vhtua/student-life-support-service.svg?color=green)]() 
-[![GitHub issues open](https://img.shields.io/github/issues/vhtua/student-life-support-service.svg?)]() 
+[![GitHub issues closed](https://img.shields.io/github/issues-closed/vhtua/student-life-support-service.svg?color=green)](https://github.com/vhtua/student-life-support-service/issues?q=is%3Aissue+is%3Aclosed) 
+[![GitHub issues open](https://img.shields.io/github/issues/vhtua/student-life-support-service.svg?)](https://github.com/vhtua/student-life-support-service/issues?q=is%3Aissue+is%3Aopen) 
 [![Issues](https://img.shields.io/github/issues/vhtua/student-life-support-service/bug.svg?color=orange)](https://github.com/vhtua/student-life-support-service/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Abug)
 
 <!-- [![Docker](https://img.shields.io/badge/dockerhub-images-important.svg?logo=Docker)](https://www.docker.com/) -->
