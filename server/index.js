@@ -61,7 +61,7 @@ app.use("/api/v1/announcement", announcementRoutes);
 app.use("/api/v1/feedback", feedbackRoutes);       
 app.use("/api/v1/logs", logsRoutes);     
 app.use("/api/v1/reports", reportRoutes);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(WebConfig.swaggerDocument, WebConfig.swaggerOptions));
+app.use('/api-docs/v1', swaggerUi.serve, swaggerUi.setup(WebConfig.swaggerDocument, WebConfig.swaggerOptions));
 
 
 // API for testing successful authentication, authorization
