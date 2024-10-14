@@ -4,9 +4,11 @@ import fs from 'fs';
 
 // Allow CORS from http://localhost:3210
 const corsOptions = {
-    origin: "http://localhost:3210",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true, // Allow cookies and other credentials
+  origin: [
+      "http://localhost:3210",
+  ],
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true, // Allow cookies and other credentials
 };
 
 
