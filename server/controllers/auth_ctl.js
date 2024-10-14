@@ -124,7 +124,7 @@ const authenticateUser = async (req, res) => {
                 
                     // Store Refresh Token in Redis with expiration
                     await Redis.storeRefreshTokenInRedis(user_id, refreshToken, REFRESH_TOKEN_EXPIRED_IN);
-                
+                 
                     // Send Refresh Token as an HTTP-only, Secure cookie
                     res.cookie('refreshToken', refreshToken, {
                         httpOnly: true,       // Prevent JavaScript access to the cookie
@@ -495,8 +495,8 @@ const getResetPassword = async (req, res) => {
         const __static_dirname = path.join(__dirname, '..', 'static'); 
 
         console.log(__static_dirname);
-        
-        const resetPasswordLink = `http://localhost:3210/login?token=${newAccessToken}`;
+        const clientURL = process.env.FRONT_END_URL;
+        const resetPasswordLink = `${clientURL}/login?token=${newAccessToken}`;
         
         const mailOptions = {
             from: {
