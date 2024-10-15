@@ -35,7 +35,7 @@
   <p align="center">
     An application designed to assist students with their daily activities at VGU
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <a href="/doc/1403143-Report.pdf"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
@@ -327,9 +327,7 @@ Make sure that Docker Engine is successfully installed and currently running on 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more details, please refer to the [Thesis Report]()_
+_For more details, please refer to the [Thesis Report](/doc/1403143-Report.pdf)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
