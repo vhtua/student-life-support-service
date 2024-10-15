@@ -238,8 +238,13 @@ Make sure that Docker Engine is successfully installed and currently running on 
 
 3. Modify all necessary service ports in ```.env.dev``` file so that they do not conflict with all running TCP ports in the local system.
 
+4. Navigate to ```client``` and ```server``` directories, adjust their ```.env``` files
 
-4. Launch app building script by using this command:
+> [!NOTE]  
+> For server: Rename the file ```.default.env``` to ```.env```
+
+
+1. Launch app building script by using this command:
 
 - For Windows (Using Powershell)
 
