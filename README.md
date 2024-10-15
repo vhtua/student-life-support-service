@@ -291,7 +291,7 @@ Make sure that Docker Engine is successfully installed and currently running on 
   npm run start
   ```
 
-1. Launch Backend Service
+4. Launch Backend Service
 
 > [!IMPORTANT]
 > Make sure that ```Node.js``` is successfully installed and currently running on the system. 
@@ -303,7 +303,7 @@ Make sure that Docker Engine is successfully installed and currently running on 
   npm install
   ```
 
-- Then match all the environment variables of the ```.env``` file with all existing service variables in the local system. For E.g: 
+- Rename the file ```.default.env``` to ```.env```. Then match all the environment variables of the ```.env``` file with all existing service variables in the local system. For E.g: 
 
   ```js
   PG_DB_USER=postgres
