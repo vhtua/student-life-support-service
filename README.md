@@ -38,7 +38,7 @@
     <a href="/doc/1403143-Report.pdf"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    <a href="https://youtu.be/st43ih3POvk">View Demo</a>
     ·
     <a href="https://github.com/vhtua/student-life-support-service/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
