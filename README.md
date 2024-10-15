@@ -263,14 +263,14 @@ Make sure that Docker Engine is successfully installed and currently running on 
 > [!IMPORTANT]  
 > Make sure that PostgreSQL is successfully installed and currently running on the system. 
 
-    - Locate any ```.sql``` file (Recommend file name ```vgusls_db_20241006_172939.sql```) inside [server/database](server/database) directory and then restore it into the database you created.
+- Locate any ```.sql``` file (Recommend file name ```vgusls_db_20241006_172939.sql```) inside [server/database](server/database) directory and then restore it into the database you created.
 
 
 2. Set up Redis
 > [!IMPORTANT]  
 > Make sure that Redis is successfully installed and currently running on the system. 
 
-    - For basic management, locate [server/redis](server/redis) directory and then execute the ```run``` script depends on the operating systems of the local machine.
+- For basic management, locate [server/redis](server/redis) directory and then execute the ```run``` script depends on the operating systems of the local machine.
 
 
 
@@ -279,45 +279,45 @@ Make sure that Docker Engine is successfully installed and currently running on 
 > [!IMPORTANT]
 > Make sure that ```Node.js``` is successfully installed and currently running on the system. 
 
-    - Navigate the [client](client/) directory and then executing the following command to install all necessary packages for front-end service:
-    
-        ```shell
-        npm install
-        ```
+- Navigate the [client](client/) directory and then executing the following command to install all necessary packages for front-end service:
 
-    - Launch front-end service:
+  ```shell
+  npm install
+  ```
 
-        ```shell
-        npm run start
-        ```
+- Launch front-end service:
 
-4. Launch Backend Service
+  ```shell
+  npm run start
+  ```
+
+1. Launch Backend Service
 
 > [!IMPORTANT]
 > Make sure that ```Node.js``` is successfully installed and currently running on the system. 
 
 
-    - Navigate the [server](server/) directory and then executing the following command to install all necessary packages for back-end service:
-    
-        ```shell
-        npm install
-        ```
+- Navigate the [server](server/) directory and then executing the following command to install all necessary packages for back-end service:
 
-    - Then match all the environment variables of the ```.env``` file with all existing service variables in the local system. For E.g: 
-    
-        ```js
-        PG_DB_USER=postgres
-        PG_DB_PASSWORD=your_password
-        PG_DB_HOST=localhost
-        PG_DB_PORT=5432
-        PG_DB_DATABASE=vgusls_db
-        ```
+  ```shell
+  npm install
+  ```
 
-    - After that, launch back-end service:
+- Then match all the environment variables of the ```.env``` file with all existing service variables in the local system. For E.g: 
 
-        ```shell
-        npm run start
-        ```
+  ```js
+  PG_DB_USER=postgres
+  PG_DB_PASSWORD=your_password
+  PG_DB_HOST=localhost
+  PG_DB_PORT=5432
+  PG_DB_DATABASE=vgusls_db
+  ```
+
+- After that, launch back-end service:
+
+  ```shell
+  npm run start
+  ```
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
