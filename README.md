@@ -14,6 +14,7 @@
 -->
 ![version](https://img.shields.io/badge/version-1.0.0-blue)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightblue.svg)](https://creativecommons.org/licenses/by/4.0/)
+[![Docker](https://img.shields.io/badge/built_with-Docker-2496ED?logo=docker&logoColor=fff)](#)
 [![GitHub issues closed](https://img.shields.io/github/issues-closed/vhtua/student-life-support-service.svg?color=green)](https://github.com/vhtua/student-life-support-service/issues?q=is%3Aissue+is%3Aclosed) 
 [![GitHub issues open](https://img.shields.io/github/issues/vhtua/student-life-support-service.svg?)](https://github.com/vhtua/student-life-support-service/issues?q=is%3Aissue+is%3Aopen) 
 [![Issues](https://img.shields.io/github/issues/vhtua/student-life-support-service/bug.svg?color=orange)](https://github.com/vhtua/student-life-support-service/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Abug)
@@ -54,7 +55,9 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
+        <li><a href="#business-requirements">Business Requirements</a></li>
         <li><a href="#built-with">Built With</a></li>
+        <li><a href="#system-architecture">System Architecture</a></li>
       </ul>
     </li>
     <li>
@@ -65,8 +68,6 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
@@ -91,60 +92,233 @@ The key objectives of this project are to:
 
 
 
-### Built With
+## Business Requirements
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-#### Languages
+| **User Roles**                        | **Functional Requirements**                                                                                                                                       |
+|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Student                               | - can view, update his/her personal information.  <br> - can create (raise), view his/her support tickets.  <br> - can contact the staff who handles the support ticket through text messages.  <br> - can rate his/her tickets which are marked as done.  <br> - can view newsfeed (public pending/in process tickets).  <br> - can view notifications, announcement.  <br> - can give feedback and suggestions for the system.  |
+| Dormitory staff/ Student Affairs      | - can view, update his/her personal information.  <br> - can view all available support tickets.  <br> - can handle support tickets (mark as done, cancelled).  <br> - can view all past handled tickets.  <br> - can contact students who own the ticket through text messages.  <br> - can view newsfeed (public pending/in process tickets).  <br> - can create, view notifications, announcement.  <br> - can give feedback and suggestions for the system.  |
+| Admin (Operator)                     | - can manage his/her personal information (view, update).  <br> - can manage all users/roles (create, view, update, delete).  <br> - can manage all support tickets (view, delete).  <br> - can manage all dormitories (create, view, delete).  <br> - can manage system logs (view, delete).  <br> - can manage system feedback (view, delete).  <br> - can view newsfeed (public pending/in process tickets).  <br> - can manage notifications, announcement (create, view).  <br> - can view the system report.  |
 
-#### Frameworks
-[![React][React.js]][React-url]
-[![Bootstrap][Bootstrap.com]][Bootstrap-url]
-
-#### Database
-
-#### Tools
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
+### Built With
+
+#### Languages
+[![HTML][HTML.html]][HTML-url]
+[![CSS][CSS.css]][CSS-url]
+[![JavaScript][JavaScript.js]][JavaScript-url]
+![Shellscript][Shellscript.sh]
+#### Frameworks
+[![NodeJs][NodeJs.js]][NodeJs-url]
+[![React][React.js]][React-url]
+![MaterialUi][MaterialUi.js]
+[![Bootstrap][Bootstrap.com]][Bootstrap-url]
+![Express][Express.js]
+
+#### Database
+![Postgresql][Postgresql.db]
+![Redis][Redis.js]
+
+#### Tools
+![Vite][Vite.js]
+[![Docker][Docker.dockerfile]][Docker-url] 
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+## System Architecture
+
+The system follows a three-tier architecture, consisting of the following layers:
+
+<img src="doc/images/three-tier-architecture.svg" alt="Logo" width="70%" >
+
+  - **Presentation Layer (Client):**
+    Handles all interactions with the user. Implements the user interface using ReactJS and Material UI. Communicates with the server through RESTful API calls and SocketIO for real-time features. Responsible for rendering components, collecting user input, and displaying data received from the backend.  
+
+  - **Business Logic Layer (Server):**
+    NodeJS and ExpressJS handle the core business logic, such as processing support ticket requests, authenticating users, managing roles, and communicating with the database. SocketIO is used to manage real-time messaging between students and staff. Implements security features like JWT-based authentication and session management using Redis.
+
+ - **Data Layer (Database):**
+    PostgreSQL stores all persistent data, including user profiles, support tickets, messages, and system logs. The server communicates with the database using SQL queries to retrieve, create, update, and delete records. Ensures data consistency and integrity by enforcing constraints, foreign keys, and relationships.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- GETTING STARTED -->
 ## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+To get a local copy up and running application, please follow these steps.
 
 ### Prerequisites
+You could choose between using Docker Engine or not
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+* Using Docker 
+    
+    [![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff)](#)
+
+    Here are recommended system specification for the smoothly running of the application if you decide to use Docker Engine
+
+    | Components        | Description                       | 
+    | -----------       | -----------                       | 
+    | CPU               | 64-bit, $\ge$ 4 cores, 2.0 GHz    |
+    | RAM               | $\ge$ 8 GB                        |
+    | Storage           | SSD (recommend), $\ge$ 6 GB free space  |
+
+    Make sure that your system meets the requirements above before downloading the Docker Engine
+
+    | Service name      | Version                    | URL       |
+    | -----------       | -----------                | -----         |
+    | Docker Engine     | $\ge$ 27.1.1 build 6312585 |[Download link](https://www.docker.com)  |
+
+
+    
+
+* Not using Docker
+  
+    If your system does not meet the requirements for using Docker Engine, you could consider manually install all environments on your local machine then launch all services
+
+    | Service name      | Version                           | URL       |
+    | -----------       | -----------                       | -----         |
+    | Node.js           | $\ge$ v20.12.2                    | [Download link](https://nodejs.org/en)              |
+    | PostgreSQL        | 16.4                              | [Download link](https://www.postgresql.org/download/)  |
+    | Redis             | 5.0.14.1                          | [Download link](https://redis.io/downloads/) or [x64-win](https://github.com/tporadowski/redis/releases)    |
+    
+    and any Web Browser: Google Chrome (Recommended), Firefox, Microsoft Edge, Chromium, Brave, Opera  
 
 ### Installation
+You could choose between using Docker Engine or not
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+#### Clone the repository 
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/github_username/repo_name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-5. Change git remote url to avoid accidental pushes to base project
-   ```sh
-   git remote set-url origin github_username/repo_name
-   git remote -v # confirm the changes
-   ```
+   - SSH
+
+       ```shell
+       git clone git@github.com:vhtua/student-life-support-service.git
+       ```
+
+   or
+
+   - HTTPS
+
+       ```shell
+       git clone https://github.com/vhtua/student-life-support-service.git
+       ``` 
+
+   or simply download the .zip file
+
+> [!NOTE]
+> Then you can choose between using Docker or not for setting up the application.
+
+
+
+#### Using Docker
+Make sure that Docker Engine is successfully installed and currently running on the system. 
+
+1. Navigate to the root folder of the project, locate ```build.ps1``` file (or ```build.sh```)
+
+2. Monitor all current listening TCP ports on the local machine by executing ```list_ports``` script
+
+- For Windows (Using Powershell)
+
+    ```powershell
+    ./list_ports.ps1
+    ```
+
+- For Linux (Using Bash shell)
+
+    ```sh
+    sudo chmod +x list_ports.sh
+    sudo ./list_ports.sh
+    ```
+
+3. Modify all necessary service ports in ```.env.dev``` file so that they do not conflict with all running TCP ports in the local system.
+
+
+4. Launch app building script by using this command:
+
+- For Windows (Using Powershell)
+
+    ```powershell
+    ./build.ps1
+    ```
+
+- For Linux (Using Bash shell)
+
+    ```sh
+    sudo chmod +x build.sh
+    sudo ./build.sh
+    ```
+
+
+#### Not using Docker
+
+
+1. Set up PostgreSQL Database
+
+    > [!IMPORTANT]  
+    > Make sure that PostgreSQL is successfully installed and currently running on the system. 
+
+    - Locate any ```.sql``` file (Recommend file name ```vgusls_db_20241006_172939.sql```) inside [server/database](server/database) directory and then restore it into the database you created.
+
+
+2. Set up Redis
+    > [!IMPORTANT]  
+    > Make sure that Redis is successfully installed and currently running on the system. 
+
+    - For basic management, locate [server/redis](server/redis) directory and then execute the ```run``` script depends on the operating systems of the local machine.
+
+
+
+3. Launch Frontend Service
+
+    > [!IMPORTANT]
+    > Make sure that ```Node.js``` is successfully installed and currently running on the system. 
+
+    - Navigate the [client](client/) directory and then executing the following command to install all necessary packages for front-end service:
+    
+        ```shell
+        npm install
+        ```
+
+    - Launch front-end service:
+
+        ```shell
+        npm run start
+        ```
+
+4. Launch Backend Service
+
+    > [!IMPORTANT]
+    > Make sure that ```Node.js``` is successfully installed and currently running on the system. 
+
+
+    - Navigate the [server](server/) directory and then executing the following command to install all necessary packages for back-end service:
+    
+        ```shell
+        npm install
+        ```
+
+    - Then match all the environment variables of the ```.env``` file with all existing service variables in the local system. For E.g: 
+    
+        ```js
+        PG_DB_USER=postgres
+        PG_DB_PASSWORD=your_password
+        PG_DB_HOST=localhost
+        PG_DB_PORT=5432
+        PG_DB_DATABASE=vgusls_db
+        ```
+
+    - After that, launch back-end service:
+
+        ```shell
+        npm run start
+        ```
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -155,48 +329,7 @@ _Below is an example of how you can instruct your audience on installing and set
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Top contributors:
-
-<a href="https://github.com/othneildrew/Best-README-Template/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=othneildrew/Best-README-Template" alt="contrib.rocks image" />
-</a>
+_For more details, please refer to the [Thesis Report]()_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -205,7 +338,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the CC-BY-4.0 License. See [LICENSE](LICENSE) for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -214,9 +347,10 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Vu Hoang Tuan Anh 
+- Facebook: [@tuananh020402](https://www.facebook.com/tuananh020402/) 
+- Email: vhtuananh020402@gmail.com
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -225,16 +359,14 @@ Project Link: [https://github.com/your_username/repo_name](https://github.com/yo
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
+First and foremost, I would like to extend my heartfelt gratitude to my two supervisors, Dr. Tran Hong Ngoc and Dr. Truong Dinh Huy, for dedicating their valuable time and effort to review and provide feedback on my thesis. Working closely with Dr. Tran Hong Ngoc over the years has made me appreciate her constant enthusiasm and approachable nature, which significantly boosted my confidence and comfort in completing this work. She was always available to offer guidance and constructive feedback whenever I needed assistance.
 
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
+Moreover, I am also deeply thankful to the dedicated Computer Science and Engineering (CSE) assistants, whose thorough guidance throughout the thesis process and patience in addressing my questions were invaluable to my research.
+
+Lastly, I want to express my sincere appreciation to all the lecturers at Vietnamese-German University (VGU) and Frankfurt University of Applied Sciences, whose teachings and guidance have been instrumental in shaping my academic journey. I am also incredibly grateful to my friends and family, whose unwavering support and encouragement have been a constant source of strength throughout my four years of study.
+
+```Love you, VGU and FraUAS ❤️```
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -242,6 +374,22 @@ Use this space to list resources you find helpful and would like to give credit 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[HTML.html]: https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white
+[HTML-url]: https://html.spec.whatwg.org/
+[CSS.css]: https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white
+[CSS-url]: https://www.w3.org/TR/CSS/#css
+[JavaScript.js]: https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black
+[JavaScript-url]: https://www.ecma-international.org/publications-and-standards/standards/ecma-262/
+[Shellscript.sh]: https://img.shields.io/badge/Shell_Script-121011?style=for-the-badge&logo=gnu-bash&logoColor=white
+[NodeJs.js]: https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white
+[NodeJs-url]: https://nodejs.org/
+[MaterialUi.js]: https://img.shields.io/badge/Material%20UI-007FFF?style=for-the-badge&logo=mui&logoColor=white
+[Express.js]: https://img.shields.io/badge/Express.js-404D59?style=for-the-badge
+[Postgresql.db]: https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white
+[Redis.js]: https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white
+[Vite.js]: https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=Vite&logoColor=white
+[Docker.dockerfile]: https://img.shields.io/badge/Docker-0377FC?style=for-the-badge&logo=docker&logoColor=white
+[Docker-url]: https://www.docker.com/
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
 [contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
