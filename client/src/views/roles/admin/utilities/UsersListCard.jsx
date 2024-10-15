@@ -42,11 +42,11 @@ const validationSchemaCreateUser = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email is required'),
   role_name: Yup.string().required('Role is required'),
   gender: Yup.string().required('Gender is required'),
-  program: Yup.string().required('Program is required'),
+  // program: Yup.string().required('Program is required'),
   dorm_area: Yup.string().required('Dorm Area is required'),
   dorm_room: Yup.string().required('Dorm Room is required'),
   phone_number: Yup.string().required('Phone Number is required'),
-  intake: Yup.string().required('Intake is required'),
+  // intake: Yup.string().required('Intake is required'),
   place_of_birth: Yup.string().required('Place of Birth is required'),
   date_of_birth: Yup.date().required('Date of Birth is required'),
 });
@@ -454,11 +454,11 @@ const UsersListCard = ({ onUserCardUpdate }) => {
       role_id: '',
       role_name: '',
       gender: '',
-      program: '',
+      program: null,
       dorm_area: '',
       dorm_room: '',
       phone_number: '',
-      intake: '',
+      intake: null,
       place_of_birth: '',
       date_of_birth: '', // Format date for input
     }}
@@ -887,9 +887,9 @@ const UsersListCard = ({ onUserCardUpdate }) => {
                 initialValues={{
                   fullname: selectedUser.fullname,
                   gender: selectedUser.gender,
-                  program: selectedUser.program,
+                  program: selectedUser.program ? selectedUser.program : null,
                   phone_number: selectedUser.phone_number,
-                  intake: selectedUser.intake,
+                  intake: selectedUser.intake ? selectedUser.intake : null,
                   place_of_birth: selectedUser.place_of_birth,
                   date_of_birth: selectedUser.date_of_birth.split('T')[0], // Format date for input
                 }}

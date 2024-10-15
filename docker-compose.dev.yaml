@@ -1,0 +1,95 @@
+services:
+  # Frontend service
+  client:
+    container_name: client_container
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "${CLIENT_HOST_PORT:?Error: CLIENT_HOST_PORT is required}:3210" # Mapping the React app to localhost:3000
+    depends_on:
+      - server
+    environment:
+      - REACT_APP_API_URL=http://localhost:3210 # Adjust the API URL
+    # volumes:
+    #   - ./client:/app # Sync frontend code to the container 
+
+  # Backend service
+  server:
+    container_name: server_container
+    # restart: always
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "${SERVER_HOST_PORT:?Error: SERVER_HOST_PORT is required}:3000" # Mapping the Express app to localhost:3000
+    depends_on:
+      - db
+      - redis
+    environment:
+      - PG_DB_USER=postgres                  # PostgreSQL user
+      - PG_DB_HOST=db                        # PostgreSQL service name in Docker
+      - PG_DB_PASSWORD=020402                # PostgreSQL password
+      - PG_DB_PORT=5432                      # PostgreSQL default port
+      - PG_DB_DATABASE=vgusls_db             # PostgreSQL database name
+      - DATABASE_URL=postgres://postgres:020402@db:5432/vgusls_db
+      - REDIS_HOST=redis  # Redis service name in Docker
+      - REDIS_PORT=6379   # Default Redis port
+    volumes:
+      - ./server:/app # Sync backend code to the container
+    # command: npm run start # Adjust the command to fit your app's start script
+
+  # PostgreSQL database service
+  db:
+    container_name: db_container
+    image: postgres:16.4-alpine
+    restart: always
+    environment:
+    #   POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256"  # Set the authentication method to md5
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "020402"
+      POSTGRES_DB: vgusls_db
+    ports:
+      - "${POSTGRES_DB_HOST_PORT:?Error: POSTGRES_DB_HOST_PORT is required}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./server/database/vgusls_db_20241006_172939.sql:/docker-entrypoint-initdb.d/vgusls_db_20241006_172939.sql # Mount only the specific SQL file
+  
+  
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4:8.12.0
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "${PGADMIN_HOST_PORT:?Error: PGADMIN_HOST_PORT is required}:80"
+
+
+  # Redis caching service
+  redis:
+    container_name: redis_container
+    image: redis:6.2.14-alpine
+    restart: always
+    volumes:
+      - redis_data:/data
+    ports:
+      - "${REDIS_DB_HOST_PORT:?Error: REDIS_DB_HOST_PORT is required}:6379" # Mapping the Redis server to localhost:7000
+
+
+  redis_insight:
+    container_name: redis_insight_container
+    image: redislabs/redisinsight:2.58.0
+    restart: always
+    ports:
+      - "${REDIS_INSIGHT_HOST_PORT:?Error: REDIS_INSIGHT_HOST_PORT is required}:5540"
+    volumes:
+      - redis_insight_data:/db
+
+
+
+volumes:
+  pgdata:
+  redis_data:
+  redis_insight_data:
