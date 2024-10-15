@@ -260,15 +260,15 @@ Make sure that Docker Engine is successfully installed and currently running on 
 
 1. Set up PostgreSQL Database
 
-    > [!IMPORTANT]  
-    > Make sure that PostgreSQL is successfully installed and currently running on the system. 
+> [!IMPORTANT]  
+> Make sure that PostgreSQL is successfully installed and currently running on the system. 
 
     - Locate any ```.sql``` file (Recommend file name ```vgusls_db_20241006_172939.sql```) inside [server/database](server/database) directory and then restore it into the database you created.
 
 
 2. Set up Redis
-    > [!IMPORTANT]  
-    > Make sure that Redis is successfully installed and currently running on the system. 
+> [!IMPORTANT]  
+> Make sure that Redis is successfully installed and currently running on the system. 
 
     - For basic management, locate [server/redis](server/redis) directory and then execute the ```run``` script depends on the operating systems of the local machine.
 
@@ -276,8 +276,8 @@ Make sure that Docker Engine is successfully installed and currently running on 
 
 3. Launch Frontend Service
 
-    > [!IMPORTANT]
-    > Make sure that ```Node.js``` is successfully installed and currently running on the system. 
+> [!IMPORTANT]
+> Make sure that ```Node.js``` is successfully installed and currently running on the system. 
 
     - Navigate the [client](client/) directory and then executing the following command to install all necessary packages for front-end service:
     
@@ -293,8 +293,8 @@ Make sure that Docker Engine is successfully installed and currently running on 
 
 4. Launch Backend Service
 
-    > [!IMPORTANT]
-    > Make sure that ```Node.js``` is successfully installed and currently running on the system. 
+> [!IMPORTANT]
+> Make sure that ```Node.js``` is successfully installed and currently running on the system. 
 
 
     - Navigate the [server](server/) directory and then executing the following command to install all necessary packages for back-end service:
