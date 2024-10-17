@@ -7,15 +7,21 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import CircularProgress from '@mui/material/CircularProgress';
+
 import LoginLogo from 'views/roles/staff/ui-component/LoginLogo';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoading(true);
     setIsButtonDisabled(true);
     axios.post(`http://localhost:3000/auth/reset-password`, { email: email })
       .then(response => {
@@ -26,13 +32,33 @@ const ForgotPassword = () => {
         console.error('There was an error sending the reset link:', error);
       })
       .finally(() => {
-        setTimeout(() => {
-          setIsButtonDisabled(false);
-        }, 5000); // Match the toast autoClose duration
+        setLoading(false);
+        setIsButtonDisabled(false);
+        // setTimeout(() => {
+          
+        // }, 5000); // Match the toast autoClose duration
       });
   };
 
   return (
+    <>
+
+    <Modal
+        open={loading}
+        closeAfterTransition
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+          }}
+        >
+          <CircularProgress sx={{ color: 'orange' }} />
+        </Box>
+    </Modal>
+
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2} alignItems="center" justifyContent="center">
         <Grid item xs={12}>
@@ -94,6 +120,7 @@ const ForgotPassword = () => {
         pauseOnHover
       />
     </form>
+    </>
   );
 };
 
