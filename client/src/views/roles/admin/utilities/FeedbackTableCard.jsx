@@ -25,6 +25,8 @@ const FeedbackTableCard = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedFeedback, setSelectedFeedback] = useState(null);
   const [isRefresh, setRefresh] = useState(false);
+  
+  const ratingScoreColor = ['#ff4c4c', '#ffaf4d', '#ffaf4d', '#4caf50', '#4caf50']; 
 
   const handleRefresh = () => {
     setRefresh((prevState) => !prevState); // Toggle the state to trigger a re-render
@@ -100,7 +102,7 @@ const FeedbackTableCard = () => {
           <Chip
             label={cell.getValue()}
             sx={{
-              backgroundColor: cell.getValue() >= 4 ? 'green' : '#f5821f',
+              backgroundColor: ratingScoreColor[cell.getValue() - 1],
               color: '#fff',
             }}
           />
