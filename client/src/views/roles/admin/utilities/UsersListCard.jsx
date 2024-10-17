@@ -88,12 +88,15 @@ const UsersListCard = ({ onUserCardUpdate }) => {
   // Fetch data from API
   useEffect(() => {
     const fetchUsers = async () => {
+      setLoading(true);
       try {
         const apiUrl = `/api/v1/users/all`;
         const response = await axiosInstance.get(apiUrl);
         setData(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
