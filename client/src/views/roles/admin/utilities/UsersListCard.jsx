@@ -318,15 +318,20 @@ const UsersListCard = ({ onUserCardUpdate }) => {
     columns,
     data,
     positionActionsColumn: 'last',
-    enableBottomToolbar: false,
+    enableBottomToolbar: true,
     enableStickyHeader: true,
     enableStickyFooter: true,
-    enablePagination: false,
-    enableRowActions: true,
     initialState: {
+      pagination: { pageSize: 50 },
       columnPinning: { right: ['mrt-row-actions'] },
     },
-    muiTableContainerProps: { sx: { maxHeight: '800px' } },
+    enablePagination: true,
+    muiTablePaginationProps: {
+      rowsPerPageOptions: [50],
+    },
+    enableRowActions: true,
+
+    muiTableContainerProps: { sx: { maxHeight: '600px' } },
     renderRowActions: ({ row }) => (
       <Box sx={{ display: 'flex', gap: '0.5rem' }}>
         <Tooltip title="Edit Personal Details">
